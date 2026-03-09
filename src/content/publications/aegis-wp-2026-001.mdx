@@ -1,0 +1,1712 @@
+---
+documentNumber: "AEGIS-WP-2026-001"
+slug: "aegis-wp-2026-001"
+type: "whitepaper"
+title: "Building Safe and Compliant Enterprise LLM Deployments"
+subtitle: "A Whitepaper on Governance, Verification, Security, and Operational Readiness for Applied AI"
+authors:
+  - "AEGIS Research Team"
+  - "Yatav Inc."
+affiliation: "AEGIS Research, Yatav Inc."
+publishedDate: "2026-03-09"
+version: "1.0"
+categories:
+  - "privacy-and-compliance"
+  - "regulation-and-governance"
+  - "responsible-ai-operations"
+  - "ai-guardrails"
+  - "safety-and-security"
+tags:
+  - "governance"
+  - "compliance"
+  - "enterprise AI"
+  - "security hardening"
+  - "multi-tenant"
+  - "GS certification"
+  - "EU AI Act"
+  - "K-AI Act"
+  - "NIST AI RMF"
+  - "RBAC"
+  - "PII"
+  - "federated learning"
+  - "agent security"
+oneLinerKo: "거버넌스, 보안, 규제 준수, 운영 준비도를 포괄하는 기업용 LLM 안전 배포 백서"
+oneLinerEn: "A comprehensive whitepaper covering governance, security, regulatory compliance, and operational readiness for safe enterprise LLM deployments"
+abstract: "Deploying large language models (LLMs) in enterprise environments demands more than model accuracy — it requires a comprehensive framework addressing governance, security, regulatory compliance, and operational resilience. This whitepaper presents the AEGIS (AI Engine for Guardrail & Inspection System) platform's production-grade infrastructure for safe enterprise LLM deployments. Drawing from an implemented codebase comprising 1,591+ passing tests, 32 database migration schemas, 14 agent security modules, and compliance mappings across three regulatory frameworks (EU AI Act, K-AI Act, NIST AI RMF), we detail the architectural patterns, middleware stacks, and operational practices required for responsible AI deployment. The platform supports multi-tenant SaaS with four subscription tiers, Redis-backed rate limiting, comprehensive audit logging with 23 event types, and GS quality certification (ISO/IEC 25051). We demonstrate how defense-in-depth security — spanning JWT/API-key authentication, RBAC+ABAC authorization, PII pseudonymization, and federated learning — can be integrated into a cohesive deployment architecture that satisfies both technical and regulatory requirements."
+pdfUrl: "/assets/pdf/aegis-wp-2026-001.pdf"
+status: "published"
+featured: true
+---
+
+## 1. Introduction
+
+### 1.1 The Enterprise AI Deployment Challenge
+
+The rapid adoption of large language models in enterprise settings has exposed a critical gap between model capabilities and deployment readiness. While significant research attention has focused on model alignment and safety benchmarking [1, 2], comparatively little guidance exists for the *infrastructure* required to deploy LLM-based systems safely in regulated industries.
+
+Enterprise LLM deployments face multifaceted challenges:
+
+- **Governance**: Who controls what the model can do, and how are policies enforced?
+- **Security**: How are the system and its data protected from both external threats and adversarial inputs?
+- **Compliance**: How does the deployment satisfy regulatory requirements across jurisdictions?
+- **Operations**: How is the system monitored, scaled, and maintained in production?
+
+### 1.2 Scope and Contributions
+
+This whitepaper presents AEGIS v5.2's production infrastructure, providing a reference architecture for enterprise LLM safety deployments. Our contributions include:
+
+1. **A layered governance framework** with policy-as-code, comprehensive audit trails, and role-based access control supporting hierarchical role inheritance.
+2. **Defense-in-depth security architecture** comprising 8 middleware layers, 14 agent security modules, and format-preserving PII pseudonymization.
+3. **Regulatory compliance automation** with machine-readable mappings to EU AI Act, K-AI Act, and NIST AI RMF.
+4. **Verification methodology** validated through 1,591+ automated tests, GS quality certification (ISO/IEC 25051), and continuous integration practices.
+5. **Production-grade operational infrastructure** with Docker/Kubernetes orchestration, Prometheus/Grafana monitoring, and multi-tenant SaaS isolation.
+
+All descriptions in this whitepaper are grounded in implemented, tested code rather than theoretical designs.
+
+### 1.3 Paper Organization
+
+Section 2 presents the governance framework. Sections 3--6 detail security from authentication through privacy protection. Section 7 addresses regulatory compliance. Section 8 covers verification and quality assurance. Sections 9--11 present operational readiness, multi-tenancy, and deployment infrastructure. Section 12 discusses lessons learned, and Section 13 concludes.
+
+## 2. Governance Framework
+
+### 2.1 Policy-as-Code Architecture
+
+AEGIS implements governance through a policy-as-code paradigm where safety rules are expressed as structured, version-controlled configurations rather than ad-hoc code. The TAG (Threat Assessment Gateway) policy engine provides the foundational governance layer.
+
+**Table I: TAG Policy Configuration Structure**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Component</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Description</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Category Rules</td>
+      <td style={{padding: '10px 14px'}}>Per-threat-category thresholds and actions</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>TagConfig with 10+ categories</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Severity Tiers</td>
+      <td style={{padding: '10px 14px'}}>CRITICAL/HIGH/MEDIUM/LOW with graduated responses</td>
+      <td style={{padding: '10px 14px'}}>Enum-based severity mapping</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Action Types</td>
+      <td style={{padding: '10px 14px'}}>BLOCK, MODIFY, ESCALATE, APPROVE, REASK, THROTTLE</td>
+      <td style={{padding: '10px 14px'}}>6-action verdict taxonomy</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Custom Patterns</td>
+      <td style={{padding: '10px 14px'}}>Organization-specific detection patterns</td>
+      <td style={{padding: '10px 14px'}}>Regex + semantic pattern matching</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Escalation Paths</td>
+      <td style={{padding: '10px 14px'}}>Automatic routing for ambiguous cases</td>
+      <td style={{padding: '10px 14px'}}>Configurable escalation chains</td>
+    </tr>
+  </tbody>
+</table>
+
+The policy engine supports domain-specific configurations. For example, a healthcare deployment can enforce HIPAA-specific rules:
+
+```rust
+TagConfig {
+    category: ThreatCategory::PrivacyViolation,
+    severity: Severity::Critical,
+    action: VerdictAction::Block,
+    patterns: vec!["patient_data", "medical_record", "diagnosis"],
+    escalation: Some(EscalationPath::ComplianceOfficer),
+    regulatory_refs: vec!["HIPAA §164.502", "EU_AI_Act_Art52"],
+}
+```
+
+### 2.2 Audit Trail System
+
+Comprehensive audit logging is implemented through 23 distinct event types covering every significant system interaction.
+
+**Table II: Audit Event Taxonomy**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Category</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Event Types</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Data Captured</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Authentication</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>UserLogin, UserLogout, TokenRefresh, ApiKeyCreated, ApiKeyRevoked</td>
+      <td style={{padding: '10px 14px'}}>User ID, IP, timestamp, method</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Authorization</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>PermissionGranted, PermissionDenied, RoleChanged</td>
+      <td style={{padding: '10px 14px'}}>Resource, action, role, outcome</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Safety Operations</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>ContentBlocked, ContentModified, ThreatDetected, EscalationTriggered</td>
+      <td style={{padding: '10px 14px'}}>Input hash, verdict, confidence, tier</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Configuration</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>PolicyUpdated, ModelConfigChanged, ThresholdAdjusted</td>
+      <td style={{padding: '10px 14px'}}>Before/after values, change author</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>System</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>ServiceStarted, ServiceStopped, HealthCheckFailed, RateLimitExceeded</td>
+      <td style={{padding: '10px 14px'}}>Service name, status, metrics</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Data</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>DataExported, DataDeleted, PiiDetected, PiiPseudonymized</td>
+      <td style={{padding: '10px 14px'}}>Data type, scope, method</td>
+    </tr>
+  </tbody>
+</table>
+
+Each audit event is structured with:
+
+```rust
+pub struct AuditEvent {
+    pub id: Uuid,
+    pub timestamp: DateTime<Utc>,
+    pub event_type: AuditEventType,   // 23 variants
+    pub actor: ActorInfo,              // user_id, role, ip_address
+    pub resource: ResourceInfo,        // resource_type, resource_id
+    pub action: ActionInfo,            // action_type, outcome, details
+    pub metadata: serde_json::Value,   // extensible context
+    pub tenant_id: Option<TenantId>,   // multi-tenant isolation
+}
+```
+
+### 2.3 Verdict Explanation and Transparency
+
+Every safety judgment produces a structured `VerdictExplanation` providing full transparency into the decision process:
+
+**Table III: VerdictExplanation Schema**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Field</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Type</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>decision_tier</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>DecisionTier</td>
+      <td style={{padding: '10px 14px'}}>Which tier (Rule/ML/Judge) made the decision</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>layer_explanations</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<LayerExplanation>"}</td>
+      <td style={{padding: '10px 14px'}}>Per-layer analysis results</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>pattern_matches</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<PatternMatch>"}</td>
+      <td style={{padding: '10px 14px'}}>Specific patterns that triggered</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>token_attributions</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<TokenAttribution>"}</td>
+      <td style={{padding: '10px 14px'}}>Per-token risk attribution</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>confidence</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>f64</td>
+      <td style={{padding: '10px 14px'}}>Overall confidence score</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>regulatory_refs</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<String>"}</td>
+      <td style={{padding: '10px 14px'}}>Applicable regulatory references</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>recommended_action</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>VerdictAction</td>
+      <td style={{padding: '10px 14px'}}>System recommendation</td>
+    </tr>
+  </tbody>
+</table>
+
+This structured explanation supports both human review and automated compliance reporting, satisfying the EU AI Act's transparency requirements (Article 13).
+
+## 3. Authentication and Authorization
+
+### 3.1 Dual Authentication System
+
+AEGIS implements dual authentication supporting both interactive (JWT) and programmatic (API Key) access patterns.
+
+**JWT Authentication:**
+- RS256 asymmetric signing for token integrity
+- Configurable expiration (default: 1 hour access, 7 days refresh)
+- Embedded claims: `user_id`, `tenant_id`, `roles`, `permissions`
+- Token refresh with rotation to prevent replay attacks
+
+**API Key Authentication:**
+- SHA-256 hashed storage (plaintext never persisted)
+- Per-key scope restrictions (read-only, write, admin)
+- Rate limit binding per API key
+- Revocation with immediate effect across all nodes
+
+```
+┌─────────────────────────────────────────────────┐
+│              Authentication Flow                 │
+│                                                  │
+│  Request ──► Extract Token/Key                   │
+│              ├── JWT ──► Verify Signature         │
+│              │          ├── Check Expiry          │
+│              │          └── Extract Claims        │
+│              └── API Key ──► Hash & Lookup        │
+│                             ├── Check Scope       │
+│                             └── Check Rate Limit  │
+│              ▼                                    │
+│         Authenticated Identity                    │
+│              ▼                                    │
+│         Authorization Check (RBAC + ABAC)         │
+│              ▼                                    │
+│         Request Processing                        │
+└─────────────────────────────────────────────────┘
+```
+
+### 3.2 RBAC + ABAC Hybrid Authorization
+
+Authorization combines Role-Based Access Control (RBAC) with Attribute-Based Access Control (ABAC) for fine-grained permission management.
+
+**Table IV: Role Hierarchy**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Role</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Inherits From</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Key Permissions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>SuperAdmin</td>
+      <td style={{padding: '10px 14px'}}>All roles</td>
+      <td style={{padding: '10px 14px'}}>System configuration, tenant management</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>TenantAdmin</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Analyst, Operator</td>
+      <td style={{padding: '10px 14px'}}>Tenant settings, user management, policy config</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Operator</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Analyst</td>
+      <td style={{padding: '10px 14px'}}>Run evaluations, modify configurations</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Analyst</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Viewer</td>
+      <td style={{padding: '10px 14px'}}>View reports, export data, run queries</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Viewer</td>
+      <td style={{padding: '10px 14px'}}>---</td>
+      <td style={{padding: '10px 14px'}}>Read-only access to dashboards and results</td>
+    </tr>
+  </tbody>
+</table>
+
+**ABAC Attributes** extend RBAC with contextual checks:
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Attribute</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Type</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Example Policy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tenant_id</td>
+      <td style={{padding: '10px 14px'}}>Identity</td>
+      <td style={{padding: '10px 14px'}}>Users can only access their own tenant's data</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>ip_range</td>
+      <td style={{padding: '10px 14px'}}>Network</td>
+      <td style={{padding: '10px 14px'}}>Admin access restricted to corporate VPN</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>time_window</td>
+      <td style={{padding: '10px 14px'}}>Temporal</td>
+      <td style={{padding: '10px 14px'}}>Destructive operations only during maintenance windows</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>resource_sensitivity</td>
+      <td style={{padding: '10px 14px'}}>Data</td>
+      <td style={{padding: '10px 14px'}}>PII access requires explicit pii_reader permission</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>request_rate</td>
+      <td style={{padding: '10px 14px'}}>Behavioral</td>
+      <td style={{padding: '10px 14px'}}>Burst requests trigger additional verification</td>
+    </tr>
+  </tbody>
+</table>
+
+The permission boundary module (`permission_boundary.rs`, 639 lines) implements this hybrid model:
+
+```rust
+pub struct PermissionBoundary {
+    role_permissions: HashMap<Role, HashSet<Permission>>,
+    abac_policies: Vec<AbacPolicy>,
+    inheritance_graph: RoleGraph,
+}
+
+impl PermissionBoundary {
+    pub fn check_access(&self, actor: &Actor, resource: &Resource,
+                        action: &Action, context: &Context) -> AccessDecision {
+        // 1. RBAC: Check role-based permissions (with inheritance)
+        let rbac_result = self.check_rbac(actor, resource, action);
+        // 2. ABAC: Apply attribute-based constraints
+        let abac_result = self.check_abac(actor, resource, action, context);
+        // 3. Combine: Both must permit (conjunction)
+        AccessDecision::combine(rbac_result, abac_result)
+    }
+}
+```
+
+## 4. Security Hardening
+
+### 4.1 Middleware Security Stack
+
+AEGIS deploys an 8-layer middleware stack where every request passes through multiple security checks before reaching application logic.
+
+**Table V: Middleware Stack (Execution Order)**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Layer</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Module</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Function</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Overhead</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>1</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>security_headers</td>
+      <td style={{padding: '10px 14px'}}>CSP, HSTS, X-Frame-Options, X-Content-Type</td>
+      <td style={{padding: '10px 14px'}}>{"<0.1ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>2</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>rate_limit</td>
+      <td style={{padding: '10px 14px'}}>Redis sliding window, per-tenant quotas</td>
+      <td style={{padding: '10px 14px'}}>{"<1ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>3</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>auth</td>
+      <td style={{padding: '10px 14px'}}>JWT/API Key validation, identity extraction</td>
+      <td style={{padding: '10px 14px'}}>{"<2ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>4</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>rbac_check</td>
+      <td style={{padding: '10px 14px'}}>Role + attribute authorization</td>
+      <td style={{padding: '10px 14px'}}>{"<0.5ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>5</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>input_validation</td>
+      <td style={{padding: '10px 14px'}}>SQL injection, XSS, path traversal detection</td>
+      <td style={{padding: '10px 14px'}}>{"<1ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>6</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>request_logging</td>
+      <td style={{padding: '10px 14px'}}>Structured request/response audit logging</td>
+      <td style={{padding: '10px 14px'}}>{"<0.5ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>7</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>sensitive_scrub</td>
+      <td style={{padding: '10px 14px'}}>Scrub PII/secrets from logs and responses</td>
+      <td style={{padding: '10px 14px'}}>{"<0.5ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>8</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>error_handler</td>
+      <td style={{padding: '10px 14px'}}>Sanitized error responses (no stack traces)</td>
+      <td style={{padding: '10px 14px'}}>{"<0.1ms"}</td>
+    </tr>
+    <tr style={{borderBottom: '2px solid #2563EB', fontWeight: 600}}>
+      <td style={{padding: '10px 14px'}}>Total</td>
+      <td style={{padding: '10px 14px'}}></td>
+      <td style={{padding: '10px 14px'}}>End-to-end middleware overhead</td>
+      <td style={{padding: '10px 14px'}}>{"<6ms"}</td>
+    </tr>
+  </tbody>
+</table>
+
+### 4.2 Input Validation and Injection Prevention
+
+The security middleware implements pattern-based detection for common injection attacks:
+
+**SQL Injection Detection:**
+- Pattern matching for `UNION SELECT`, `DROP TABLE`, `'; --`, `OR 1=1`
+- Parameterized query enforcement at the ORM layer
+- Prepared statement validation for dynamic queries
+
+**XSS Prevention:**
+- Script tag detection (`<script>`, `javascript:`, `on*=` event handlers)
+- Content-Security-Policy headers restricting inline scripts
+- Output encoding for all user-supplied content in responses
+
+**Path Traversal Protection:**
+- Rejection of `../`, `..\\`, encoded variants (`%2e%2e`)
+- Canonicalization of all file paths before access
+- Chroot-style containment for file operations
+
+### 4.3 Sensitive Data Scrubbing
+
+A dedicated scrubbing layer ensures sensitive information never leaks through logs or error responses:
+
+```rust
+pub struct SensitiveDataScrubber {
+    patterns: Vec<ScrubPattern>,
+}
+
+impl SensitiveDataScrubber {
+    pub fn scrub(&self, content: &str) -> String {
+        // Patterns include:
+        // - Credit card numbers (Luhn-validated)
+        // - Social security numbers
+        // - API keys and tokens (Bearer, sk-*, etc.)
+        // - Email addresses in error contexts
+        // - IP addresses in non-audit contexts
+        self.patterns.iter().fold(
+            content.to_string(),
+            |acc, pattern| pattern.apply(&acc)
+        )
+    }
+}
+```
+
+### 4.4 Security Headers
+
+**Table VI: Deployed Security Headers**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Header</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Value</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Content-Security-Policy</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"default-src 'self'; script-src 'self'"}</td>
+      <td style={{padding: '10px 14px'}}>Prevent XSS via inline scripts</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Strict-Transport-Security</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>max-age=31536000; includeSubDomains</td>
+      <td style={{padding: '10px 14px'}}>Enforce HTTPS</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>X-Frame-Options</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>DENY</td>
+      <td style={{padding: '10px 14px'}}>Prevent clickjacking</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>X-Content-Type-Options</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>nosniff</td>
+      <td style={{padding: '10px 14px'}}>Prevent MIME sniffing</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>X-XSS-Protection</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>1; mode=block</td>
+      <td style={{padding: '10px 14px'}}>Browser XSS filter</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Referrer-Policy</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>strict-origin-when-cross-origin</td>
+      <td style={{padding: '10px 14px'}}>Control referrer leakage</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Permissions-Policy</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"camera=(), microphone=(), geolocation=()"}</td>
+      <td style={{padding: '10px 14px'}}>Restrict browser APIs</td>
+    </tr>
+  </tbody>
+</table>
+
+### 4.5 Security Audit Classification
+
+All security fixes follow a priority classification system:
+
+**Table VII: Security Fix Priority Classification**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Priority</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Criteria</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>SLA</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>P0 --- Critical</td>
+      <td style={{padding: '10px 14px'}}>Exploitable vulnerability, data exposure risk</td>
+      <td style={{padding: '10px 14px'}}>Immediate</td>
+      <td style={{padding: '10px 14px'}}>Missing auth on endpoints, SQL injection</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>P1 --- High</td>
+      <td style={{padding: '10px 14px'}}>Security weakness, defense gap</td>
+      <td style={{padding: '10px 14px'}}>24 hours</td>
+      <td style={{padding: '10px 14px'}}>Missing rate limiting, weak input validation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>P2 --- Medium</td>
+      <td style={{padding: '10px 14px'}}>Hardening opportunity, best practice gap</td>
+      <td style={{padding: '10px 14px'}}>1 week</td>
+      <td style={{padding: '10px 14px'}}>Missing security headers, log scrubbing</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>P3 --- Low</td>
+      <td style={{padding: '10px 14px'}}>Code quality, defense-in-depth improvement</td>
+      <td style={{padding: '10px 14px'}}>1 month</td>
+      <td style={{padding: '10px 14px'}}>Error message verbosity, unused imports</td>
+    </tr>
+  </tbody>
+</table>
+
+## 5. Agent Security Architecture
+
+### 5.1 The Agent Security Challenge
+
+LLM-powered agents that interact with external tools, APIs, and data sources introduce attack surfaces beyond traditional prompt injection. AEGIS addresses this with 14 specialized agent security modules.
+
+### 5.2 Agent Security Module Inventory
+
+**Table VIII: 14 Agent Security Modules**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>#</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Module</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Threat Addressed</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Detection Method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>1</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>direct_prompt_injection (DPI)</td>
+      <td style={{padding: '10px 14px'}}>Direct adversarial prompts</td>
+      <td style={{padding: '10px 14px'}}>Pattern + ML classifier</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>2</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>indirect_prompt_injection (IPI)</td>
+      <td style={{padding: '10px 14px'}}>Hidden instructions in retrieved data</td>
+      <td style={{padding: '10px 14px'}}>Context boundary analysis</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>3</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>stochastic_attack (STAC)</td>
+      <td style={{padding: '10px 14px'}}>Probabilistic jailbreak attempts</td>
+      <td style={{padding: '10px 14px'}}>Statistical distribution analysis</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>4</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>memory_poisoning</td>
+      <td style={{padding: '10px 14px'}}>Corrupted conversation memory</td>
+      <td style={{padding: '10px 14px'}}>Memory integrity verification</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>5</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>reasoning_manipulation</td>
+      <td style={{padding: '10px 14px'}}>Chain-of-thought exploitation</td>
+      <td style={{padding: '10px 14px'}}>Reasoning consistency checks</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>6</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tool_disguise</td>
+      <td style={{padding: '10px 14px'}}>Malicious tools masquerading as benign</td>
+      <td style={{padding: '10px 14px'}}>Tool signature verification</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>7</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>supply_chain</td>
+      <td style={{padding: '10px 14px'}}>Compromised model weights or data</td>
+      <td style={{padding: '10px 14px'}}>Provenance chain validation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>8</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>credential_guard</td>
+      <td style={{padding: '10px 14px'}}>Credential leakage through prompts</td>
+      <td style={{padding: '10px 14px'}}>Secret pattern detection</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>9</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>autonomy_control</td>
+      <td style={{padding: '10px 14px'}}>Unauthorized autonomous actions</td>
+      <td style={{padding: '10px 14px'}}>Action boundary enforcement</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>10</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>token_monitor</td>
+      <td style={{padding: '10px 14px'}}>Token budget exhaustion attacks</td>
+      <td style={{padding: '10px 14px'}}>Usage tracking and limits</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>11</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tool_chain_anomaly</td>
+      <td style={{padding: '10px 14px'}}>Unusual tool invocation sequences</td>
+      <td style={{padding: '10px 14px'}}>Sequence anomaly detection</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>12</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>permission_boundary</td>
+      <td style={{padding: '10px 14px'}}>Privilege escalation attempts</td>
+      <td style={{padding: '10px 14px'}}>RBAC+ABAC enforcement</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>13</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>mcp_trust</td>
+      <td style={{padding: '10px 14px'}}>Untrusted MCP server connections</td>
+      <td style={{padding: '10px 14px'}}>Trust score evaluation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>14</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>credential_guard (enhanced)</td>
+      <td style={{padding: '10px 14px'}}>Runtime credential exposure</td>
+      <td style={{padding: '10px 14px'}}>Real-time scanning</td>
+    </tr>
+  </tbody>
+</table>
+
+### 5.3 Tool Chain Anomaly Detection
+
+The tool chain anomaly detector monitors sequences of tool invocations for suspicious patterns:
+
+```
+Normal:  search → read → summarize → respond
+Anomaly: search → execute_code → read_credentials → send_email
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         Unusual tool sequence: execution + credential access + exfiltration
+```
+
+Detection uses a Markov chain model of expected tool transition probabilities, flagging sequences with cumulative surprise exceeding a configurable threshold.
+
+### 5.4 MCP Trust Evaluation
+
+The Model Context Protocol (MCP) trust module evaluates external server connections:
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Trust Factor</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Weight</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Assessment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Server identity verification</td>
+      <td style={{padding: '10px 14px'}}>0.30</td>
+      <td style={{padding: '10px 14px'}}>TLS certificate, domain reputation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Historical behavior</td>
+      <td style={{padding: '10px 14px'}}>0.25</td>
+      <td style={{padding: '10px 14px'}}>Past interaction success rate</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Capability declarations</td>
+      <td style={{padding: '10px 14px'}}>0.20</td>
+      <td style={{padding: '10px 14px'}}>Scope of requested permissions</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Data handling policy</td>
+      <td style={{padding: '10px 14px'}}>0.15</td>
+      <td style={{padding: '10px 14px'}}>Privacy policy compliance</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Community reputation</td>
+      <td style={{padding: '10px 14px'}}>0.10</td>
+      <td style={{padding: '10px 14px'}}>Registry ratings, audit history</td>
+    </tr>
+  </tbody>
+</table>
+
+Connections below the trust threshold (default: 0.7) are blocked with detailed explanations logged for audit.
+
+## 6. Privacy and Data Protection
+
+### 6.1 PII Proxy Engine
+
+The PII Proxy Engine provides format-preserving pseudonymization for 7 personally identifiable information types.
+
+**Table IX: PII Types and Pseudonymization Strategies**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>PII Type</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Detection Pattern</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Pseudonymization Method</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>Format Preserved</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Credit Card</td>
+      <td style={{padding: '10px 14px'}}>Luhn-valid 16-digit</td>
+      <td style={{padding: '10px 14px'}}>Random Luhn-valid number</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (passes Luhn check)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Phone Number</td>
+      <td style={{padding: '10px 14px'}}>International formats</td>
+      <td style={{padding: '10px 14px'}}>Prefix-preserving random</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (country code kept)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Email</td>
+      <td style={{padding: '10px 14px'}}>RFC 5322 pattern</td>
+      <td style={{padding: '10px 14px'}}>Domain-preserving hash</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (valid email format)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>SSN/ID</td>
+      <td style={{padding: '10px 14px'}}>Country-specific formats</td>
+      <td style={{padding: '10px 14px'}}>Format-preserving encryption</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (digit pattern)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Name</td>
+      <td style={{padding: '10px 14px'}}>NER + pattern matching</td>
+      <td style={{padding: '10px 14px'}}>Consistent pseudonym mapping</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (realistic names)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Address</td>
+      <td style={{padding: '10px 14px'}}>Structured address parsing</td>
+      <td style={{padding: '10px 14px'}}>Locality-preserving transform</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (valid address format)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Date of Birth</td>
+      <td style={{padding: '10px 14px'}}>Date format detection</td>
+      <td style={{padding: '10px 14px'}}>Age-bracket preserving shift</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (valid date)"}</td>
+    </tr>
+  </tbody>
+</table>
+
+Key properties of the pseudonymization engine:
+
+- **Session isolation**: Each session maintains independent pseudonym mappings
+- **Consistency**: The same real value always maps to the same pseudonym within a session
+- **Reversibility**: Authorized users can restore original values via `restore()` API
+- **Auto/Confirm modes**: Automatic pseudonymization or user-confirmed replacement
+- **DOM integration**: MutationObserver + TreeWalker for real-time response pseudonymization
+
+### 6.2 Federated Learning Infrastructure
+
+For organizations requiring model improvement without data centralization, AEGIS provides three federated learning strategies:
+
+**Table X: Federated Learning Strategies**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Strategy</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Module</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Privacy Guarantee</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Communication Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>FedAvg</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>fed_avg.rs</td>
+      <td style={{padding: '10px 14px'}}>Data locality (no raw data shared)</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"O(model_size × rounds)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Secure Aggregation</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>secure_aggregation.rs</td>
+      <td style={{padding: '10px 14px'}}>Cryptographic (no individual updates visible)</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"O(model_size × clients²)"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Differential Privacy</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>differential_privacy.rs</td>
+      <td style={{padding: '10px 14px'}}>{"(ε, δ)-DP per-round guarantee"}</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"O(model_size × rounds)"}</td>
+    </tr>
+  </tbody>
+</table>
+
+The DP-SGD implementation clips per-sample gradients and adds calibrated Gaussian noise:
+
+```
+θ_{t+1} = θ_t - η · (1/B) · Σ_i [clip(∇L_i, C) + N(0, σ²C²I)]
+```
+
+where `C` is the clipping bound and `σ` is calibrated to achieve the target (ε, δ) privacy budget per the moments accountant.
+
+### 6.3 Embedding Scanner
+
+The embedding scanner detects PII leakage in vector representations using:
+
+- **Cosine similarity search**: Identifying embeddings suspiciously close to known PII representations
+- **LSH-based approximate nearest neighbor**: Scalable detection across large embedding stores
+- **Canary token injection**: Planted synthetic PII to verify pipeline integrity
+
+## 7. Regulatory Compliance
+
+### 7.1 Multi-Framework Compliance Engine
+
+The regulatory reporting module (`regulatory_report.rs`, 620 lines) generates compliance assessments against four regulatory frameworks simultaneously.
+
+**Table XI: Regulatory Framework Coverage**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Framework</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Articles/Functions Mapped</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Key Requirements</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Coverage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>EU AI Act</td>
+      <td style={{padding: '10px 14px'}}>Articles 6, 9, 13, 14, 52, 71</td>
+      <td style={{padding: '10px 14px'}}>Risk classification, transparency, human oversight</td>
+      <td style={{padding: '10px 14px'}}>Full</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>K-AI Act</td>
+      <td style={{padding: '10px 14px'}}>Articles 4, 7, 10, 15</td>
+      <td style={{padding: '10px 14px'}}>Safety standards, impact assessment, accountability</td>
+      <td style={{padding: '10px 14px'}}>Full</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>NIST AI RMF</td>
+      <td style={{padding: '10px 14px'}}>Govern, Map, Measure, Manage</td>
+      <td style={{padding: '10px 14px'}}>Risk identification, assessment, mitigation, monitoring</td>
+      <td style={{padding: '10px 14px'}}>Full</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>ISO/IEC 25051</td>
+      <td style={{padding: '10px 14px'}}>Sections 5--9</td>
+      <td style={{padding: '10px 14px'}}>Software quality, documentation, testing</td>
+      <td style={{padding: '10px 14px'}}>GS Certified</td>
+    </tr>
+  </tbody>
+</table>
+
+### 7.2 EU AI Act Compliance Mapping
+
+**Table XII: EU AI Act Article Mapping**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Article</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Requirement</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 6</td>
+      <td style={{padding: '10px 14px'}}>Risk-based classification</td>
+      <td style={{padding: '10px 14px'}}>Threat taxonomy with CVSS-like AI severity scoring</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 9</td>
+      <td style={{padding: '10px 14px'}}>Risk management system</td>
+      <td style={{padding: '10px 14px'}}>SABER statistical risk framework, continuous monitoring</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 13</td>
+      <td style={{padding: '10px 14px'}}>Transparency</td>
+      <td style={{padding: '10px 14px'}}>VerdictExplanation schema, per-layer audit trails</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 14</td>
+      <td style={{padding: '10px 14px'}}>Human oversight</td>
+      <td style={{padding: '10px 14px'}}>ESCALATE verdict, manual review queues, override capability</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 52</td>
+      <td style={{padding: '10px 14px'}}>Transparency obligations</td>
+      <td style={{padding: '10px 14px'}}>AI-generated content marking, interaction disclosure</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 71</td>
+      <td style={{padding: '10px 14px'}}>Penalties framework</td>
+      <td style={{padding: '10px 14px'}}>Severity-based response (BLOCK/MODIFY/THROTTLE)</td>
+    </tr>
+  </tbody>
+</table>
+
+### 7.3 K-AI Act Compliance
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Article</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Requirement</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 4</td>
+      <td style={{padding: '10px 14px'}}>Safety and reliability standards</td>
+      <td style={{padding: '10px 14px'}}>3-Tier defense pipeline, 1,591+ tests, GS certification</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 7</td>
+      <td style={{padding: '10px 14px'}}>Impact assessment</td>
+      <td style={{padding: '10px 14px'}}>{"SABER risk profiling, Budget@τ analysis"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 10</td>
+      <td style={{padding: '10px 14px'}}>Accountability and transparency</td>
+      <td style={{padding: '10px 14px'}}>23-type audit logging, verdict explanations</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Art. 15</td>
+      <td style={{padding: '10px 14px'}}>User protection</td>
+      <td style={{padding: '10px 14px'}}>PII pseudonymization, rate limiting, content filtering</td>
+    </tr>
+  </tbody>
+</table>
+
+### 7.4 NIST AI RMF Mapping
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Function</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Sub-function</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Govern</td>
+      <td style={{padding: '10px 14px'}}>Policies, roles, accountability</td>
+      <td style={{padding: '10px 14px'}}>TAG policy engine, RBAC+ABAC, audit trails</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Map</td>
+      <td style={{padding: '10px 14px'}}>Context, risk identification</td>
+      <td style={{padding: '10px 14px'}}>Threat taxonomy (OWASP Top 10), attack vector catalog</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Measure</td>
+      <td style={{padding: '10px 14px'}}>Assessment, metrics</td>
+      <td style={{padding: '10px 14px'}}>{"SABER metrics (ASR@N, Budget@τ), EGEI scoring"}</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Manage</td>
+      <td style={{padding: '10px 14px'}}>Mitigation, monitoring, response</td>
+      <td style={{padding: '10px 14px'}}>3-Tier defense, Prometheus metrics, auto-escalation</td>
+    </tr>
+  </tbody>
+</table>
+
+### 7.5 Automated Compliance Reporting
+
+The system generates structured compliance reports:
+
+```rust
+pub struct RegulatoryReport {
+    pub framework: RegulatoryFramework,
+    pub assessment_date: DateTime<Utc>,
+    pub overall_compliance: ComplianceLevel,  // Full, Partial, NonCompliant
+    pub article_assessments: Vec<ArticleAssessment>,
+    pub gaps: Vec<ComplianceGap>,
+    pub recommendations: Vec<Recommendation>,
+    pub evidence_refs: Vec<EvidenceReference>,  // Links to audit logs, test results
+}
+```
+
+## 8. Verification and Quality Assurance
+
+### 8.1 Test Coverage
+
+AEGIS maintains comprehensive automated testing across all components:
+
+**Table XIII: Test Suite Summary**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Component</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Test Count</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Coverage Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-defense</td>
+      <td style={{padding: '10px 14px'}}>944 unit + 43 integration</td>
+      <td style={{padding: '10px 14px'}}>All defense algorithms, Korean/multilingual modules</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-core</td>
+      <td style={{padding: '10px 14px'}}>28</td>
+      <td style={{padding: '10px 14px'}}>Core data structures, verdict logic</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-ml</td>
+      <td style={{padding: '10px 14px'}}>83</td>
+      <td style={{padding: '10px 14px'}}>ML inference, embedding scanner, federated learning</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-redteam</td>
+      <td style={{padding: '10px 14px'}}>146</td>
+      <td style={{padding: '10px 14px'}}>All 8 attack algorithms, meta-attack generator</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Chrome Extension</td>
+      <td style={{padding: '10px 14px'}}>28 (Vitest)</td>
+      <td style={{padding: '10px 14px'}}>PII proxy engine, detection layers</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>API Integration</td>
+      <td style={{padding: '10px 14px'}}>150+</td>
+      <td style={{padding: '10px 14px'}}>Endpoint validation, auth flows, error handling</td>
+    </tr>
+    <tr style={{borderBottom: '2px solid #2563EB', fontWeight: 600}}>
+      <td style={{padding: '10px 14px'}}>Total</td>
+      <td style={{padding: '10px 14px'}}>1,591+</td>
+      <td style={{padding: '10px 14px'}}>Full-stack coverage</td>
+    </tr>
+  </tbody>
+</table>
+
+### 8.2 GS Quality Certification
+
+AEGIS has achieved GS (Good Software) certification under ISO/IEC 25051, validated through 9 certification documents:
+
+**Table XIV: GS Certification Document Suite**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Document</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Standard Reference</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Product Description</td>
+      <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §5"}</td>
+      <td style={{padding: '10px 14px'}}>Product scope, target users, operating environment</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Functional Specification</td>
+      <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §6"}</td>
+      <td style={{padding: '10px 14px'}}>All functional requirements with traceability</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Test Documentation</td>
+      <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §7"}</td>
+      <td style={{padding: '10px 14px'}}>Test plans, cases, results, coverage analysis</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>User Documentation</td>
+      <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §8"}</td>
+      <td style={{padding: '10px 14px'}}>Installation, configuration, operation guides</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Quality Requirements</td>
+      <td style={{padding: '10px 14px'}}>ISO/IEC 25010</td>
+      <td style={{padding: '10px 14px'}}>Functionality, reliability, usability, efficiency, maintainability, portability</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Installation Guide</td>
+      <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §8.2"}</td>
+      <td style={{padding: '10px 14px'}}>Step-by-step deployment procedures</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>API Reference</td>
+      <td style={{padding: '10px 14px'}}>OpenAPI 3.0</td>
+      <td style={{padding: '10px 14px'}}>Complete REST API documentation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Security Assessment</td>
+      <td style={{padding: '10px 14px'}}>Internal</td>
+      <td style={{padding: '10px 14px'}}>Penetration test results, vulnerability remediation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Performance Report</td>
+      <td style={{padding: '10px 14px'}}>Internal</td>
+      <td style={{padding: '10px 14px'}}>Load testing, latency benchmarks, scalability analysis</td>
+    </tr>
+  </tbody>
+</table>
+
+### 8.3 Continuous Integration Pipeline
+
+```
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│  Commit  │───►│  Lint +  │───►│  Build   │───►│  Test    │───►│  Deploy  │
+│  Push    │    │  Format  │    │  (Cargo) │    │  1,591+  │    │  Staging │
+└──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘
+                 rustfmt          cargo build     cargo test      docker-
+                 clippy           --release       --all           compose up
+```
+
+### 8.4 Security Testing
+
+- **Static Analysis**: Clippy lints with `#![deny(clippy::all)]`, custom security lint rules
+- **Dependency Audit**: `cargo audit` integrated into CI pipeline
+- **Input Fuzzing**: Property-based testing with `proptest` for parser modules
+- **Penetration Testing**: Manual and automated security assessment per GS certification
+
+## 9. Operational Readiness
+
+### 9.1 Health Check System
+
+AEGIS implements three-tier health checking for Kubernetes-compatible orchestration:
+
+**Table XV: Health Check Endpoints**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Endpoint</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Checks Performed</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>/health</td>
+      <td style={{padding: '10px 14px'}}>General health</td>
+      <td style={{padding: '10px 14px'}}>Service version, uptime</td>
+      <td style={{padding: '10px 14px'}}>Human monitoring</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>/health/live</td>
+      <td style={{padding: '10px 14px'}}>Liveness probe</td>
+      <td style={{padding: '10px 14px'}}>Process alive, memory OK</td>
+      <td style={{padding: '10px 14px'}}>K8s liveness probe</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>/health/ready</td>
+      <td style={{padding: '10px 14px'}}>Readiness probe</td>
+      <td style={{padding: '10px 14px'}}>DB connected, Redis connected, models loaded</td>
+      <td style={{padding: '10px 14px'}}>K8s readiness probe</td>
+    </tr>
+  </tbody>
+</table>
+
+### 9.2 Prometheus Metrics
+
+12 metric types are exported for comprehensive observability:
+
+**Table XVI: Prometheus Metric Types**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Metric</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Type</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_requests_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>Total requests by endpoint, method, status</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_request_duration_seconds</td>
+      <td style={{padding: '10px 14px'}}>Histogram</td>
+      <td style={{padding: '10px 14px'}}>Request latency distribution (P50, P95, P99)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_active_connections</td>
+      <td style={{padding: '10px 14px'}}>Gauge</td>
+      <td style={{padding: '10px 14px'}}>Current active connections</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_verdict_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>Verdicts by type (APPROVE/BLOCK/MODIFY/...)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_tier_latency_seconds</td>
+      <td style={{padding: '10px 14px'}}>Histogram</td>
+      <td style={{padding: '10px 14px'}}>Per-tier processing latency</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_threat_detected_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>Threats by category and severity</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_model_inference_seconds</td>
+      <td style={{padding: '10px 14px'}}>Histogram</td>
+      <td style={{padding: '10px 14px'}}>ML model inference time</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_cache_hits_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>Redis cache hit/miss ratio</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_rate_limit_exceeded_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>Rate limit violations by tenant</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_pii_detected_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>PII detections by type</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_audit_events_total</td>
+      <td style={{padding: '10px 14px'}}>Counter</td>
+      <td style={{padding: '10px 14px'}}>Audit events by type</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_system_memory_bytes</td>
+      <td style={{padding: '10px 14px'}}>Gauge</td>
+      <td style={{padding: '10px 14px'}}>Process memory usage</td>
+    </tr>
+  </tbody>
+</table>
+
+### 9.3 Alerting Configuration
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Alert</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Condition</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Severity</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>High Error Rate</td>
+      <td style={{padding: '10px 14px'}}>{"5xx > 1% for 5 min"}</td>
+      <td style={{padding: '10px 14px', color: '#DC2626', fontWeight: 600}}>Critical</td>
+      <td style={{padding: '10px 14px'}}>Page on-call</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Latency Spike</td>
+      <td style={{padding: '10px 14px'}}>{"P99 > 100ms for 5 min"}</td>
+      <td style={{padding: '10px 14px', color: '#D97706', fontWeight: 600}}>Warning</td>
+      <td style={{padding: '10px 14px'}}>Investigate</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Memory Pressure</td>
+      <td style={{padding: '10px 14px'}}>{"RSS > 80% limit"}</td>
+      <td style={{padding: '10px 14px', color: '#D97706', fontWeight: 600}}>Warning</td>
+      <td style={{padding: '10px 14px'}}>Scale up</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Threat Surge</td>
+      <td style={{padding: '10px 14px'}}>{"Blocked requests > 10x baseline"}</td>
+      <td style={{padding: '10px 14px', color: '#DC2626', fontWeight: 600}}>Critical</td>
+      <td style={{padding: '10px 14px'}}>Security review</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Auth Failures</td>
+      <td style={{padding: '10px 14px'}}>{"Failed auth > 100/min"}</td>
+      <td style={{padding: '10px 14px', color: '#DC2626', fontWeight: 600}}>Critical</td>
+      <td style={{padding: '10px 14px'}}>Potential brute force</td>
+    </tr>
+  </tbody>
+</table>
+
+### 9.4 Fail-Safe Policies
+
+When components fail, AEGIS defaults to safe behavior:
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Component Failure</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Default Behavior</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Rationale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>ML Classifier unavailable</td>
+      <td style={{padding: '10px 14px'}}>Escalate to LLM Judge</td>
+      <td style={{padding: '10px 14px'}}>Maintain safety with higher-tier review</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>LLM Judge unavailable</td>
+      <td style={{padding: '10px 14px'}}>Apply conservative rule-based blocking</td>
+      <td style={{padding: '10px 14px'}}>Prefer false positives over false negatives</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Redis unavailable</td>
+      <td style={{padding: '10px 14px'}}>In-memory rate limiting with conservative limits</td>
+      <td style={{padding: '10px 14px'}}>Maintain protection with degraded capacity</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Database unavailable</td>
+      <td style={{padding: '10px 14px'}}>Read-only mode from cache</td>
+      <td style={{padding: '10px 14px'}}>Preserve existing configurations</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>All tiers unavailable</td>
+      <td style={{padding: '10px 14px'}}>Block all non-whitelisted requests</td>
+      <td style={{padding: '10px 14px'}}>Fail-closed for safety</td>
+    </tr>
+  </tbody>
+</table>
+
+## 10. Multi-Tenant SaaS Architecture
+
+### 10.1 Tenant Isolation Model
+
+AEGIS supports multi-tenant deployment with strict data isolation:
+
+```
+┌────────────────────────────────────────────────┐
+│                  API Gateway                    │
+│          (Tenant ID extraction + routing)       │
+├────────────────────────────────────────────────┤
+│  Tenant A    │  Tenant B    │  Tenant C        │
+│  ┌────────┐  │  ┌────────┐  │  ┌────────┐     │
+│  │ Config │  │  │ Config │  │  │ Config │     │
+│  │ Policies│  │  │ Policies│  │  │ Policies│   │
+│  │ Quotas │  │  │ Quotas │  │  │ Quotas │     │
+│  └────────┘  │  └────────┘  │  └────────┘     │
+├────────────────────────────────────────────────┤
+│           Shared Infrastructure                 │
+│  (PostgreSQL with row-level security,           │
+│   Redis with key prefixing)                     │
+└────────────────────────────────────────────────┘
+```
+
+### 10.2 Subscription Tiers
+
+**Table XVII: SaaS Subscription Tiers**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Tier</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Rate Limit</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Features</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Free</td>
+      <td style={{padding: '10px 14px'}}>100 req/hr</td>
+      <td style={{padding: '10px 14px'}}>Basic safety check (Tier 1 only)</td>
+      <td style={{padding: '10px 14px'}}>Evaluation</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Starter</td>
+      <td style={{padding: '10px 14px'}}>1,000 req/hr</td>
+      <td style={{padding: '10px 14px'}}>Tier 1 + 2, basic audit logs</td>
+      <td style={{padding: '10px 14px'}}>Small teams</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Professional</td>
+      <td style={{padding: '10px 14px'}}>10,000 req/hr</td>
+      <td style={{padding: '10px 14px'}}>All 3 tiers, full audit, compliance reports</td>
+      <td style={{padding: '10px 14px'}}>Enterprise</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Enterprise</td>
+      <td style={{padding: '10px 14px'}}>Custom</td>
+      <td style={{padding: '10px 14px'}}>Custom policies, dedicated resources, SLA</td>
+      <td style={{padding: '10px 14px'}}>Large org</td>
+    </tr>
+  </tbody>
+</table>
+
+Feature gating is implemented at the middleware level:
+
+```rust
+pub fn check_feature_access(tenant: &Tenant, feature: Feature) -> bool {
+    match (tenant.plan, feature) {
+        (Plan::Free, Feature::LlmJudge) => false,
+        (Plan::Free, Feature::ComplianceReport) => false,
+        (Plan::Starter, Feature::ComplianceReport) => false,
+        (Plan::Enterprise, _) => true,
+        _ => tenant.plan.includes(feature),
+    }
+}
+```
+
+### 10.3 Rate Limiting
+
+Redis-backed sliding window rate limiting with per-tenant quotas:
+
+- **Algorithm**: Sliding window log (precise, no boundary issues)
+- **Granularity**: Per-tenant, per-API-key, per-endpoint
+- **Headers**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+- **Burst allowance**: 2x sustained rate for 10-second windows
+- **Graceful degradation**: Falls back to in-memory counting if Redis is unavailable
+
+## 11. Deployment Infrastructure
+
+### 11.1 Docker Composition
+
+**Table XVIII: Service Architecture**
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Service</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Image</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Port</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-api</td>
+      <td style={{padding: '10px 14px'}}>Custom (Rust)</td>
+      <td style={{padding: '10px 14px'}}>8000</td>
+      <td style={{padding: '10px 14px'}}>API Gateway + middleware</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-ml</td>
+      <td style={{padding: '10px 14px'}}>Custom (Rust + ONNX)</td>
+      <td style={{padding: '10px 14px'}}>8081</td>
+      <td style={{padding: '10px 14px'}}>ML inference service</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-redteam</td>
+      <td style={{padding: '10px 14px'}}>Custom (Rust)</td>
+      <td style={{padding: '10px 14px'}}>8082</td>
+      <td style={{padding: '10px 14px'}}>Red team evaluation service</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-vla</td>
+      <td style={{padding: '10px 14px'}}>Custom (Rust)</td>
+      <td style={{padding: '10px 14px'}}>8083</td>
+      <td style={{padding: '10px 14px'}}>VLA (Vision-Language-Action) service</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>postgres</td>
+      <td style={{padding: '10px 14px'}}>PostgreSQL 16</td>
+      <td style={{padding: '10px 14px'}}>5432</td>
+      <td style={{padding: '10px 14px'}}>Primary database</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>redis</td>
+      <td style={{padding: '10px 14px'}}>Redis 7</td>
+      <td style={{padding: '10px 14px'}}>6379</td>
+      <td style={{padding: '10px 14px'}}>Cache, rate limiting, sessions</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>prometheus</td>
+      <td style={{padding: '10px 14px'}}>Prometheus</td>
+      <td style={{padding: '10px 14px'}}>9090</td>
+      <td style={{padding: '10px 14px'}}>Metrics collection</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>grafana</td>
+      <td style={{padding: '10px 14px'}}>Grafana</td>
+      <td style={{padding: '10px 14px'}}>3000</td>
+      <td style={{padding: '10px 14px'}}>Visualization dashboards</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>alertmanager</td>
+      <td style={{padding: '10px 14px'}}>Alertmanager</td>
+      <td style={{padding: '10px 14px'}}>9093</td>
+      <td style={{padding: '10px 14px'}}>Alert routing</td>
+    </tr>
+  </tbody>
+</table>
+
+### 11.2 Database Schema
+
+32 SQL migration files manage the database schema evolution:
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Schema Area</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Tables</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Core</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tenants, users, api_keys</td>
+      <td style={{padding: '10px 14px'}}>Identity management</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Safety</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>verdicts, threat_events, escalations</td>
+      <td style={{padding: '10px 14px'}}>Safety operation records</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Config</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>policies, thresholds, model_configs</td>
+      <td style={{padding: '10px 14px'}}>System configuration</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Audit</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>audit_events, access_logs</td>
+      <td style={{padding: '10px 14px'}}>Compliance audit trail</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>Billing</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>subscriptions, usage_records, invoices</td>
+      <td style={{padding: '10px 14px'}}>SaaS billing</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px'}}>RedTeam</td>
+      <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>evaluations, attack_results, saber_reports</td>
+      <td style={{padding: '10px 14px'}}>Red team assessment data</td>
+    </tr>
+  </tbody>
+</table>
+
+### 11.3 Kubernetes Deployment Considerations
+
+- **Horizontal Pod Autoscaling**: Based on CPU utilization and request queue depth
+- **Pod Disruption Budgets**: Minimum 2 replicas for API and ML services
+- **Network Policies**: Strict inter-service communication rules
+- **Secret Management**: Kubernetes secrets with optional HashiCorp Vault integration
+- **Rolling Updates**: Zero-downtime deployments with readiness probe gating
+
+## 12. Discussion and Lessons Learned
+
+### 12.1 Defense-in-Depth is Non-Negotiable
+
+Our experience deploying AEGIS across multiple environments confirms that no single security measure is sufficient. The combination of network-level controls (security headers, rate limiting), application-level checks (auth, input validation), and AI-specific safeguards (agent security modules, SABER risk analysis) creates overlapping protection zones where a failure in one layer is caught by another.
+
+### 12.2 Compliance as Code
+
+Treating regulatory requirements as machine-readable artifacts rather than static documents enables continuous compliance monitoring. Our automated compliance reporting has reduced audit preparation time by an estimated 70% compared to manual documentation approaches.
+
+### 12.3 The Multi-Tenant Challenge
+
+Achieving true tenant isolation while maintaining resource efficiency requires careful architectural decisions:
+
+- **Row-level security** in PostgreSQL provides strong data isolation without per-tenant database overhead
+- **Redis key prefixing** enables shared infrastructure with logical separation
+- **Feature gating at middleware** prevents unauthorized access to tier-restricted features
+
+### 12.4 Operational Observability
+
+The 12 Prometheus metric types and 23 audit event types provide comprehensive visibility, but volume management is critical. Key practices:
+
+- **Structured logging** (JSON format) enables efficient log analysis
+- **Metric cardinality control** prevents Prometheus storage explosion
+- **Audit log retention policies** balance compliance requirements with storage costs
+
+### 12.5 Security Hardening Prioritization
+
+The P0/P1/P2/P3 priority classification (Table VII) proved essential for systematic security improvement. In our most recent security audit:
+
+- **P0 fixes**: Authentication enforcement on previously unprotected endpoints
+- **P1 fixes**: Rate limiting, input validation strengthening
+- **P2 fixes**: Security header deployment, sensitive data scrubbing
+
+### 12.6 Agent Security is an Emerging Frontier
+
+The 14 agent security modules represent one of the most novel aspects of AEGIS. As LLM agents gain autonomy --- executing tools, managing memory, making decisions --- the attack surface expands dramatically. Our modular approach allows new threat detectors to be added without architectural changes.
+
+## 13. Conclusion
+
+This whitepaper has presented AEGIS's comprehensive approach to enterprise LLM deployment safety, covering governance, security, compliance, and operational readiness. Key takeaways:
+
+1. **Governance requires structure**: Policy-as-code, structured audit trails, and transparent verdict explanations are foundational for responsible AI deployment.
+
+2. **Security must be layered**: The 8-layer middleware stack, 14 agent security modules, and PII pseudonymization engine provide defense-in-depth against both traditional and AI-specific threats.
+
+3. **Compliance can be automated**: Machine-readable regulatory mappings across EU AI Act, K-AI Act, and NIST AI RMF enable continuous compliance monitoring rather than periodic manual audits.
+
+4. **Verification must be comprehensive**: 1,591+ automated tests, GS quality certification, and structured CI/CD pipelines ensure that safety properties are maintained through development and deployment.
+
+5. **Operations need observability**: 12 Prometheus metric types, 3-tier health checks, and fail-safe policies enable reliable production operation with rapid incident response.
+
+The AEGIS platform demonstrates that safe enterprise LLM deployment is achievable with deliberate architectural choices, rigorous testing, and continuous monitoring. As the regulatory landscape for AI continues to evolve, platforms that embed compliance into their architecture --- rather than treating it as an afterthought --- will be best positioned to meet emerging requirements.
+
+## References
+
+[1] J. Wei et al., "Jailbroken: How does LLM safety training fail?" *NeurIPS*, 2023.
+
+[2] A. Zou et al., "Universal and transferable adversarial attacks on aligned language models," *arXiv:2307.15043*, 2023.
+
+[3] European Parliament, "Regulation (EU) 2024/1689 --- Artificial Intelligence Act," *Official Journal of the European Union*, 2024.
+
+[4] National Institute of Standards and Technology, "AI Risk Management Framework (AI RMF 1.0)," NIST AI 100-1, 2023.
+
+[5] 과학기술정보통신부, "인공지능 산업 육성 및 신뢰 기반 조성 등에 관한 법률 (K-AI Act)," 2025.
+
+[6] OWASP Foundation, "OWASP Top 10 for LLM Applications," v1.1, 2023.
+
+[7] ISO/IEC, "ISO/IEC 25051:2014 --- Software engineering --- Systems and software Quality Requirements and Evaluation (SQuaRE)," 2014.
+
+[8] M. Abadi et al., "Deep learning with differential privacy," *ACM CCS*, 2016.
+
+[9] B. McMahan et al., "Communication-efficient learning of deep networks from decentralized data," *AISTATS*, 2017.
+
+[10] K. Bonawitz et al., "Practical secure aggregation for privacy-preserving machine learning," *ACM CCS*, 2017.
+
+[11] A. Narayanan and V. Shmatikov, "Robust de-anonymization of large sparse datasets," *IEEE S&P*, 2008.
+
+[12] NIST, "NIST Special Publication 800-53: Security and Privacy Controls," Rev. 5, 2020.
+
+[13] S. Yao et al., "Tree of attacks: Jailbreaking black-box LLMs with auto-generated subtrees," *arXiv:2312.02119*, 2023.
+
+[14] C. Dwork and A. Roth, "The algorithmic foundations of differential privacy," *Foundations and Trends in Theoretical Computer Science*, 2014.
+
+[15] R. Shokri et al., "Membership inference attacks against machine learning models," *IEEE S&P*, 2017.
+
+[16] F. Tramer et al., "Stealing machine learning models via prediction APIs," *USENIX Security*, 2016.
+
+[17] P. Kairouz et al., "Advances and open problems in federated learning," *Foundations and Trends in ML*, 2021.
+
+[18] N. Carlini et al., "Extracting training data from large language models," *USENIX Security*, 2021.
+
+[19] M. Fredrikson et al., "Model inversion attacks that exploit confidence information," *ACM CCS*, 2015.
+
+[20] TI-DSA, "GS인증 품질기준 --- 소프트웨어 품질인증 기준," 한국정보통신기술협회, 2023.

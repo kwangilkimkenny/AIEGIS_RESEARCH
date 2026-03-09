@@ -1,0 +1,226 @@
+---
+documentNumber: "AEGIS-TR-2026-002"
+slug: "aegis-tr-2026-002"
+type: "technical-report"
+title: "AEGINEL Guard: Multilingual AI Prompt Security Classifier for Browser Extensions"
+subtitle: "Development of a lightweight on-device multi-label threat classifier for real-time prompt safety"
+authors:
+  - "Kwangil Kim"
+  - "AEGIS Research Team"
+affiliation: "AEGIS Research"
+publishedDate: "2026-03-07"
+version: "1.0"
+categories:
+  - "ai-guardrails"
+  - "safety-and-security"
+  - "privacy-and-compliance"
+tags:
+  - "prompt-security"
+  - "guardrail"
+  - "multilingual"
+  - "on-device"
+  - "browser-extension"
+  - "ONNX"
+  - "jailbreak-detection"
+oneLinerKo: "브라우저 확장 환경에서 실시간으로 AI 프롬프트 보안 위협을 탐지하는 경량 다국어 분류기 개발 연구"
+oneLinerEn: "A lightweight multilingual classifier for real-time AI prompt security threat detection in browser extension environments"
+abstract: "This research presents the full development pipeline of AEGINEL Guard, a multilingual AI prompt security classifier designed to run entirely on-device within Chrome browser extensions. The classifier detects six threat categories — Jailbreak, Prompt Injection, Harmful Content, Script Evasion, Social Engineering, and Encoding Bypass — using a multi-label classification approach. Trained on 188,109 samples across 8 languages, the final DistilBERT-based model achieves 100% binary detection accuracy at 7.6 ms/sample inference speed in a 129.5 MB INT8 ONNX package."
+pdfUrl: "/assets/pdf/aegis-tr-2026-002.pdf"
+githubUrl: "https://github.com/kwangilkimkenny/AEGINEL"
+status: "published"
+featured: true
+---
+
+## Problem
+
+As LLM-based services like ChatGPT, Claude, and Gemini rapidly proliferate, users increasingly submit dangerous prompts — intentionally or unintentionally — that can bypass AI safety mechanisms or leak sensitive information. Existing server-side filtering approaches suffer from three critical limitations:
+
+1. **Network latency** — delayed threat detection
+2. **Privacy violations** — user prompts transmitted to external servers
+3. **Service dependency** — tied to specific AI service providers
+
+AEGINEL Guard addresses these limitations by adopting a **client-side, on-device inference pipeline** that runs entirely within the user's browser, ensuring real-time protection without compromising privacy.
+
+## Our Approach
+
+We defined the task as **multi-label text classification** across 7 categories (including "safe"), targeting 6 threat types:
+
+- **Jailbreak** — attempts to bypass AI safety restrictions
+- **Prompt Injection** — instructions to override system prompts
+- **Harmful Content** — requests for dangerous or illegal information
+- **Script Evasion** — code injection and XSS-style attacks
+- **Social Engineering** — manipulation through social context
+- **Encoding Bypass** — obfuscation techniques to evade filters
+
+We built a custom dataset of **188,109 samples across 8 languages** (Korean, English, Arabic, Spanish, Russian, Malay, Chinese, Japanese) and compared three Transformer models under browser extension deployment constraints (< 150 MB).
+
+### System Architecture
+
+```
+User Input (AI Service Textbox)
+        │
+        ▼
+Content Script → Service Worker → Offscreen Document
+        │                              │
+        │                    Transformers.js + ONNX Runtime
+        │                              │
+        ▼                              ▼
+Warning Banner ←── Classification Result
+```
+
+## Key Contributions
+
+- Built a **188,109-sample, 8-language dataset** for multi-label prompt security classification
+- Conducted **comparative experiments across three multilingual Transformer models** (XLM-RoBERTa, DistilBERT, mDeBERTa) with quantitative performance-size-speed tradeoff analysis
+- Achieved **100% binary detection accuracy** (safe vs. harmful) with the final model
+- Delivered a **129.5 MB INT8 ONNX model** with **7.6 ms/sample** CPU inference — fully deployable in Chrome extensions via Transformers.js
+- Identified and resolved critical bugs in multi-label sigmoid inference and model path configuration
+
+## Key Findings
+
+### Model Comparison Results
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Model</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>Parameters</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>F1-micro</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>F1-macro</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>INT8 ONNX Size</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>Training Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '12px 16px', fontWeight: 500}}>XLM-RoBERTa-base</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>278M</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99969</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99974</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>265.9 MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>43 min</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(37, 99, 235, 0.05)'}}>
+      <td style={{padding: '12px 16px', fontWeight: 700}}>DistilBERT-multilingual</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>135M</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>0.99780</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>0.99813</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>129.5 MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>16 min</td>
+    </tr>
+    <tr>
+      <td style={{padding: '12px 16px', fontWeight: 500}}>mDeBERTa-v3-base</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>279M</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99969</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99974</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>322.8 MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>52 min</td>
+    </tr>
+  </tbody>
+</table>
+
+### Performance-Size Tradeoff
+
+The F1-micro difference between the top-performing models (XLM-RoBERTa, mDeBERTa) and DistilBERT is only **0.189 percentage points**, while DistilBERT is **2.05x smaller** than XLM-RoBERTa and **2.49x smaller** than mDeBERTa.
+
+### Inference Test Results
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Metric</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '12px 16px'}}>Label-specific accuracy</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>66.7% (6/9)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.08)'}}>
+      <td style={{padding: '12px 16px', fontWeight: 700}}>Binary detection accuracy (safe vs. harmful)</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669', fontSize: '1.1rem'}}>100% (9/9)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '12px 16px'}}>Multilingual prompt injection detection</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>100% (3/3)</td>
+    </tr>
+    <tr>
+      <td style={{padding: '12px 16px', fontWeight: 700}}>Average inference latency (CPU, INT8)</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>7.6 ms/sample</td>
+    </tr>
+  </tbody>
+</table>
+
+All label confusion cases occurred **within the same threat cluster** — the binary "is this dangerous?" decision achieved perfect accuracy across all test prompts, including Korean, English, Japanese, and French inputs.
+
+## Evaluation Design
+
+- **Dataset**: 188,109 samples, self-constructed multilingual prompt security dataset
+- **Languages**: 8 (ko 24.9%, en 21.6%, ar 9.5%, es 9.1%, ru 9.1%, ms 8.8%, zh 8.5%, ja 8.5%)
+- **Train/Val Split**: 90:10 (169,298 / 18,811)
+- **Multi-label samples**: 21,544 (11.5%)
+- **Loss Function**: Binary Cross-Entropy with Logits
+- **Inference Threshold**: sigmoid >= 0.5
+- **Optimization Metric**: F1-micro
+- **Quantization**: INT8 Dynamic Quantization (AVX-512 VNNI target)
+- **Hardware**: NVIDIA RTX A5000 x2, CUDA 12.8
+
+### Final Model Selection Criteria
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '12px 16px', textAlign: 'center', width: '80px'}}>Priority</th>
+      <th style={{padding: '12px 16px', textAlign: 'left'}}>Criterion</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>Requirement</th>
+      <th style={{padding: '12px 16px', textAlign: 'center'}}>DistilBERT Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>1</td>
+      <td style={{padding: '12px 16px'}}>Deployment size</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>&lt; 150 MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>129.5 MB</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>2</td>
+      <td style={{padding: '12px 16px'}}>Binary detection accuracy</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>3</td>
+      <td style={{padding: '12px 16px'}}>Inference speed</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>Real-time</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>7.6 ms/sample</td>
+    </tr>
+    <tr>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>4</td>
+      <td style={{padding: '12px 16px'}}>Label-specific accuracy</td>
+      <td style={{padding: '12px 16px', textAlign: 'center'}}>Best effort</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>99.78% F1-micro</td>
+    </tr>
+  </tbody>
+</table>
+
+## Business Relevance
+
+This research demonstrates that **enterprise-grade prompt security can be delivered entirely on-device** without server-side dependencies, privacy trade-offs, or network latency. Key implications for organizations:
+
+- **Privacy-first AI safety**: No user prompts leave the local device
+- **Universal protection**: Works across any LLM service (ChatGPT, Claude, Gemini, etc.)
+- **Deployment-ready**: Complete Chrome extension pipeline validated with production build
+- **Multilingual coverage**: 8 languages supported out of the box, covering major global markets
+- **Cost-effective**: No API costs or server infrastructure required for prompt filtering
+
+The AEGINEL Guard technology directly extends the AEGIS Guardrail product family, providing a complementary client-side protection layer alongside server-side safety systems.
+
+## Limitations
+
+- **Label-specific accuracy**: 66.7% — confusion between `encoding_bypass`, `social_engineering`, and `script_evasion` categories due to overlapping threat characteristics
+- **Browser inference benchmarks**: Actual Transformers.js WASM inference speed in Chrome not yet measured (server CPU baseline of 7.6 ms may differ)
+- **Synthetic data bias**: Training dataset is primarily synthetic; real-world prompt distribution may differ
+- **Language coverage**: 8 languages covered; additional languages require dataset expansion
+- **Adversarial robustness**: Not yet tested against advanced adversarial prompt techniques specifically designed to evade the classifier

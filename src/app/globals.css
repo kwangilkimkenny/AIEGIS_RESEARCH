@@ -1,26 +1,139 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ========================================
+   AEGIS Research — Contrast Edge Design System
+   ======================================== */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core Colors */
+  --navy-950: #0A1628;
+  --navy-900: #0F1D32;
+  --navy-800: #1E293B;
+  --navy-700: #334155;
+
+  /* Surface */
+  --surface-white: #FFFFFF;
+  --surface-gray-50: #F9FAFB;
+  --surface-gray-100: #F1F5F9;
+  --surface-gray-200: #E2E8F0;
+
+  /* Text */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-on-dark: #F8FAFC;
+  --text-on-dark-muted: #94A3B8;
+
+  /* Accent */
+  --accent-blue: #2563EB;
+  --accent-blue-hover: #1D4ED8;
+  --accent-blue-light: #3B82F6;
+  --accent-cyan: #06B6D4;
+  --accent-cyan-light: #22D3EE;
+
+  /* Status */
+  --emerald: #059669;
+  --amber: #D97706;
+
+  /* Spacing */
+  --section-padding: 5rem;
+  --container-max: 1280px;
+
+  /* Light mode defaults */
+  --background: var(--surface-white);
+  --foreground: var(--text-primary);
+  --card-bg: var(--surface-white);
+  --card-border: var(--surface-gray-200);
+  --section-alt-bg: var(--surface-gray-50);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0B1120;
+    --foreground: var(--text-on-dark);
+    --card-bg: #151F32;
+    --card-border: #1E2D45;
+    --section-alt-bg: #0F1929;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Design tokens */
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-hover: var(--accent-blue-hover);
+  --color-accent-blue-light: var(--accent-blue-light);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-cyan-light: var(--accent-cyan-light);
+
+  --color-surface-50: var(--surface-gray-50);
+  --color-surface-100: var(--surface-gray-100);
+  --color-surface-200: var(--surface-gray-200);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-text-on-dark-muted: var(--text-on-dark-muted);
+
+  --color-emerald: var(--emerald);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-section-alt: var(--section-alt-bg);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Gradient accent bar */
+.gradient-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-blue-light) 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero gradient background */
+.hero-gradient {
+  background: linear-gradient(180deg, var(--navy-950) 0%, var(--navy-800) 100%);
+}
+
+/* Subtle grid pattern for hero */
+.hero-pattern {
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }
