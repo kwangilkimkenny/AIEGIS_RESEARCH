@@ -27,7 +27,7 @@ async function sendSlackMessage(payload: {
   const blocks = [
     {
       type: "header",
-      text: { type: "plain_text", text: `📬 New Contact: ${label}` },
+      text: { type: "plain_text", text: `📬 New Contact: ${label}(aegis-research)` },
     },
     {
       type: "section",
