@@ -118,7 +118,7 @@ export default async function PublicationPage({ params }: PageProps) {
 
             {/* CTA Buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              <PdfDownloadButton
+              {/* <PdfDownloadButton
                 slug={pub.slug}
                 title={pub.title}
                 subtitle={pub.subtitle}
@@ -131,7 +131,7 @@ export default async function PublicationPage({ params }: PageProps) {
                 abstract={pub.abstract}
                 label={t.downloadPdf}
                 variant="primary"
-              />
+              /> */}
               {pub.githubUrl && (
                 <Button href={pub.githubUrl} variant="outline" size="lg">
                   <span className="text-text-on-dark flex items-center gap-2">
