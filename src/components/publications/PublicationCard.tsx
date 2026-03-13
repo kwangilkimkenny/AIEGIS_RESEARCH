@@ -84,14 +84,6 @@ export default function PublicationCard({ publication, locale, dict }: Publicati
             {t.readSummary}
             <span aria-hidden="true">→</span>
           </Link>
-          {publication.pdfUrl && (
-            <Link
-              href={publication.pdfUrl}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-text-muted dark:text-text-on-dark-muted hover:text-text-primary dark:hover:text-text-on-dark transition-colors"
-            >
-              PDF ↓
-            </Link>
-          )}
         </div>
       </div>
     </article>

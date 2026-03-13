@@ -24,11 +24,26 @@ export default function HeroSection({ dict, locale }: Props) {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
         <div className="max-w-4xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 mb-8">
-            <div className="h-1.5 w-1.5 rounded-full bg-accent-cyan animate-pulse" />
-            <span className="text-xs font-medium text-text-on-dark-muted tracking-wide">
-              {t.badge}
-            </span>
+          <div className="flex flex-wrap items-center gap-3 mb-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
+              <div className="h-1.5 w-1.5 rounded-full bg-accent-cyan animate-pulse" />
+              <span className="text-xs font-medium text-text-on-dark-muted tracking-wide">
+                {t.badge}
+              </span>
+            </div>
+            <a
+              href="https://aiaegis.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan px-4 py-1.5 text-xs font-medium text-white hover:opacity-90 transition-opacity"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              {t.visitProduct} →
+            </a>
           </div>
 
           {/* Headline */}

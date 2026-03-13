@@ -72,11 +72,6 @@ export default function FeaturedResearch({ publications, dict, locale }: Feature
                   <Button href={`/${locale}/publications/${pub.slug}`} variant="primary" size="sm">
                     {t.readSummary}
                   </Button>
-                  {pub.pdfUrl && (
-                    <Button href={pub.pdfUrl} variant="outline" size="sm">
-                      {t.downloadPdf}
-                    </Button>
-                  )}
                 </div>
               </div>
             </article>

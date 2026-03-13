@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Button from "@/components/shared/Button";
 import NeuralMesh from "@/components/shared/NeuralMesh";
-import PdfDownloadButton from "@/components/publications/PdfDownloadButton";
 import { getPublicationBySlug, getPublicationSlugs } from "@/lib/publications";
 import { DOCUMENT_TYPE_COLORS } from "@/lib/constants";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -179,26 +178,6 @@ export default async function PublicationPage({ params }: PageProps) {
             {t.assetsAndDownloads}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Full Paper — PDF download */}
-            <div className="flex items-center justify-between rounded-xl border border-card-border bg-card-bg p-4">
-              <span className="text-sm font-medium text-text-primary dark:text-text-on-dark">
-                {t.fullPaper}
-              </span>
-              <PdfDownloadButton
-                slug={pub.slug}
-                title={pub.title}
-                subtitle={pub.subtitle}
-                documentNumber={pub.documentNumber}
-                authors={pub.authors}
-                affiliation={pub.affiliation}
-                publishedDate={pub.publishedDate}
-                version={pub.version}
-                type={pub.type}
-                abstract={pub.abstract}
-                label={t.download}
-                variant="link"
-              />
-            </div>
             {/* GitHub Repository */}
             {pub.githubUrl && (
               <div className="flex items-center justify-between rounded-xl border border-card-border bg-card-bg p-4">

@@ -19,6 +19,7 @@ export default function ContactPage() {
 
   const inquiryTypes = [
     { value: "general", label: t.general },
+    { value: "research", label: t.research },
     { value: "demo", label: t.demo },
     { value: "partnership", label: t.partnership },
     { value: "media", label: t.media },

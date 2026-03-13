@@ -24,6 +24,7 @@ const ko: Dictionary = {
   },
   hero: {
     badge: "AI 안전 및 보안 연구",
+    visitProduct: "AIAEGIS 제품 살펴보기",
     headlinePre: "안전하고 신뢰할 수 있는",
     headlineHighlight: "AI 배포를 위한",
     headlinePost: "연구",
@@ -136,6 +137,7 @@ const ko: Dictionary = {
     missionText1: "우리는 실제 세계에 배포된 AI가",
     missionHighlight: "검증 가능하고, 제어 가능하며, 책임 있는",
     missionText2: "AEGIS Research는 AI가 실제 환경에서 신뢰받기 위해 필수적인 안전장치를 연구하고 운영화하는 연구 기관입니다. 모델 성능에만 집중하지 않습니다. 기업과 개인이 LLM을 워크플로우, 서비스, 의사결정 지원, 자동화, 에이전트, 멀티모달 시스템, VLA 파이프라인, 로보틱스 및 미래 AI 환경에 배포할 때 발생하는 실제 문제에 집중합니다.",
+    visitMainSite: "AIAEGIS 웹사이트 방문",
     ceoTitle: "CEO",
     ceoRole: "대표이사",
     leadershipTitle: "연구 리더십",
@@ -211,6 +213,7 @@ const ko: Dictionary = {
     formSubtitle: "아래 양식을 작성하시면 연구팀이 2영업일 이내에 응답합니다.",
     inquiryType: "문의 유형",
     general: "일반 문의",
+    research: "연구 문의",
     demo: "데모 요청",
     partnership: "파트너십",
     media: "미디어 문의",

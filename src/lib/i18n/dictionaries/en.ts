@@ -22,6 +22,7 @@ const en = {
   },
   hero: {
     badge: "AI Safety & Security Research",
+    visitProduct: "Explore AIAEGIS Product",
     headlinePre: "Research for",
     headlineHighlight: "Safe, Secure, Compliant",
     headlinePost: "and Trustworthy AI Deployment",
@@ -134,6 +135,7 @@ const en = {
     missionText1: "We help ensure that AI deployed in the real world is",
     missionHighlight: "verifiable, controllable, and accountable",
     missionText2: "AEGIS Research is a research institute dedicated to studying and operationalizing the critical safeguards that must be in place before AI can be trusted in real environments. We do not focus on model capability alone. We focus on the real problems that emerge when enterprises and individuals deploy LLMs into workflows, services, decision support, automation, agents, multimodal systems, VLA pipelines, robotics, and future AI environments.",
+    visitMainSite: "Visit AIAEGIS Website",
     ceoTitle: "CEO",
     ceoRole: "Chief Executive Officer",
     leadershipTitle: "Research Leadership",
@@ -209,6 +211,7 @@ const en = {
     formSubtitle: "Fill out the form below and our research team will respond within 2 business days.",
     inquiryType: "Inquiry Type",
     general: "General Inquiry",
+    research: "Research Inquiry",
     demo: "Request Demo",
     partnership: "Partnership",
     media: "Media Inquiry",
@@ -242,7 +245,7 @@ const en = {
 export type Dictionary = {
   nav: { research: string; publications: string; about: string; contact: string; contactUs: string };
   footer: { research: string; company: string; resources: string; publications: string; researchAreas: string; principles: string; about: string; contact: string; latestPapers: string; tagline: string; copyright: string; motto: string };
-  hero: { badge: string; headlinePre: string; headlineHighlight: string; headlinePost: string; subheadline: string; body: string; viewPublications: string; exploreResearchAreas: string; contactResearchTeam: string; statsAreas: string; statsTypes: string; statsGuardrail: string; statsEstablished: string };
+  hero: { badge: string; visitProduct: string; headlinePre: string; headlineHighlight: string; headlinePost: string; subheadline: string; body: string; viewPublications: string; exploreResearchAreas: string; contactResearchTeam: string; statsAreas: string; statsTypes: string; statsGuardrail: string; statsEstablished: string };
   whatWeStudy: { title: string; subtitle: string; card1Title: string; card1Text: string; card2Title: string; card2Text: string };
   researchAreas: { title: string; subtitle: string; areas: Record<string, { title: string; description: string }> };
   whyItMatters: { title: string; subtitle: string; points: { title: string; description: string }[]; bottomText: string };
@@ -250,10 +253,10 @@ export type Dictionary = {
   publicationTypes: { title: string; subtitle: string; types: { name: string; description: string }[] };
   researchPrinciples: { title: string; principles: string[] };
   cta: { title: string; text1: string; text2: string; contactResearchTeam: string; requestDemo: string; explorePublications: string };
-  about: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; missionTitle: string; missionText1: string; missionHighlight: string; missionText2: string; ceoTitle: string; ceoRole: string; leadershipTitle: string; leadershipRole: string; leadershipDesc: string; cisoRole: string; cisoDesc: string; advisorTitle: string; advisorRole: string; advisorDesc: string; coreBeliefTitle: string; coreBeliefQuote: string; coreBeliefAttribution: string; philosophyTitle: string; philosophySubtitle: string; philosophyPrinciples: string[]; scopeTitle: string; scopeSubtitle: string; whyTitle: string; whyText1: string; whyText2: string; whyText3: string; ctaTitle: string; ctaText: string; ctaContact: string; ctaPublications: string };
+  about: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; missionTitle: string; missionText1: string; missionHighlight: string; missionText2: string; visitMainSite: string; ceoTitle: string; ceoRole: string; leadershipTitle: string; leadershipRole: string; leadershipDesc: string; cisoRole: string; cisoDesc: string; advisorTitle: string; advisorRole: string; advisorDesc: string; coreBeliefTitle: string; coreBeliefQuote: string; coreBeliefAttribution: string; philosophyTitle: string; philosophySubtitle: string; philosophyPrinciples: string[]; scopeTitle: string; scopeSubtitle: string; whyTitle: string; whyText1: string; whyText2: string; whyText3: string; ctaTitle: string; ctaText: string; ctaContact: string; ctaPublications: string };
   publications: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; comingSoon: string; publicationCount: string; publicationsCount: string; readSummary: string };
   publicationDetail: { authors: string; published: string; affiliation: string; summary: string; downloadPdf: string; contactUs: string; assetsAndDownloads: string; fullPaper: string; executiveSummary: string; slideDeck: string; demoVideo: string; githubRepo: string; tryItOut: string; comingSoon: string; download: string; ctaTitle: string; ctaText: string; requestDemo: string; contactResearchTeam: string };
-  contact: { metaTitle: string; heroTitle: string; heroSubtitle: string; formTitle: string; formSubtitle: string; inquiryType: string; general: string; demo: string; partnership: string; media: string; name: string; email: string; organization: string; message: string; namePlaceholder: string; emailPlaceholder: string; orgPlaceholder: string; messagePlaceholder: string; send: string; thankYou: string; thankYouText: string; infoCards: { title: string; description: string }[] };
+  contact: { metaTitle: string; heroTitle: string; heroSubtitle: string; formTitle: string; formSubtitle: string; inquiryType: string; general: string; research: string; demo: string; partnership: string; media: string; name: string; email: string; organization: string; message: string; namePlaceholder: string; emailPlaceholder: string; orgPlaceholder: string; messagePlaceholder: string; send: string; thankYou: string; thankYouText: string; infoCards: { title: string; description: string }[] };
   documentTypes: Record<string, string>;
 };
 

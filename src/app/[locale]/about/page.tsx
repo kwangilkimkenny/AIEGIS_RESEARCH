@@ -64,6 +64,11 @@ export default async function AboutPage({ params }: Props) {
               <p className="mt-4 text-base leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
                 {t.missionText2}
               </p>
+              <div className="mt-6">
+                <Button href="https://aiaegis.io" variant="outline" size="md">
+                  {t.visitMainSite} →
+                </Button>
+              </div>
             </div>
             <div className="space-y-10">
               {/* CEO */}
@@ -78,7 +83,7 @@ export default async function AboutPage({ params }: Props) {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-text-primary dark:text-text-on-dark">
-                      Sungchan Lee
+                      Seongchan Lee
                     </h3>
                     <p className="text-sm font-medium text-emerald-500">
                       Korea Univ. &middot; {t.ceoRole}

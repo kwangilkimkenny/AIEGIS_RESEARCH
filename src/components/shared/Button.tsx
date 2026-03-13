@@ -8,6 +8,8 @@ interface ButtonProps {
   className?: string;
   onClick?: () => void;
   type?: "button" | "submit";
+  target?: string;
+  rel?: string;
 }
 
 const variants = {
@@ -35,10 +37,25 @@ export default function Button({
   className = "",
   onClick,
   type = "button",
+  target,
+  rel,
 }: ButtonProps) {
   const classes = `inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
+    const isExternal = href.startsWith("http://") || href.startsWith("https://");
+    if (isExternal) {
+      return (
+        <a
+          href={href}
+          className={classes}
+          target={target || "_blank"}
+          rel={rel || "noopener noreferrer"}
+        >
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={classes}>
         {children}
