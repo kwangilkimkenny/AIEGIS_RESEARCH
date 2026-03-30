@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+    <marker id="arrFail" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="780" fill="#fff"/>
+
+  <!-- Title -->
+  <text x="550" y="38" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">TurboQuant-Adam 연구 흐름도</text>
+  <line x1="350" y1="48" x2="750" y2="48" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="68" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Research Pipeline Overview</text>
+
+  <!-- Phase 0 -->
+  <rect x="80" y="100" width="260" height="76" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <rect x="80" y="100" width="260" height="24" rx="2" fill="#e8e8e8" stroke="#333" stroke-width="1.5"/>
+  <text x="210" y="117" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PHASE 0</text>
+  <text x="210" y="143" text-anchor="middle" fill="#333" font-size="13">Beta 분포 가설 검증</text>
+  <text x="210" y="163" text-anchor="middle" fill="#666" font-size="11" font-style="italic">KS 검정 → 모든 텐서에서 기각</text>
+
+  <!-- Arrow Phase0 → Pivot -->
+  <line x1="340" y1="138" x2="410" y2="138" stroke="#888" stroke-width="1.2" marker-end="url(#arrFail)"/>
+  <text x="375" y="130" text-anchor="middle" fill="#888" font-size="10" font-family="'Helvetica Neue', sans-serif">FAIL</text>
+
+  <!-- Pivot -->
+  <rect x="420" y="100" width="280" height="76" rx="2" fill="#fff" stroke="#333" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="420" y="100" width="280" height="24" rx="2" fill="#f0f0f0" stroke="#333" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="560" y="117" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PIVOT</text>
+  <text x="560" y="143" text-anchor="middle" fill="#333" font-size="13">고정 분포 가정 폐기</text>
+  <text x="560" y="163" text-anchor="middle" fill="#666" font-size="11" font-style="italic">→ Hadamard + 적응형 가우시안 Lloyd-Max</text>
+
+  <!-- Arrow Pivot → Core -->
+  <line x1="700" y1="138" x2="770" y2="138" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Core Algorithm -->
+  <rect x="780" y="100" width="260" height="76" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <rect x="780" y="100" width="260" height="24" rx="2" fill="#e8e8e8" stroke="#333" stroke-width="1.5"/>
+  <text x="910" y="117" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">CORE ALGORITHM</text>
+  <text x="910" y="143" text-anchor="middle" fill="#333" font-size="13">Hadamard WHT + Lloyd-Max 4-bit</text>
+  <text x="910" y="163" text-anchor="middle" fill="#666" font-size="11" font-style="italic">사전 검증: MSE 82% 감소</text>
+
+  <!-- Arrow Core → Phase 2-C -->
+  <line x1="910" y1="176" x2="910" y2="230" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Phase 2-C -->
+  <rect x="780" y="240" width="260" height="76" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <rect x="780" y="240" width="260" height="24" rx="2" fill="#e8e8e8" stroke="#333" stroke-width="1.5"/>
+  <text x="910" y="257" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PHASE 2-C</text>
+  <text x="910" y="283" text-anchor="middle" fill="#333" font-size="13">DDP 통신 훅 구현</text>
+  <text x="910" y="303" text-anchor="middle" fill="#666" font-size="11" font-style="italic">PyTorch AllReduce 2-프로세스 검증</text>
+
+  <!-- Arrow 2-C → M4 Sim -->
+  <line x1="910" y1="316" x2="910" y2="370" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- M4 Simulation -->
+  <rect x="780" y="380" width="260" height="76" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <rect x="780" y="380" width="260" height="24" rx="2" fill="#e8e8e8" stroke="#333" stroke-width="1.5"/>
+  <text x="910" y="397" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">M4 CONVERGENCE TEST</text>
+  <text x="910" y="423" text-anchor="middle" fill="#333" font-size="13">4-bit 그래디언트 수렴 시뮬레이션</text>
+  <text x="910" y="443" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Loss 격차 0.3542 — 성능 저하 확인</text>
+
+  <!-- Arrow M4 → Phase 3 -->
+  <line x1="780" y1="418" x2="710" y2="418" stroke="#888" stroke-width="1.2" marker-end="url(#arrFail)"/>
+
+  <!-- Phase 3 -->
+  <rect x="420" y="380" width="280" height="76" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <rect x="420" y="380" width="280" height="24" rx="2" fill="#e8e8e8" stroke="#333" stroke-width="1.5"/>
+  <text x="560" y="397" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PHASE 3: ERROR FEEDBACK</text>
+  <text x="560" y="423" text-anchor="middle" fill="#333" font-size="13">AdamW 비선형 충돌 발견</text>
+  <text x="560" y="443" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Loss 1.0099 — EF 미적용보다 악화</text>
+
+  <!-- Arrow Phase 3 → Phase 2-B -->
+  <line x1="560" y1="456" x2="560" y2="525" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="575" y="496" fill="#888" font-size="10" font-family="'Helvetica Neue', sans-serif">근본 원인 파악 후 재설계</text>
+
+  <!-- Phase 2-B (highlighted with double border) -->
+  <rect x="370" y="535" width="380" height="90" rx="2" fill="#fff" stroke="#111" stroke-width="2.5"/>
+  <rect x="370" y="535" width="380" height="26" rx="2" fill="#d0d0d0" stroke="#111" stroke-width="2.5"/>
+  <text x="560" y="554" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PHASE 2-B: TurboQuantAdamW  ★</text>
+  <text x="560" y="582" text-anchor="middle" fill="#222" font-size="14" font-weight="bold">모멘텀 압축 + 분산 동결</text>
+  <text x="560" y="602" text-anchor="middle" fill="#444" font-size="12">Loss 0.3770 &lt; Baseline 0.5563</text>
+  <text x="560" y="618" text-anchor="middle" fill="#555" font-size="11" font-style="italic">통신 대역폭 8× 절감, 수렴성 완벽 보존</text>
+
+  <!-- Arrow 2-B → 2-A -->
+  <line x1="750" y1="580" x2="820" y2="580" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Phase 2-A (highlighted) -->
+  <rect x="830" y="535" width="220" height="90" rx="2" fill="#fff" stroke="#111" stroke-width="2.5"/>
+  <rect x="830" y="535" width="220" height="26" rx="2" fill="#d0d0d0" stroke="#111" stroke-width="2.5"/>
+  <text x="940" y="554" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PHASE 2-A  ★</text>
+  <text x="940" y="582" text-anchor="middle" fill="#222" font-size="13" font-weight="bold">활성화 메모리 압축</text>
+  <text x="940" y="600" text-anchor="middle" fill="#444" font-size="12">Loss 차이 0.0022</text>
+  <text x="940" y="616" text-anchor="middle" fill="#555" font-size="11" font-style="italic">메모리 4× 절감</text>
+
+  <!-- Final conclusion -->
+  <line x1="560" y1="625" x2="560" y2="670" stroke="#333" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="940" y1="625" x2="940" y2="650" stroke="#333" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="560" y1="670" x2="940" y2="670" stroke="#333" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="750" y1="670" x2="750" y2="690" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <rect x="250" y="700" width="600" height="44" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="550" y="727" text-anchor="middle" fill="#111" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">통신 8× + 메모리 4× 절감  |  학습 수렴성 완벽 보존</text>
+
+  <!-- Legend -->
+  <g transform="translate(80, 700)" font-family="'Helvetica Neue', sans-serif" font-size="11">
+    <rect x="0" y="0" width="12" height="12" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <text x="18" y="10" fill="#555">구현/검증</text>
+    <rect x="0" y="20" width="12" height="12" fill="#fff" stroke="#333" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="18" y="30" fill="#555">피벗</text>
+    <rect x="0" y="40" width="12" height="12" fill="#fff" stroke="#111" stroke-width="2.5"/>
+    <text x="18" y="50" fill="#555">최종 성과 ★</text>
+  </g>
+</svg>

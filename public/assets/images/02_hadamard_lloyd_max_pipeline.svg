@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <marker id="a1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="620" fill="#fff"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">Hadamard 회전 + 적응형 가우시안 Lloyd-Max 양자화</text>
+  <line x1="250" y1="46" x2="850" y2="46" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Core Algorithm: Distribution-Agnostic Optimal Scalar Quantization</text>
+
+  <!-- === Stage 1: Original Tensor === -->
+  <g transform="translate(40, 95)">
+    <rect width="280" height="230" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="280" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="140" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(a) 원본 텐서 g</text>
+
+    <!-- Heavy-tailed distribution -->
+    <g transform="translate(30, 50)">
+      <!-- Grid lines -->
+      <line x1="0" y1="140" x2="220" y2="140" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="105" x2="220" y2="105" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="70" x2="220" y2="70" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="35" x2="220" y2="35" stroke="#ddd" stroke-width="0.5"/>
+
+      <!-- Distribution curve - heavy tailed -->
+      <path d="M5,140 Q15,139 25,138 Q40,135 55,128 Q70,115 85,85 Q100,45 110,25 Q110,22 110,25 Q120,45 135,85 Q150,115 165,128 Q180,135 195,138 Q205,139 215,140" stroke="#333" stroke-width="2" fill="rgba(0,0,0,0.04)"/>
+
+      <!-- Outlier spikes -->
+      <line x1="18" y1="140" x2="18" y2="50" stroke="#333" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <circle cx="18" cy="47" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <line x1="202" y1="140" x2="202" y2="58" stroke="#333" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <circle cx="202" cy="55" r="4" fill="none" stroke="#333" stroke-width="1.5"/>
+
+      <!-- Labels -->
+      <text x="18" y="40" text-anchor="middle" fill="#555" font-size="9" font-family="'Helvetica Neue', sans-serif">outlier</text>
+      <text x="202" y="48" text-anchor="middle" fill="#555" font-size="9" font-family="'Helvetica Neue', sans-serif">outlier</text>
+
+      <!-- Axis -->
+      <line x1="0" y1="142" x2="220" y2="142" stroke="#333" stroke-width="1"/>
+      <text x="110" y="160" text-anchor="middle" fill="#555" font-size="10" font-family="'Helvetica Neue', sans-serif">Heavy-tailed (Laplace/Cauchy-like)</text>
+    </g>
+
+    <text x="140" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">이상치가 구조적으로 존재</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <g transform="translate(330, 185)">
+    <line x1="0" y1="20" x2="80" y2="20" stroke="#333" stroke-width="1.2" marker-end="url(#a1)"/>
+    <rect x="12" y="0" width="56" height="16" rx="2" fill="#fff" stroke="#333" stroke-width="1"/>
+    <text x="40" y="12" text-anchor="middle" fill="#333" font-size="10" font-weight="bold" font-family="'Helvetica Neue', sans-serif">WHT</text>
+  </g>
+
+  <!-- === Stage 2: After Hadamard === -->
+  <g transform="translate(420, 95)">
+    <rect width="280" height="230" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="280" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="140" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(b) Hadamard 변환 후 g&#x0303;</text>
+
+    <!-- Gaussian distribution -->
+    <g transform="translate(30, 50)">
+      <line x1="0" y1="140" x2="220" y2="140" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="105" x2="220" y2="105" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="70" x2="220" y2="70" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="35" x2="220" y2="35" stroke="#ddd" stroke-width="0.5"/>
+
+      <!-- Clean Gaussian -->
+      <path d="M5,140 Q20,139 35,137 Q55,130 75,110 Q90,80 100,50 Q108,30 110,24 Q112,30 120,50 Q130,80 145,110 Q165,130 185,137 Q200,139 215,140" stroke="#333" stroke-width="2" fill="rgba(0,0,0,0.04)"/>
+
+      <!-- sigma markers -->
+      <line x1="60" y1="138" x2="60" y2="142" stroke="#333" stroke-width="1"/>
+      <text x="60" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">-2σ</text>
+      <line x1="160" y1="138" x2="160" y2="142" stroke="#333" stroke-width="1"/>
+      <text x="160" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">+2σ</text>
+      <line x1="110" y1="138" x2="110" y2="142" stroke="#333" stroke-width="1"/>
+      <text x="110" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">0</text>
+
+      <!-- Axis -->
+      <line x1="0" y1="142" x2="220" y2="142" stroke="#333" stroke-width="1"/>
+    </g>
+
+    <!-- CLT label -->
+    <rect x="60" y="170" width="160" height="20" rx="2" fill="#f5f5f5" stroke="#333" stroke-width="0.8"/>
+    <text x="140" y="184" text-anchor="middle" fill="#333" font-size="10" font-family="'Helvetica Neue', sans-serif">CLT에 의해 𝒩(0, σ²)로 수렴</text>
+
+    <text x="140" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">이상치 완전 제거, 매끄러운 분포</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <g transform="translate(710, 185)">
+    <line x1="0" y1="20" x2="80" y2="20" stroke="#333" stroke-width="1.2" marker-end="url(#a1)"/>
+    <rect x="4" y="0" width="72" height="16" rx="2" fill="#fff" stroke="#333" stroke-width="1"/>
+    <text x="40" y="12" text-anchor="middle" fill="#333" font-size="10" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Lloyd-Max</text>
+  </g>
+
+  <!-- === Stage 3: Quantized === -->
+  <g transform="translate(800, 95)">
+    <rect width="260" height="230" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="260" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="130" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(c) 4-bit 양자화 출력</text>
+
+    <g transform="translate(20, 50)">
+      <line x1="0" y1="140" x2="220" y2="140" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="105" x2="220" y2="105" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="70" x2="220" y2="70" stroke="#ddd" stroke-width="0.5"/>
+      <line x1="0" y1="35" x2="220" y2="35" stroke="#ddd" stroke-width="0.5"/>
+
+      <!-- Gaussian outline -->
+      <path d="M5,140 Q20,139 35,137 Q55,130 75,110 Q90,80 100,50 Q108,30 110,24 Q112,30 120,50 Q130,80 145,110 Q165,130 185,137 Q200,139 215,140" stroke="#bbb" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
+
+      <!-- Quantization step function -->
+      <line x1="5" y1="139" x2="28" y2="139" stroke="#333" stroke-width="2"/>
+      <line x1="28" y1="139" x2="28" y2="136" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="28" y1="136" x2="50" y2="136" stroke="#333" stroke-width="2"/>
+      <line x1="50" y1="136" x2="50" y2="128" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="50" y1="128" x2="68" y2="128" stroke="#333" stroke-width="2"/>
+      <line x1="68" y1="128" x2="68" y2="108" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="68" y1="108" x2="84" y2="108" stroke="#333" stroke-width="2"/>
+      <line x1="84" y1="108" x2="84" y2="72" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="84" y1="72" x2="100" y2="72" stroke="#333" stroke-width="2"/>
+      <line x1="100" y1="72" x2="100" y2="35" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="100" y1="35" x2="120" y2="35" stroke="#333" stroke-width="2"/>
+      <line x1="120" y1="35" x2="120" y2="72" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="120" y1="72" x2="136" y2="72" stroke="#333" stroke-width="2"/>
+      <line x1="136" y1="72" x2="136" y2="108" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="136" y1="108" x2="152" y2="108" stroke="#333" stroke-width="2"/>
+      <line x1="152" y1="108" x2="152" y2="128" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="152" y1="128" x2="170" y2="128" stroke="#333" stroke-width="2"/>
+      <line x1="170" y1="128" x2="170" y2="136" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="170" y1="136" x2="192" y2="136" stroke="#333" stroke-width="2"/>
+      <line x1="192" y1="136" x2="192" y2="139" stroke="#aaa" stroke-width="0.8" stroke-dasharray="2,1"/>
+      <line x1="192" y1="139" x2="215" y2="139" stroke="#333" stroke-width="2"/>
+
+      <line x1="0" y1="142" x2="220" y2="142" stroke="#333" stroke-width="1"/>
+    </g>
+
+    <text x="130" y="210" text-anchor="middle" fill="#555" font-size="10" font-family="'Helvetica Neue', sans-serif">16 levels (2⁴), 이론적 최적 배치</text>
+    <text x="130" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">가우시안 최적 스칼라 양자화</text>
+  </g>
+
+  <!-- Formula Box -->
+  <g transform="translate(40, 350)">
+    <rect width="1020" height="120" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+    <rect width="1020" height="28" fill="#eee" stroke="#333" stroke-width="1"/>
+    <text x="510" y="20" text-anchor="middle" fill="#222" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Mathematical Formulation</text>
+
+    <text x="40" y="55" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Step 1.</text>
+    <text x="110" y="55" fill="#444" font-size="13">Walsh-Hadamard 변환:  g&#x0303; = H_d · D · g</text>
+    <text x="520" y="55" fill="#777" font-size="12" font-style="italic">임의 분포 → 가우시안 𝒩(0, σ²)</text>
+
+    <text x="40" y="80" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Step 2.</text>
+    <text x="110" y="80" fill="#444" font-size="13">스케일링 성질:  c_i = σ · c*_i ,  b_i = σ · b*_i</text>
+    <text x="520" y="80" fill="#777" font-size="12" font-style="italic">사전 계산 코드북 × σ 로 실시간 적응</text>
+
+    <text x="40" y="105" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Step 3.</text>
+    <text x="110" y="105" fill="#444" font-size="13">분산 추적:  σ² ← EMA(σ²)</text>
+    <text x="520" y="105" fill="#777" font-size="12" font-style="italic">학습 중 분포 변화에 자동 적응</text>
+  </g>
+
+  <!-- Comparison Box -->
+  <g transform="translate(40, 495)">
+    <rect width="500" height="100" rx="2" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect width="500" height="24" fill="#eee" stroke="#333" stroke-width="1"/>
+    <text x="250" y="18" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">기존 방식의 한계</text>
+    <text x="20" y="44" fill="#555" font-size="12">1. 고정 Beta 코드북 → 실제 분포 불일치로 양자화 붕괴</text>
+    <text x="20" y="64" fill="#555" font-size="12">2. 균일 양자화 → 분포 형태 무시, 높은 MSE</text>
+    <text x="20" y="84" fill="#555" font-size="12">3. 이상치(Outlier) 처리 불가 → 극단값 정보 손실</text>
+  </g>
+
+  <g transform="translate(560, 495)">
+    <rect width="500" height="100" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
+    <rect width="500" height="24" fill="#ddd" stroke="#111" stroke-width="2"/>
+    <text x="250" y="18" text-anchor="middle" fill="#111" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">본 연구의 해결책</text>
+    <text x="20" y="44" fill="#333" font-size="12" font-weight="bold">1. Hadamard 변환으로 어떤 분포든 가우시안으로 정규화</text>
+    <text x="20" y="64" fill="#333" font-size="12" font-weight="bold">2. 가우시안 최적 Lloyd-Max 코드북 적용</text>
+    <text x="20" y="84" fill="#333" font-size="12" font-weight="bold">3. σ 하나로 실시간 적응 → 균일 양자화 대비 MSE 82%↓</text>
+  </g>
+</svg>

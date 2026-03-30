@@ -63,6 +63,11 @@ Existing gradient compression methods such as QSGD and Deep Gradient Compression
 
 ## Our Approach
 
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/01_research_flow.svg" alt="TurboQuant-Adam research pipeline: from Phase 0 hypothesis rejection through strategic pivots to final breakthrough" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 0. Research pipeline overview — Systematic multi-phase process from Beta distribution hypothesis rejection to TurboQuantAdamW breakthrough.</figcaption>
+</figure>
+
 TurboQuant-Adam is developed through a systematic, multi-phase research process that identifies and resolves fundamental incompatibilities between quantization and adaptive optimizers.
 
 ### Phase 0: Beta Distribution Hypothesis Rejection
@@ -73,19 +78,29 @@ We begin by empirically testing TurboQuant's core assumption that quantization t
 
 ### Hadamard Rotation + Adaptive Gaussian Lloyd-Max
 
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/02_hadamard_lloyd_max_pipeline.svg" alt="Core Algorithm Pipeline: Hadamard rotation transforms heavy-tailed distributions into Gaussian, enabling optimal Lloyd-Max 4-bit quantization" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 1. Core algorithm pipeline — Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.</figcaption>
+</figure>
+
 The core algorithm applies Walsh-Hadamard Transform (WHT) with random sign matrix D to eliminate outliers:
 
-$$\tilde g = H_d \cdot D \cdot g$$
+$$\tilde{\mathbf{g}} = \mathbf{H}_d \cdot \mathbf{D} \cdot \mathbf{g}$$
 
-By the Central Limit Theorem, each element of the rotated tensor becomes a normalized random linear combination of all original elements, converging to a Gaussian distribution N(0, sigma-squared) regardless of the original distribution shape.
+By the Central Limit Theorem, each element of the rotated tensor becomes a normalized random linear combination of all original elements, converging to a Gaussian distribution $\mathcal{N}(0, \sigma^2)$ regardless of the original distribution shape.
 
-With Gaussian distribution guaranteed, we deploy the theoretically optimal scalar quantizer — the Lloyd-Max quantizer. A pre-computed codebook for N(0,1) is simply scaled by sigma (tracked via exponential moving average) to match any variance:
+With Gaussian distribution guaranteed, we deploy the theoretically optimal scalar quantizer — the Lloyd-Max quantizer. A pre-computed codebook for $\mathcal{N}(0,1)$ is simply scaled by $\sigma$ (tracked via exponential moving average) to match any variance:
 
-$$c_i = \sigma \cdot c^*_i, \quad b_i = \sigma \cdot b^*_i$$
+$$c_i = \sigma \cdot c_i^{*}, \quad b_i = \sigma \cdot b_i^{*}$$
 
 In simulation with outlier-heavy gradients, this achieves **82% MSE reduction** over uniform quantization.
 
 ### PyTorch DDP Communication Hook Integration
+
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/03_ddp_communication_pipeline.svg" alt="DDP Communication Pipeline: 4-step process across GPU workers with 8x bandwidth reduction" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 2. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed AllReduce, and inverse transform across GPU workers.</figcaption>
+</figure>
 
 We implement a custom communication hook (`turboquant_comm_hook.py`) using PyTorch DDP's `register_comm_hook` API with the following pipeline:
 
@@ -101,22 +116,22 @@ We implement a custom communication hook (`turboquant_comm_hook.py`) using PyTor
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>1</td>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Hadamard Rotation</td>
-      <td style={{padding: '10px 14px'}}>g-tilde = H_d * D * g</td>
+      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>g&#771; = H<sub>d</sub> &middot; D &middot; g</td>
     </tr>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>2</td>
       <td style={{padding: '10px 14px', fontWeight: 600}}>4-bit Adaptive Quantization</td>
-      <td style={{padding: '10px 14px'}}>g-hat = Q_LM(g-tilde, sigma-squared_EMA)</td>
+      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>g&#770; = Q<sub>LM</sub>(g&#771;, &sigma;<sup>2</sup><sub>EMA</sub>)</td>
     </tr>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>3</td>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Distributed AllReduce</td>
-      <td style={{padding: '10px 14px'}}>G-hat_sum = AllReduce(g-hat)</td>
+      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>G&#770;<sub>sum</sub> = AllReduce(g&#770;)</td>
     </tr>
     <tr>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>4</td>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Inverse Transform</td>
-      <td style={{padding: '10px 14px'}}>g_final = D-transpose * H_d-transpose * (G-hat_sum / N)</td>
+      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>g<sub>final</sub> = D<sup>T</sup> &middot; H<sub>d</sub><sup>T</sup> &middot; (G&#770;<sub>sum</sub> / N)</td>
     </tr>
   </tbody>
 </table>
@@ -125,7 +140,12 @@ Validated with `mp.spawn` 2-process simulation under extreme outliers (100x magn
 
 ### Error Feedback Failure Discovery
 
-Standard Error Feedback (EF), where quantization error e_t is compensated in the next step, produces **paradoxically worse results** when combined with AdamW:
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/06_ef_failure_mechanism.svg" alt="Error Feedback failure mechanism: SGD linear pass vs AdamW nonlinear collision" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 3. Error Feedback mechanism comparison — SGD's linear update preserves EF guarantees, while AdamW's nonlinear denominator amplifies delayed noise.</figcaption>
+</figure>
+
+Standard Error Feedback (EF), where quantization error $e_t$ is compensated in the next step, produces **paradoxically worse results** when combined with AdamW:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -154,11 +174,16 @@ Standard Error Feedback (EF), where quantization error e_t is compensated in the
   </tbody>
 </table>
 
-**Root cause:** AdamW's nonlinear denominator term (1 / sqrt(v_t) + epsilon) amplifies delayed quantization noise from EF, destroying momentum state. This confirms that gradient-level compression + EF is fundamentally incompatible with Adam-family optimizers.
+**Root cause:** AdamW's nonlinear denominator term $1 / (\sqrt{v_t} + \epsilon)$ amplifies delayed quantization noise from EF, destroying momentum state. This confirms that gradient-level compression + EF is fundamentally incompatible with Adam-family optimizers.
 
 ### TurboQuantAdamW: Momentum-Level Compression (Breakthrough)
 
-Inspired by 1-bit Adam, we develop a custom optimizer that compresses the **first momentum (m_t) directly** instead of raw gradients, while freezing the second momentum (v_t) after warmup:
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/04_turboquant_adamw.svg" alt="TurboQuantAdamW optimizer architecture: warmup phase with standard FP32 AdamW, then compression phase with 4-bit momentum and frozen variance" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 4. TurboQuantAdamW optimizer structure — Warmup phase runs standard FP32 AdamW; compression phase applies 4-bit quantization to m_t while freezing v_t.</figcaption>
+</figure>
+
+Inspired by 1-bit Adam, we develop a custom optimizer that compresses the **first momentum ($m_t$) directly** instead of raw gradients, while freezing the second momentum ($v_t$) after warmup:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -170,16 +195,21 @@ Inspired by 1-bit Adam, we develop a custom optimizer that compresses the **firs
   <tbody>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Warmup (Steps 0-50)</td>
-      <td style={{padding: '10px 14px'}}>Standard FP32 AdamW — both m_t and v_t updated normally</td>
+      <td style={{padding: '10px 14px'}}>Standard FP32 AdamW — both <em>m<sub>t</sub></em> and <em>v<sub>t</sub></em> updated normally</td>
     </tr>
     <tr>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Compression (Steps 51+)</td>
-      <td style={{padding: '10px 14px'}}>Update m_t only, apply 4-bit Hadamard + Lloyd-Max compression; v_t frozen</td>
+      <td style={{padding: '10px 14px'}}>Update <em>m<sub>t</sub></em> only, apply 4-bit Hadamard + Lloyd-Max compression; <em>v<sub>t</sub></em> frozen</td>
     </tr>
   </tbody>
 </table>
 
 ### 4-bit Activation Memory Compression
+
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/07_activation_compression.svg" alt="Activation memory compression: 4-bit compressed storage in forward pass, decompressed retrieval in backward pass" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 5. TurboQuantLinear activation compression — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.</figcaption>
+</figure>
 
 We develop `TurboQuantLinear`, a custom `autograd.Function` layer that compresses activation tensors to 4-bit during forward pass using the same Hadamard + Adaptive Lloyd-Max pipeline, and decompresses during backward pass for gradient computation.
 
@@ -189,12 +219,17 @@ We develop `TurboQuantLinear`, a custom `autograd.Function` layer that compresse
 - **Hadamard rotation + adaptive Lloyd-Max** pipeline achieving 82% MSE reduction over uniform quantization for heavy-tailed tensors
 - **Discovery of EF-AdamW incompatibility** — demonstrating that Error Feedback fundamentally conflicts with Adam's nonlinear variance scaling
 - **TurboQuantAdamW optimizer** — momentum-level 4-bit compression with variance freezing, achieving full convergence preservation
-- **TurboQuantLinear layer** — 4-bit activation compression with near-zero accuracy loss (delta = 0.0022)
+- **TurboQuantLinear layer** — 4-bit activation compression with near-zero accuracy loss ($\Delta = 0.0022$)
 - **PyTorch DDP communication hook** compatible with standard distributed training infrastructure
 
 ## Key Findings
 
 ### Convergence Results Summary
+
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/05_loss_comparison.svg" alt="Loss comparison across all experiments: bar chart showing baseline vs TurboQuant results" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 6. Experiment results comparison — TurboQuantAdamW and 4-bit activation compression both achieve successful convergence.</figcaption>
+</figure>
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -267,7 +302,7 @@ We develop `TurboQuantLinear`, a custom `autograd.Function` layer that compresse
 
 ### Key Negative Result: Error Feedback + AdamW Incompatibility
 
-The EF mechanism, which is theoretically sound for SGD-based training, **amplifies quantization noise through AdamW's nonlinear denominator**. The delayed error term e_(t-1) passes through the 1/sqrt(v_t) + epsilon scaling, causing exponential noise amplification that destroys optimizer momentum state. This finding has broad implications for the communication-efficient optimization community.
+The EF mechanism, which is theoretically sound for SGD-based training, **amplifies quantization noise through AdamW's nonlinear denominator**. The delayed error term $e_{t-1}$ passes through the $1/(\sqrt{v_t} + \epsilon)$ scaling, causing exponential noise amplification that destroys optimizer momentum state. This finding has broad implications for the communication-efficient optimization community.
 
 ### Regularization Effect of 4-bit Quantization
 
@@ -298,6 +333,6 @@ TurboQuant-Adam directly addresses the two largest cost drivers in LLM training 
 - **Concept verification only** — All experiments conducted on single Apple M4 device; multi-GPU cluster validation with actual NVLink/InfiniBand bandwidth measurements pending
 - **Model scale** — Evaluated on GPT-2 Nano (4 layers, 128 dims); behavior at billion-parameter scale needs verification
 - **Simulated communication** — Current 4-bit values transmitted as FP32; native INT4 AllGather + local decode pipeline requires C++/CUDA implementation for actual 8x compression
-- **Warmup sensitivity** — 50-step warmup threshold is manually tuned; automated warmup detection based on v_t convergence could improve robustness
+- **Warmup sensitivity** — 50-step warmup threshold is manually tuned; automated warmup detection based on $v_t$ convergence could improve robustness
 - **FSDP/Megatron compatibility** — Not yet tested with Fully Sharded Data Parallel or tensor parallelism frameworks used in production LLM training
 - **Activation compression overhead** — Hadamard transform adds per-layer compute cost during both forward and backward passes; overhead-vs-savings tradeoff at scale not yet measured

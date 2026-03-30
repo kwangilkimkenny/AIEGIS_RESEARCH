@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <marker id="a5" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+    <marker id="a5r" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
+      <path d="M8,0 L0,3 L8,6 Z" fill="#333"/>
+    </marker>
+    <pattern id="hatch2" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#bbb" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="600" fill="#fff"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">활성화 메모리 압축 구조 (Phase 2-A)</text>
+  <line x1="310" y1="46" x2="790" y2="46" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">TurboQuantLinear: Compressed Activation Storage in Forward / Decompressed Retrieval in Backward</text>
+
+  <!-- ===== FORWARD PASS ===== -->
+  <g transform="translate(30, 85)">
+    <rect width="1040" height="200" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="1040" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="520" y="20" text-anchor="middle" fill="#222" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Forward Pass (순전파)</text>
+    <text x="970" y="20" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">→ 방향</text>
+
+    <!-- Input x -->
+    <rect x="30" y="50" width="140" height="55" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
+    <text x="100" y="72" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">입력 x</text>
+    <text x="100" y="92" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">FP32 활성화 텐서</text>
+
+    <!-- Arrow -->
+    <line x1="170" y1="77" x2="218" y2="77" stroke="#333" stroke-width="1.2" marker-end="url(#a5)"/>
+
+    <!-- Linear -->
+    <rect x="225" y="50" width="160" height="55" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
+    <text x="305" y="72" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Linear 연산</text>
+    <text x="305" y="92" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">y = Wx + b</text>
+
+    <!-- Arrow to compress -->
+    <line x1="385" y1="77" x2="433" y2="77" stroke="#333" stroke-width="1.2" marker-end="url(#a5)"/>
+
+    <!-- Compress block (key operation) -->
+    <rect x="440" y="42" width="280" height="70" rx="2" fill="#f0f0f0" stroke="#111" stroke-width="2"/>
+    <text x="580" y="64" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">4-bit 압축 저장</text>
+    <text x="580" y="82" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif">Hadamard 변환 → Lloyd-Max 양자화</text>
+    <text x="580" y="98" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif">x를 4-bit 인덱스로 압축 후 ctx에 저장</text>
+
+    <!-- Arrow to output -->
+    <line x1="720" y1="77" x2="768" y2="77" stroke="#333" stroke-width="1.2" marker-end="url(#a5)"/>
+
+    <!-- Output y -->
+    <rect x="775" y="50" width="140" height="55" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
+    <text x="845" y="72" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">출력 y</text>
+    <text x="845" y="92" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">→ 다음 레이어</text>
+
+    <!-- Memory comparison bar -->
+    <g transform="translate(30, 130)" font-family="'Helvetica Neue', sans-serif">
+      <text x="0" y="14" fill="#555" font-size="11" font-weight="bold">기존 FP32:</text>
+      <rect x="100" y="2" width="400" height="16" rx="2" fill="url(#hatch2)" stroke="#999" stroke-width="1"/>
+      <text x="300" y="14" text-anchor="middle" fill="#666" font-size="9">32 bits × N elements = 100% VRAM</text>
+
+      <text x="0" y="40" fill="#111" font-size="11" font-weight="bold">4-bit 압축:</text>
+      <rect x="100" y="28" width="100" height="16" rx="2" fill="#ddd" stroke="#333" stroke-width="1.2"/>
+      <text x="150" y="40" text-anchor="middle" fill="#333" font-size="9">4 bits × N</text>
+      <text x="215" y="40" fill="#111" font-size="12" font-weight="bold">= 25% VRAM (4× 절감)</text>
+    </g>
+  </g>
+
+  <!-- ===== BACKWARD PASS ===== -->
+  <g transform="translate(30, 305)">
+    <rect width="1040" height="200" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="1040" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="520" y="20" text-anchor="middle" fill="#222" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Backward Pass (역전파)</text>
+    <text x="970" y="20" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">← 방향</text>
+
+    <!-- grad_y input (from right) -->
+    <rect x="775" y="50" width="140" height="55" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
+    <text x="845" y="72" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">grad_y</text>
+    <text x="845" y="92" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">상위 레이어에서 수신</text>
+
+    <!-- Arrow left -->
+    <line x1="775" y1="77" x2="727" y2="77" stroke="#333" stroke-width="1.2" marker-end="url(#a5r)"/>
+
+    <!-- Decompress -->
+    <rect x="440" y="42" width="280" height="70" rx="2" fill="#f0f0f0" stroke="#111" stroke-width="2"/>
+    <text x="580" y="64" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">4-bit 복원</text>
+    <text x="580" y="82" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif">역 Hadamard 변환으로 x 복원</text>
+    <text x="580" y="98" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">x&#x0302; = H^T · D^T · dequant(x_4bit)</text>
+
+    <!-- Arrow left -->
+    <line x1="440" y1="77" x2="392" y2="77" stroke="#333" stroke-width="1.2" marker-end="url(#a5r)"/>
+
+    <!-- Gradient computation -->
+    <rect x="195" y="42" width="190" height="70" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
+    <text x="290" y="62" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">그래디언트 계산</text>
+    <text x="290" y="82" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">grad_W = grad_y^T · x&#x0302;</text>
+    <text x="290" y="98" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">grad_x = grad_y · W</text>
+
+    <!-- Arrow left -->
+    <line x1="195" y1="77" x2="147" y2="77" stroke="#333" stroke-width="1.2" marker-end="url(#a5r)"/>
+
+    <!-- grad_x output -->
+    <rect x="30" y="50" width="110" height="55" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
+    <text x="85" y="72" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">grad_x</text>
+    <text x="85" y="92" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">← 이전 레이어</text>
+
+    <!-- Quality note -->
+    <rect x="30" y="135" width="980" height="46" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+    <text x="520" y="155" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif">Hadamard 변환이 보장하는 가우시안 분포 덕분에 양자화 재구성 오차 최소화</text>
+    <text x="520" y="173" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">→ 역전파 그래디언트 방향이 FP32와 수학적으로 거의 동일 (Loss 차이: 0.0022)</text>
+  </g>
+
+  <!-- Bottom: Application scope -->
+  <g transform="translate(30, 525)">
+    <rect width="1040" height="58" rx="2" fill="#f5f5f5" stroke="#333" stroke-width="1"/>
+    <rect width="1040" height="24" fill="#eee" stroke="#333" stroke-width="1"/>
+    <text x="520" y="18" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Application</text>
+    <text x="520" y="44" text-anchor="middle" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif">Transformer 내 모든 Linear 레이어에 TurboQuantLinear 적용 → 전체 활성화 메모리 4× 절감</text>
+    <text x="520" y="56" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">동일 GPU에서 더 큰 배치 크기 또는 더 깊은 모델 학습 가능</text>
+  </g>
+</svg>

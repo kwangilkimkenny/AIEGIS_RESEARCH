@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <marker id="a4" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="660" fill="#fff"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">Error Feedback 실패 메커니즘 분석</text>
+  <line x1="290" y1="46" x2="810" y2="46" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Phase 3: SGD Linearity vs. AdamW Nonlinear Collision</text>
+
+  <!-- Divider -->
+  <line x1="550" y1="85" x2="550" y2="600" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- === LEFT: SGD (Works) === -->
+  <g transform="translate(30, 90)">
+    <rect width="495" height="500" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="495" height="30" rx="2" fill="#f0f0f0" stroke="#333" stroke-width="1.5"/>
+    <text x="247" y="22" text-anchor="middle" fill="#222" font-size="15" font-weight="bold" font-family="'Helvetica Neue', sans-serif">SGD + Error Feedback</text>
+
+    <!-- Step: Error compensation -->
+    <g font-family="'Helvetica Neue', sans-serif">
+      <rect x="30" y="50" width="435" height="44" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+      <text x="247" y="70" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">Step t: 오차 보상</text>
+      <text x="247" y="86" text-anchor="middle" fill="#666" font-size="12" font-style="italic">p_t = g_t + e_(t−1)</text>
+    </g>
+
+    <line x1="247" y1="94" x2="247" y2="114" stroke="#333" stroke-width="1" marker-end="url(#a4)"/>
+
+    <!-- Quantize -->
+    <g font-family="'Helvetica Neue', sans-serif">
+      <rect x="30" y="120" width="435" height="44" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+      <text x="247" y="140" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">양자화 + 오차 저장</text>
+      <text x="247" y="156" text-anchor="middle" fill="#666" font-size="12" font-style="italic">q_t = Q(p_t),   e_t = p_t − q_t</text>
+    </g>
+
+    <line x1="247" y1="164" x2="247" y2="184" stroke="#333" stroke-width="1" marker-end="url(#a4)"/>
+
+    <!-- SGD Update -->
+    <g font-family="'Helvetica Neue', sans-serif">
+      <rect x="30" y="190" width="435" height="60" rx="2" fill="#f5f5f5" stroke="#333" stroke-width="1.5"/>
+      <text x="247" y="213" text-anchor="middle" fill="#222" font-size="14" font-weight="bold">SGD 갱신 — 선형(Linear)</text>
+      <text x="247" y="237" text-anchor="middle" fill="#444" font-size="15" font-style="italic">w ← w − η · q_t</text>
+    </g>
+
+    <!-- Analysis box -->
+    <g font-family="'Helvetica Neue', sans-serif" transform="translate(30, 270)">
+      <rect width="435" height="100" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+      <rect width="435" height="24" fill="#eee" stroke="#333" stroke-width="1"/>
+      <text x="217" y="18" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">분석: 왜 작동하는가</text>
+
+      <text x="20" y="44" fill="#555" font-size="12">1. SGD 갱신은 순수 선형 연산</text>
+      <text x="20" y="64" fill="#555" font-size="12">2. 지연된 오차 e_(t−1)이 선형적으로 보상됨</text>
+      <text x="20" y="84" fill="#555" font-size="12">3. 오차의 기대값이 0으로 수렴 (EF 이론 보장)</text>
+    </g>
+
+    <!-- Result -->
+    <rect x="80" y="390" width="335" height="50" rx="2" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+    <text x="247" y="414" text-anchor="middle" fill="#222" font-size="15" font-weight="bold" font-family="'Helvetica Neue', sans-serif">수렴 보장</text>
+    <text x="247" y="434" text-anchor="middle" fill="#666" font-size="12" font-family="'Helvetica Neue', sans-serif" font-style="italic">수학적으로 증명된 안전성</text>
+
+    <!-- Verdict -->
+    <rect x="190" y="460" width="114" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="247" y="479" text-anchor="middle" fill="#333" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">PASS</text>
+  </g>
+
+  <!-- === RIGHT: AdamW (Fails) === -->
+  <g transform="translate(575, 90)">
+    <rect width="495" height="500" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="495" height="30" rx="2" fill="#e0e0e0" stroke="#333" stroke-width="1.5"/>
+    <text x="247" y="22" text-anchor="middle" fill="#111" font-size="15" font-weight="bold" font-family="'Helvetica Neue', sans-serif">AdamW + Error Feedback</text>
+
+    <!-- Step: Error compensation -->
+    <g font-family="'Helvetica Neue', sans-serif">
+      <rect x="30" y="50" width="435" height="44" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+      <text x="247" y="70" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">Step t: 오차 보상 (동일)</text>
+      <text x="247" y="86" text-anchor="middle" fill="#666" font-size="12" font-style="italic">p_t = g_t + e_(t−1)</text>
+    </g>
+
+    <line x1="247" y1="94" x2="247" y2="114" stroke="#333" stroke-width="1" marker-end="url(#a4)"/>
+
+    <!-- Quantize -->
+    <g font-family="'Helvetica Neue', sans-serif">
+      <rect x="30" y="120" width="435" height="44" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
+      <text x="247" y="140" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">양자화 + 오차 저장 (동일)</text>
+      <text x="247" y="156" text-anchor="middle" fill="#666" font-size="12" font-style="italic">q_t = Q(p_t),   e_t = p_t − q_t</text>
+    </g>
+
+    <line x1="247" y1="164" x2="247" y2="184" stroke="#333" stroke-width="1" marker-end="url(#a4)"/>
+
+    <!-- AdamW Update — THE PROBLEM -->
+    <g font-family="'Helvetica Neue', sans-serif">
+      <rect x="30" y="190" width="435" height="60" rx="2" fill="#e8e8e8" stroke="#111" stroke-width="2"/>
+      <text x="247" y="213" text-anchor="middle" fill="#111" font-size="14" font-weight="bold">AdamW 갱신 — 비선형(Nonlinear)</text>
+      <text x="247" y="237" text-anchor="middle" fill="#333" font-size="15" font-style="italic">w ← w − η · m_t / (√v_t + ε)</text>
+    </g>
+
+    <!-- Highlight the nonlinear denominator -->
+    <g font-family="'Helvetica Neue', sans-serif" transform="translate(310, 230)">
+      <line x1="0" y1="0" x2="30" y2="15" stroke="#333" stroke-width="1"/>
+      <text x="35" y="20" fill="#333" font-size="10" font-weight="bold">비선형 분모</text>
+    </g>
+
+    <!-- Analysis box -->
+    <g font-family="'Helvetica Neue', sans-serif" transform="translate(30, 270)">
+      <rect width="435" height="100" rx="2" fill="#f5f5f5" stroke="#333" stroke-width="1.5"/>
+      <rect width="435" height="24" fill="#ddd" stroke="#333" stroke-width="1.5"/>
+      <text x="217" y="18" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">분석: 왜 실패하는가</text>
+
+      <text x="20" y="44" fill="#333" font-size="12" font-weight="bold">1. 지연 노이즈 e_(t−1)이 비선형 분모를 통과</text>
+      <text x="20" y="64" fill="#333" font-size="12" font-weight="bold">2. 1/√v_t 항에 의해 오차가 급격히 증폭</text>
+      <text x="20" y="84" fill="#333" font-size="12" font-weight="bold">3. 모멘텀 상태 파괴 → 학습 발산</text>
+    </g>
+
+    <!-- Result -->
+    <rect x="80" y="390" width="335" height="50" rx="2" fill="#e0e0e0" stroke="#111" stroke-width="2"/>
+    <text x="247" y="414" text-anchor="middle" fill="#111" font-size="15" font-weight="bold" font-family="'Helvetica Neue', sans-serif">수렴 실패 (Loss 1.010)</text>
+    <text x="247" y="434" text-anchor="middle" fill="#555" font-size="12" font-family="'Helvetica Neue', sans-serif" font-style="italic">EF 미적용(0.756)보다 오히려 악화</text>
+
+    <!-- Verdict -->
+    <rect x="190" y="460" width="114" height="28" rx="2" fill="#ddd" stroke="#111" stroke-width="2"/>
+    <text x="247" y="479" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">FAIL</text>
+  </g>
+
+  <!-- Bottom conclusion -->
+  <rect x="100" y="610" width="900" height="36" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.5"/>
+  <text x="550" y="634" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">결론: 그래디언트 EF는 SGD 전용. AdamW에서는 모멘텀 자체를 압축해야 한다 → TurboQuantAdamW</text>
+</svg>
