@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <marker id="a7" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="480" fill="#fff"/>
+
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">v_t Strategy: Scale Dependency Discovery</text>
+  <line x1="310" y1="46" x2="790" y2="46" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Critical Finding: Variance Freezing Fails Beyond ~1M Parameters</text>
+
+  <!-- Table header -->
+  <g transform="translate(50, 90)" font-family="'Helvetica Neue', sans-serif">
+    <!-- Column headers -->
+    <rect width="1000" height="32" fill="#e8e8e8" stroke="#333" stroke-width="1.2"/>
+    <line x1="220" y1="0" x2="220" y2="32" stroke="#333" stroke-width="1"/>
+    <line x1="470" y1="0" x2="470" y2="32" stroke="#333" stroke-width="1"/>
+    <line x1="720" y1="0" x2="720" y2="32" stroke="#333" stroke-width="1"/>
+    <text x="110" y="21" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">Strategy</text>
+    <text x="345" y="21" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">Nano (~1M params)</text>
+    <text x="595" y="21" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">GPT-2 Small (124M)</text>
+    <text x="860" y="21" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">Verdict</text>
+
+    <!-- Row 1: v_t frozen -->
+    <rect y="32" width="1000" height="52" fill="#fff" stroke="#333" stroke-width="1"/>
+    <line x1="220" y1="32" x2="220" y2="84" stroke="#333" stroke-width="1"/>
+    <line x1="470" y1="32" x2="470" y2="84" stroke="#333" stroke-width="1"/>
+    <line x1="720" y1="32" x2="720" y2="84" stroke="#333" stroke-width="1"/>
+    <text x="110" y="55" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">v_t Frozen</text>
+    <text x="110" y="73" text-anchor="middle" fill="#888" font-size="10">(1-bit Adam style)</text>
+    <text x="345" y="55" text-anchor="middle" fill="#333" font-size="12">Loss gap: −0.179</text>
+    <text x="345" y="73" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">PASS</text>
+    <text x="595" y="55" text-anchor="middle" fill="#333" font-size="12">Loss gap: +9.05</text>
+    <text x="595" y="73" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">DIVERGED</text>
+    <text x="860" y="62" text-anchor="middle" fill="#333" font-size="11">Scale-dependent failure</text>
+
+    <!-- Row 2: v_t frozen + EC -->
+    <rect y="84" width="1000" height="52" fill="#fafafa" stroke="#333" stroke-width="1"/>
+    <line x1="220" y1="84" x2="220" y2="136" stroke="#333" stroke-width="1"/>
+    <line x1="470" y1="84" x2="470" y2="136" stroke="#333" stroke-width="1"/>
+    <line x1="720" y1="84" x2="720" y2="136" stroke="#333" stroke-width="1"/>
+    <text x="110" y="107" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">v_t Frozen + EC</text>
+    <text x="110" y="125" text-anchor="middle" fill="#888" font-size="10">(with compensation)</text>
+    <text x="345" y="113" text-anchor="middle" fill="#888" font-size="12">—</text>
+    <text x="595" y="107" text-anchor="middle" fill="#333" font-size="12">Loss gap: +3.44</text>
+    <text x="595" y="125" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">UNSTABLE</text>
+    <text x="860" y="113" text-anchor="middle" fill="#333" font-size="11">EC insufficient</text>
+
+    <!-- Row 3: v_t live + EC (success) -->
+    <rect y="136" width="1000" height="52" fill="#f0f0f0" stroke="#111" stroke-width="2"/>
+    <line x1="220" y1="136" x2="220" y2="188" stroke="#111" stroke-width="1"/>
+    <line x1="470" y1="136" x2="470" y2="188" stroke="#111" stroke-width="1"/>
+    <line x1="720" y1="136" x2="720" y2="188" stroke="#111" stroke-width="1"/>
+    <text x="110" y="159" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">v_t Live + EC</text>
+    <text x="110" y="177" text-anchor="middle" fill="#555" font-size="10">(TurboQuantAdamW v3)</text>
+    <text x="345" y="165" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">—</text>
+    <text x="595" y="159" text-anchor="middle" fill="#111" font-size="12">Loss gap: +0.019</text>
+    <text x="595" y="177" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">PASS ★</text>
+    <text x="860" y="165" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">Scale-invariant</text>
+  </g>
+
+  <!-- Root cause analysis -->
+  <g transform="translate(50, 310)" font-family="'Helvetica Neue', sans-serif">
+    <rect width="490" height="140" rx="2" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect width="490" height="24" fill="#eee" stroke="#333" stroke-width="1"/>
+    <text x="245" y="17" text-anchor="middle" fill="#222" font-size="12" font-weight="bold">Root Cause: Why Freezing Fails at Scale</text>
+
+    <text x="20" y="46" fill="#333" font-size="11">At 124M+ parameters, gradient distributions are</text>
+    <text x="20" y="62" fill="#111" font-size="11" font-weight="bold">non-stationary</text>
+    <text x="115" y="62" fill="#333" font-size="11">— they shift significantly during training.</text>
+
+    <text x="20" y="86" fill="#333" font-size="11">A frozen v_t snapshot from step W becomes</text>
+    <text x="20" y="102" fill="#111" font-size="11" font-weight="bold">stale</text>
+    <text x="55" y="102" fill="#333" font-size="11">, causing the denominator 1/√v_t to either</text>
+    <text x="20" y="118" fill="#333" font-size="11">under-scale or over-scale updates → divergence.</text>
+    <text x="20" y="134" fill="#888" font-size="10" font-style="italic">Small models (Nano) have simpler loss landscapes → v_t converges and stays valid.</text>
+  </g>
+
+  <g transform="translate(560, 310)" font-family="'Helvetica Neue', sans-serif">
+    <rect width="490" height="140" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
+    <rect width="490" height="24" fill="#ddd" stroke="#111" stroke-width="2"/>
+    <text x="245" y="17" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">Solution: v3 Design</text>
+
+    <text x="20" y="46" fill="#333" font-size="11">1. <tspan font-weight="bold">Keep v_t live</tspan> — continuously updated with local gradients</text>
+    <text x="20" y="66" fill="#333" font-size="11">2. <tspan font-weight="bold">No v_t communication</tspan> — each node computes v_t locally</text>
+    <text x="20" y="86" fill="#333" font-size="11">3. <tspan font-weight="bold">Only m_t compressed</tspan> — Error Compensation on m_t path</text>
+    <text x="20" y="106" fill="#333" font-size="11">4. <tspan font-weight="bold">Error never enters v_t</tspan> — preserves nonlinear denominator</text>
+
+    <text x="20" y="134" fill="#111" font-size="11" font-weight="bold">Result: Stable at 124M, 355M, and 1,500 steps (gap ≤ 0.002)</text>
+  </g>
+</svg>

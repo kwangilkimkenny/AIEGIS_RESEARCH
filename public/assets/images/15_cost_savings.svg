@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 440" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <pattern id="hatch4" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#bbb" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1100" height="440" fill="#fff"/>
+
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">Projected Cost Savings Analysis</text>
+  <line x1="330" y1="46" x2="770" y2="46" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Two Scenarios: 70B Model (256 GPUs) and 175B Model (1,000 GPUs)</text>
+
+  <!-- Scenario A: 70B -->
+  <g transform="translate(40, 85)" font-family="'Helvetica Neue', sans-serif">
+    <rect width="500" height="320" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="500" height="26" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="250" y="19" text-anchor="middle" fill="#222" font-size="13" font-weight="bold">Scenario A: 70B Model Training</text>
+
+    <text x="20" y="48" fill="#888" font-size="10">256× H100, Lambda Cloud ($3.44/hr), 6 weeks</text>
+
+    <!-- Cost breakdown -->
+    <rect x="20" y="60" width="460" height="24" fill="#f0f0f0" stroke="#333" stroke-width="0.8"/>
+    <text x="130" y="76" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Cost Item</text>
+    <text x="300" y="76" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Current</text>
+    <text x="420" y="76" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Savings</text>
+
+    <rect x="20" y="84" width="460" height="22" fill="#fff" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="98" text-anchor="middle" fill="#333" font-size="10">Base GPU cost</text>
+    <text x="300" y="98" text-anchor="middle" fill="#333" font-size="10">$888K</text>
+    <text x="420" y="98" text-anchor="middle" fill="#888" font-size="10">—</text>
+
+    <rect x="20" y="106" width="460" height="22" fill="#fafafa" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="120" text-anchor="middle" fill="#333" font-size="10">Comm. idle time (30%)</text>
+    <text x="300" y="120" text-anchor="middle" fill="#333" font-size="10">$266K wasted</text>
+    <text x="420" y="120" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">−$222K</text>
+
+    <rect x="20" y="128" width="460" height="22" fill="#fff" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="142" text-anchor="middle" fill="#333" font-size="10">Batch size increase (2×)</text>
+    <text x="300" y="142" text-anchor="middle" fill="#888" font-size="10">—</text>
+    <text x="420" y="142" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">−$222K</text>
+
+    <rect x="20" y="150" width="460" height="22" fill="#fafafa" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="164" text-anchor="middle" fill="#333" font-size="10">GPU count (TP 8→4)</text>
+    <text x="300" y="164" text-anchor="middle" fill="#333" font-size="10">256 GPUs</text>
+    <text x="420" y="164" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">−$444K</text>
+
+    <rect x="20" y="172" width="460" height="26" fill="#f0f0f0" stroke="#111" stroke-width="1.5"/>
+    <text x="130" y="189" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">Total Savings</text>
+    <text x="300" y="189" text-anchor="middle" fill="#888" font-size="10">—</text>
+    <text x="420" y="189" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">$240K–$500K</text>
+
+    <!-- Savings bar -->
+    <text x="20" y="220" fill="#333" font-size="10" font-weight="bold">Savings ratio:</text>
+    <rect x="20" y="228" width="460" height="18" rx="2" fill="#eee" stroke="#333" stroke-width="1"/>
+    <rect x="20" y="228" width="258" height="18" rx="2" fill="#bbb" stroke="#333" stroke-width="1"/>
+    <text x="250" y="241" text-anchor="middle" fill="#333" font-size="9" font-weight="bold">27–56% of total cost</text>
+
+    <!-- Note -->
+    <text x="20" y="275" fill="#888" font-size="10" font-style="italic">* Conservative estimate. GPU reduction and time savings</text>
+    <text x="20" y="290" fill="#888" font-size="10" font-style="italic">  may overlap — lower bound $240K is the safe figure.</text>
+  </g>
+
+  <!-- Scenario B: 175B -->
+  <g transform="translate(560, 85)" font-family="'Helvetica Neue', sans-serif">
+    <rect width="500" height="320" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
+    <rect width="500" height="26" rx="2" fill="#ddd" stroke="#111" stroke-width="2"/>
+    <text x="250" y="19" text-anchor="middle" fill="#111" font-size="13" font-weight="bold">Scenario B: 175B Model Training</text>
+
+    <text x="20" y="48" fill="#888" font-size="10">1,000× H100, 3 months</text>
+
+    <!-- Cost breakdown -->
+    <rect x="20" y="60" width="460" height="24" fill="#f0f0f0" stroke="#333" stroke-width="0.8"/>
+    <text x="130" y="76" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Cost Item</text>
+    <text x="300" y="76" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Current</text>
+    <text x="420" y="76" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Savings</text>
+
+    <rect x="20" y="84" width="460" height="22" fill="#fff" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="98" text-anchor="middle" fill="#333" font-size="10">Base GPU cost</text>
+    <text x="300" y="98" text-anchor="middle" fill="#333" font-size="10">$5.95M</text>
+    <text x="420" y="98" text-anchor="middle" fill="#888" font-size="10">—</text>
+
+    <rect x="20" y="106" width="460" height="22" fill="#fafafa" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="120" text-anchor="middle" fill="#333" font-size="10">Comm. bottleneck (35%)</text>
+    <text x="300" y="120" text-anchor="middle" fill="#333" font-size="10">$2.08M wasted</text>
+    <text x="420" y="120" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">−$1.78M</text>
+
+    <rect x="20" y="128" width="460" height="22" fill="#fff" stroke="#333" stroke-width="0.5"/>
+    <text x="130" y="142" text-anchor="middle" fill="#333" font-size="10">Network infrastructure</text>
+    <text x="300" y="142" text-anchor="middle" fill="#333" font-size="10">$15M (InfiniBand)</text>
+    <text x="420" y="142" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">−$8M (→Ethernet)</text>
+
+    <rect x="20" y="150" width="460" height="26" fill="#f0f0f0" stroke="#111" stroke-width="1.5"/>
+    <text x="130" y="167" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">Total Savings</text>
+    <text x="300" y="167" text-anchor="middle" fill="#888" font-size="10">—</text>
+    <text x="420" y="167" text-anchor="middle" fill="#111" font-size="12" font-weight="bold">$1.2M+ / $8M infra</text>
+
+    <!-- Savings bars -->
+    <text x="20" y="200" fill="#333" font-size="10" font-weight="bold">Operational savings:</text>
+    <rect x="20" y="208" width="460" height="18" rx="2" fill="#eee" stroke="#333" stroke-width="1"/>
+    <rect x="20" y="208" width="138" height="18" rx="2" fill="#bbb" stroke="#333" stroke-width="1"/>
+    <text x="250" y="221" text-anchor="middle" fill="#333" font-size="9" font-weight="bold">$1.2M+ per training run</text>
+
+    <text x="20" y="248" fill="#333" font-size="10" font-weight="bold">Infrastructure savings:</text>
+    <rect x="20" y="256" width="460" height="18" rx="2" fill="#eee" stroke="#333" stroke-width="1"/>
+    <rect x="20" y="256" width="245" height="18" rx="2" fill="#999" stroke="#333" stroke-width="1"/>
+    <text x="250" y="269" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">$8M one-time (IB → Ethernet)</text>
+
+    <!-- Total impact -->
+    <rect x="40" y="290" width="420" height="24" rx="2" fill="#f5f5f5" stroke="#111" stroke-width="1.5"/>
+    <text x="250" y="306" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">Combined impact: $9.2M+ savings per deployment cycle</text>
+  </g>
+</svg>

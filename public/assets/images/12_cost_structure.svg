@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" font-family="'Georgia', 'Times New Roman', serif">
+  <rect width="1100" height="480" fill="#fff"/>
+
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">LLM Distributed Training: Cost Bottleneck Analysis</text>
+  <line x1="280" y1="46" x2="820" y2="46" stroke="#111" stroke-width="1.5"/>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Where TurboQuant Delivers Impact — Communication (20–55%) and Activation Memory (40–60%)</text>
+
+  <!-- Left: Communication bottleneck -->
+  <g transform="translate(40, 90)" font-family="'Helvetica Neue', sans-serif">
+    <rect width="500" height="350" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="500" height="26" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="250" y="19" text-anchor="middle" fill="#222" font-size="13" font-weight="bold">Communication Bandwidth Bottleneck</text>
+
+    <!-- Stacked bar: training time breakdown -->
+    <text x="20" y="52" fill="#333" font-size="11" font-weight="bold">Training Time Decomposition (384–1,664 GPUs)</text>
+
+    <!-- Bar: Compute -->
+    <rect x="20" y="65" width="220" height="30" fill="#ddd" stroke="#333" stroke-width="1"/>
+    <text x="130" y="84" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">Compute 45–80%</text>
+
+    <!-- Bar: Communication -->
+    <rect x="240" y="65" width="240" height="30" fill="#999" stroke="#333" stroke-width="1.2"/>
+    <text x="360" y="84" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Communication 20–55%</text>
+
+    <!-- Key facts -->
+    <text x="20" y="120" fill="#333" font-size="11">ReduceScatter dominates inter-node traffic</text>
+    <text x="20" y="140" fill="#333" font-size="11">Ethernet: <tspan font-weight="bold">258 ms</tspan> vs InfiniBand: <tspan font-weight="bold">21 ms</tspan> (12× gap)</text>
+    <text x="20" y="160" fill="#333" font-size="11">Tensor Parallelism accounts for 85–99% of comm.</text>
+
+    <!-- Cost table -->
+    <text x="20" y="190" fill="#111" font-size="11" font-weight="bold">Network Infrastructure Cost (1,000-GPU cluster)</text>
+    <rect x="20" y="200" width="460" height="24" fill="#eee" stroke="#333" stroke-width="0.8"/>
+    <text x="140" y="216" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Network</text>
+    <text x="300" y="216" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Bandwidth</text>
+    <text x="420" y="216" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Cost</text>
+
+    <rect x="20" y="224" width="460" height="22" fill="#fff" stroke="#333" stroke-width="0.5"/>
+    <text x="140" y="238" text-anchor="middle" fill="#333" font-size="10">InfiniBand NDR</text>
+    <text x="300" y="238" text-anchor="middle" fill="#333" font-size="10">400 Gbps</text>
+    <text x="420" y="238" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">~$15M</text>
+
+    <rect x="20" y="246" width="460" height="22" fill="#fafafa" stroke="#333" stroke-width="0.5"/>
+    <text x="140" y="260" text-anchor="middle" fill="#333" font-size="10">Ethernet 100G</text>
+    <text x="300" y="260" text-anchor="middle" fill="#333" font-size="10">100 Gbps</text>
+    <text x="420" y="260" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">~$7M</text>
+
+    <rect x="20" y="268" width="460" height="22" fill="#f0f0f0" stroke="#111" stroke-width="1"/>
+    <text x="140" y="282" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">Difference</text>
+    <text x="300" y="282" text-anchor="middle" fill="#111" font-size="10">—</text>
+    <text x="420" y="282" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">$8M savings</text>
+
+    <!-- TQ effect -->
+    <rect x="20" y="305" width="460" height="34" rx="2" fill="#f5f5f5" stroke="#111" stroke-width="1.5"/>
+    <text x="250" y="320" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">TurboQuant: 8× compression → Ethernet 100G effective = 800 Gbps</text>
+    <text x="250" y="334" text-anchor="middle" fill="#555" font-size="10">Exceeds InfiniBand NDR (400 Gbps) at fraction of cost</text>
+  </g>
+
+  <!-- Right: Memory bottleneck -->
+  <g transform="translate(560, 90)" font-family="'Helvetica Neue', sans-serif">
+    <rect width="500" height="350" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
+    <rect width="500" height="26" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
+    <text x="250" y="19" text-anchor="middle" fill="#222" font-size="13" font-weight="bold">GPU Memory (VRAM) Bottleneck</text>
+
+    <!-- Stacked bar: VRAM breakdown -->
+    <text x="20" y="52" fill="#333" font-size="11" font-weight="bold">H100 80GB VRAM Decomposition</text>
+
+    <!-- Parameters -->
+    <rect x="20" y="65" width="60" height="30" fill="#eee" stroke="#333" stroke-width="1"/>
+    <text x="50" y="84" text-anchor="middle" fill="#666" font-size="8">Params 12%</text>
+
+    <!-- Optimizer -->
+    <rect x="80" y="65" width="100" height="30" fill="#ddd" stroke="#333" stroke-width="1"/>
+    <text x="130" y="84" text-anchor="middle" fill="#555" font-size="9">Optimizer 25%</text>
+
+    <!-- Activations (the target) -->
+    <rect x="180" y="65" width="240" height="30" fill="#999" stroke="#333" stroke-width="1.2"/>
+    <text x="300" y="84" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Activations 40–60%</text>
+
+    <!-- Gradients -->
+    <rect x="420" y="65" width="60" height="30" fill="#ccc" stroke="#333" stroke-width="1"/>
+    <text x="450" y="84" text-anchor="middle" fill="#666" font-size="8">Grad 12%</text>
+
+    <!-- Key impact -->
+    <text x="20" y="120" fill="#333" font-size="11">Forward-pass activations dominate VRAM usage</text>
+    <text x="20" y="140" fill="#333" font-size="11">Limits batch size and model depth on single GPU</text>
+    <text x="20" y="160" fill="#333" font-size="11">Forces excessive tensor parallelism (TP=8 for 70B)</text>
+
+    <!-- Effect table -->
+    <text x="20" y="190" fill="#111" font-size="11" font-weight="bold">TurboQuant 4× Activation Compression Effect</text>
+    <rect x="20" y="200" width="460" height="24" fill="#eee" stroke="#333" stroke-width="0.8"/>
+    <text x="120" y="216" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Scenario</text>
+    <text x="280" y="216" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">Before</text>
+    <text x="420" y="216" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">After TQ</text>
+
+    <rect x="20" y="224" width="460" height="22" fill="#fff" stroke="#333" stroke-width="0.5"/>
+    <text x="120" y="238" text-anchor="middle" fill="#333" font-size="10">Activation VRAM (H100)</text>
+    <text x="280" y="238" text-anchor="middle" fill="#333" font-size="10">32–48 GB</text>
+    <text x="420" y="238" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">8–12 GB</text>
+
+    <rect x="20" y="246" width="460" height="22" fill="#fafafa" stroke="#333" stroke-width="0.5"/>
+    <text x="120" y="260" text-anchor="middle" fill="#333" font-size="10">Batch size (7B model)</text>
+    <text x="280" y="260" text-anchor="middle" fill="#333" font-size="10">32</text>
+    <text x="420" y="260" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">64–96 (2–3×)</text>
+
+    <rect x="20" y="268" width="460" height="22" fill="#f0f0f0" stroke="#111" stroke-width="1"/>
+    <text x="120" y="282" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">70B TP degree</text>
+    <text x="280" y="282" text-anchor="middle" fill="#333" font-size="10">TP=8</text>
+    <text x="420" y="282" text-anchor="middle" fill="#111" font-size="10" font-weight="bold">TP=4 (50% fewer GPUs)</text>
+
+    <!-- TQ effect -->
+    <rect x="20" y="305" width="460" height="34" rx="2" fill="#f5f5f5" stroke="#111" stroke-width="1.5"/>
+    <text x="250" y="320" text-anchor="middle" fill="#111" font-size="11" font-weight="bold">TurboQuant: 4× memory savings → 2–3× larger batches</text>
+    <text x="250" y="334" text-anchor="middle" fill="#555" font-size="10">70B model: reduce GPU count by 50% via lower tensor parallelism</text>
+  </g>
+</svg>

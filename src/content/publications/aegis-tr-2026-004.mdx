@@ -3,13 +3,13 @@ documentNumber: "AEGIS-TR-2026-004"
 slug: "aegis-tr-2026-004"
 type: "technical-report"
 title: "TurboQuant-Adam: Adaptive 4-bit Momentum and Activation Compression for LLM Distributed Training"
-subtitle: "Achieving 8x communication bandwidth reduction and 4x activation memory savings while preserving full convergence in AdamW-based LLM training"
+subtitle: "8× communication reduction and 4× memory savings validated to 355M parameters with full convergence preservation"
 authors:
   - "Kwangil Kim"
   - "AEGIS Research Team"
 affiliation: "AEGIS Research, Yatav Inc."
 publishedDate: "2026-03-30"
-version: "1.0"
+version: "2.0"
 categories:
   - "enterprise-ai-evaluation"
   - "responsible-ai-operations"
@@ -23,15 +23,21 @@ tags:
   - "memory-optimization"
   - "4-bit-quantization"
   - "LLM-training"
-oneLinerKo: "Hadamard 회전 + 적응형 Lloyd-Max 4-bit 양자화로 LLM 분산 학습의 통신 대역폭 8배 절감 및 활성화 메모리 4배 절감을 수렴성 손실 없이 달성"
-oneLinerEn: "Adaptive 4-bit quantization via Hadamard rotation and Lloyd-Max codebook achieving 8x communication reduction and 4x activation memory savings with full convergence preservation in LLM distributed training"
-abstract: "We present TurboQuant-Adam, a unified compression framework for LLM distributed training that addresses both communication bandwidth and activation memory bottlenecks. Starting from the TurboQuant paper's Beta distribution assumption, we empirically disprove it for neural network tensors and pivot to a Hadamard rotation + adaptive Gaussian Lloyd-Max quantization pipeline. We demonstrate that naive gradient compression with Error Feedback fundamentally conflicts with AdamW's nonlinear variance scaling, and propose a momentum-level compression strategy (TurboQuantAdamW) inspired by 1-bit Adam. On GPT-2 Nano benchmarks, TurboQuantAdamW achieves loss 0.3770 vs. baseline 0.5563, and 4-bit activation compression achieves loss difference of only 0.0022 from FP32. The framework delivers 8x communication bandwidth reduction and 4x activation memory savings while fully preserving training convergence."
+  - "Triton-GPU"
+  - "error-compensation"
+oneLinerKo: "Hadamard 회전 + 적응형 Lloyd-Max 4-bit 양자화로 LLM 분산 학습의 통신 8× 절감 및 메모리 4× 절감을 355M 파라미터 규모에서 검증"
+oneLinerEn: "Adaptive 4-bit quantization via Hadamard rotation and Lloyd-Max codebook achieving 8× communication reduction and 4× memory savings, validated to 355M parameters with GPU-accelerated Triton kernels"
+abstract: "We present TurboQuant-Adam v3, a unified compression framework for LLM distributed training that addresses both communication bandwidth and activation memory bottlenecks. Through systematic multi-phase research — from Beta distribution hypothesis rejection to the discovery of Error Feedback–AdamW incompatibility — we develop a momentum-level 4-bit compression strategy with live variance tracking and error compensation. Validated on GPT-2 Small (124M) and GPT-2 Medium (355M) with NVIDIA RTX 5000 GPUs, the framework achieves loss gaps of +0.002 at 1,500 training steps, 8× communication bandwidth reduction via INT4 AllGather, 4× activation memory savings, and 2.8× Triton kernel acceleration — all while preserving full training convergence. A critical finding is that variance freezing (v_t), effective at ~1M scale, diverges at 124M+ parameters, necessitating live v_t updates with momentum-level error compensation."
 pdfUrl: "/assets/pdf/aegis-tr-2026-004.pdf"
+githubUrl: "https://github.com/kwangilkimkenny/turboquant-adam"
 relatedPublications:
+  - "aegis-wp-2026-002"
   - "aegis-tr-2026-001"
 status: "published"
 featured: true
 ---
+
+> **Attribution:** This research is an *applied extension* of [TurboQuant](https://arxiv.org/abs/2504.19874) (Zandieh et al., ICLR 2026), originally developed at Google Research, Google DeepMind, and New York University for distributed *inference*. We adapted and extended these ideas to the fundamentally different domain of distributed *training*. This project is **not affiliated with** the original TurboQuant authors, Google Research, Google DeepMind, or New York University — it is an independent downstream application of their publicly available research. All implementations are original work. See [GitHub repository](https://github.com/kwangilkimkenny/turboquant-adam) for source code (Apache 2.0).
 
 ## Problem
 
@@ -48,291 +54,338 @@ Large-scale LLM distributed training faces two critical bottlenecks that severel
   <tbody>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Communication Bandwidth</td>
-      <td style={{padding: '10px 14px'}}>FP32 gradient/momentum transfer during AllReduce</td>
-      <td style={{padding: '10px 14px'}}>GPU network saturation, training speed degradation</td>
+      <td style={{padding: '10px 14px'}}>FP32 gradient/momentum transfer during AllReduce — consumes 20–55% of training time</td>
+      <td style={{padding: '10px 14px'}}>GPU idle time, InfiniBand dependency ($15M per 1,000-GPU cluster)</td>
     </tr>
     <tr>
       <td style={{padding: '10px 14px', fontWeight: 600}}>GPU Memory (VRAM)</td>
-      <td style={{padding: '10px 14px'}}>Activation tensors stored during forward pass</td>
-      <td style={{padding: '10px 14px'}}>Batch size limits, OOM errors</td>
+      <td style={{padding: '10px 14px'}}>Activation tensors stored during forward pass — 40–60% of VRAM</td>
+      <td style={{padding: '10px 14px'}}>Batch size limits, excessive tensor parallelism, OOM errors</td>
     </tr>
   </tbody>
 </table>
 
-Existing gradient compression methods such as QSGD and Deep Gradient Compression assume SGD-based optimizers and do not account for the nonlinear variance scaling inherent in Adam-family optimizers. Furthermore, the TurboQuant paper's assumption that quantization targets follow a Beta distribution does not hold for real neural network training tensors, which exhibit heavy-tailed distributions with structural outliers.
+Existing gradient compression methods (QSGD, Deep Gradient Compression) assume SGD-based optimizers. The TurboQuant paper's Beta distribution assumption does not hold for real training tensors with heavy-tailed distributions and structural outliers. Most critically, **no existing framework addresses both communication and memory bottlenecks simultaneously** with AdamW compatibility.
 
 ## Our Approach
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/01_research_flow.svg" alt="TurboQuant-Adam research pipeline: from Phase 0 hypothesis rejection through strategic pivots to final breakthrough" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 0. Research pipeline overview — Systematic multi-phase process from Beta distribution hypothesis rejection to TurboQuantAdamW breakthrough.</figcaption>
+  <img src="/assets/images/01_research_flow.svg" alt="Research pipeline overview" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 1. Research pipeline — from Beta distribution hypothesis rejection through v_t scale-dependency discovery to the final v3 algorithm.</figcaption>
 </figure>
 
-TurboQuant-Adam is developed through a systematic, multi-phase research process that identifies and resolves fundamental incompatibilities between quantization and adaptive optimizers.
+### Theoretical Foundation
 
-### Phase 0: Beta Distribution Hypothesis Rejection
+**Walsh-Hadamard Transform → CLT Gaussianization.** For any tensor $g \in \mathbb{R}^d$:
 
-We begin by empirically testing TurboQuant's core assumption that quantization target data follows a Beta distribution. Using Kolmogorov-Smirnov tests on GPT-2 training tensors (activations, gradients, Adam first and second moments), we conclusively reject this hypothesis. Real distributions are zero-centered heavy-tailed (Laplace/Cauchy-like) with structural outliers that fixed Beta codebooks cannot capture.
+$$\tilde{g} = \frac{1}{\sqrt{d}} H_d \cdot D \cdot g \sim \mathcal{N}(0, \sigma^2)$$
 
-**Strategic pivot:** Abandon fixed distribution assumptions in favor of real-time adaptive codebooks.
-
-### Hadamard Rotation + Adaptive Gaussian Lloyd-Max
+By the Central Limit Theorem, the rotated tensor converges to Gaussian regardless of the original distribution shape. This enables deployment of the theoretically optimal **Lloyd-Max 4-bit quantizer**, with a pre-computed $\mathcal{N}(0,1)$ codebook scaled by $\sigma$ (tracked via EMA), achieving **82% MSE reduction** over uniform quantization.
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/02_hadamard_lloyd_max_pipeline.svg" alt="Core Algorithm Pipeline: Hadamard rotation transforms heavy-tailed distributions into Gaussian, enabling optimal Lloyd-Max 4-bit quantization" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 1. Core algorithm pipeline — Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.</figcaption>
+  <img src="/assets/images/02_hadamard_lloyd_max_pipeline.svg" alt="Core algorithm pipeline" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 2. Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.</figcaption>
 </figure>
 
-The core algorithm applies Walsh-Hadamard Transform (WHT) with random sign matrix D to eliminate outliers:
-
-$$\tilde{\mathbf{g}} = \mathbf{H}_d \cdot \mathbf{D} \cdot \mathbf{g}$$
-
-By the Central Limit Theorem, each element of the rotated tensor becomes a normalized random linear combination of all original elements, converging to a Gaussian distribution $\mathcal{N}(0, \sigma^2)$ regardless of the original distribution shape.
-
-With Gaussian distribution guaranteed, we deploy the theoretically optimal scalar quantizer — the Lloyd-Max quantizer. A pre-computed codebook for $\mathcal{N}(0,1)$ is simply scaled by $\sigma$ (tracked via exponential moving average) to match any variance:
-
-$$c_i = \sigma \cdot c_i^{*}, \quad b_i = \sigma \cdot b_i^{*}$$
-
-In simulation with outlier-heavy gradients, this achieves **82% MSE reduction** over uniform quantization.
-
-### PyTorch DDP Communication Hook Integration
+### AdamW–Error Feedback Incompatibility (Key Discovery)
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/03_ddp_communication_pipeline.svg" alt="DDP Communication Pipeline: 4-step process across GPU workers with 8x bandwidth reduction" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 2. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed AllReduce, and inverse transform across GPU workers.</figcaption>
+  <img src="/assets/images/06_ef_failure_mechanism.svg" alt="Error Feedback failure mechanism" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 3. SGD's linear update preserves EF guarantees; AdamW's nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies delayed noise, destroying momentum state.</figcaption>
 </figure>
 
-We implement a custom communication hook (`turboquant_comm_hook.py`) using PyTorch DDP's `register_comm_hook` API with the following pipeline:
+Standard Error Feedback is valid only for SGD. In AdamW, quantization error $e_{t-1}$ enters the squared term $v_t = \beta_2 v_{t-1} + (1-\beta_2)(g_t + e_{t-1})^2$, and the nonlinear denominator amplifies this noise → **training divergence** (Loss 1.010 vs baseline 0.395).
+
+### v_t Freezing: Scale-Dependent Failure (Critical Finding)
+
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/09_vt_scale_dependency.svg" alt="v_t strategy scale dependency" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 4. Variance freezing succeeds at ~1M parameters but diverges at 124M+ scale. Live v_t with error compensation is the only scale-invariant strategy.</figcaption>
+</figure>
+
+The 1-bit Adam approach of freezing $v_t$ after warmup works at small scale (~1M params) but **diverges at 124M+** (loss gap +9.05). At larger scale, gradient distributions are non-stationary — a frozen $v_t$ snapshot becomes stale, causing the denominator to mis-scale updates. This necessitates **live $v_t$ updates** with error compensation applied exclusively at the momentum level.
+
+### TurboQuantAdamW v3: The Complete Algorithm
+
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/08_v3_algorithm.svg" alt="TurboQuantAdamW v3 algorithm structure" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 5. TurboQuantAdamW v3 — live v_t + momentum-level error compensation. Error never enters v_t path, preserving nonlinear denominator stability.</figcaption>
+</figure>
+
+Three critical design decisions differentiate v3 from prior work:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
     <tr style={{borderBottom: '2px solid #2563EB'}}>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Step</th>
-      <th style={{padding: '10px 14px', textAlign: 'left'}}>Operation</th>
-      <th style={{padding: '10px 14px', textAlign: 'left'}}>Description</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>Decision</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>Rationale</th>
     </tr>
   </thead>
   <tbody>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>1</td>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Hadamard Rotation</td>
-      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>g&#771; = H<sub>d</sub> &middot; D &middot; g</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Compress m_t (not g_t)</td>
+      <td style={{padding: '10px 14px'}}>Momentum is EMA-smoothed → higher quantization quality than raw gradients</td>
     </tr>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>2</td>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>4-bit Adaptive Quantization</td>
-      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>g&#770; = Q<sub>LM</sub>(g&#771;, &sigma;<sup>2</sup><sub>EMA</sub>)</td>
-    </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>3</td>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Distributed AllReduce</td>
-      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>G&#770;<sub>sum</sub> = AllReduce(g&#770;)</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Keep v_t live (not frozen)</td>
+      <td style={{padding: '10px 14px'}}>Frozen v_t diverges at 124M+ scale; live v_t tracks distribution shift</td>
     </tr>
     <tr>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>4</td>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Inverse Transform</td>
-      <td style={{padding: '10px 14px', fontFamily: 'KaTeX_Math, serif', fontStyle: 'italic'}}>g<sub>final</sub> = D<sup>T</sup> &middot; H<sub>d</sub><sup>T</sup> &middot; (G&#770;<sub>sum</sub> / N)</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Error compensation at momentum level</td>
+      <td style={{padding: '10px 14px'}}>Error $e_{t-1}$ enters $m_t$ path only — never reaches $v_t$ squared term → no nonlinear amplification</td>
     </tr>
   </tbody>
 </table>
 
-Validated with `mp.spawn` 2-process simulation under extreme outliers (100x magnitude) — AllReduce synchronization completed without errors.
+**Communication protocol:** Each node transmits only INT4-packed $q_t$ via AllGather. $v_t$ is computed locally from each node's own gradients — **no v_t communication required**.
 
-### Error Feedback Failure Discovery
+### DDP Communication Hook Integration
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/06_ef_failure_mechanism.svg" alt="Error Feedback failure mechanism: SGD linear pass vs AdamW nonlinear collision" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 3. Error Feedback mechanism comparison — SGD's linear update preserves EF guarantees, while AdamW's nonlinear denominator amplifies delayed noise.</figcaption>
+  <img src="/assets/images/03_ddp_communication_pipeline.svg" alt="DDP communication pipeline" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 6. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed INT4 AllGather, and inverse transform.</figcaption>
 </figure>
-
-Standard Error Feedback (EF), where quantization error $e_t$ is compensated in the next step, produces **paradoxically worse results** when combined with AdamW:
-
-<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
-  <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
-      <th style={{padding: '10px 14px', textAlign: 'left'}}>Configuration</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Final Loss</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '10px 14px'}}>Baseline (FP32)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.3953</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>—</td>
-    </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '10px 14px'}}>TurboQuant 4-bit (no EF)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.7562</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', color: '#D97706', fontWeight: 700}}>Degraded</td>
-    </tr>
-    <tr>
-      <td style={{padding: '10px 14px'}}>TurboQuant 4-bit + EF</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>1.0099</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', color: '#DC2626', fontWeight: 700}}>Worse</td>
-    </tr>
-  </tbody>
-</table>
-
-**Root cause:** AdamW's nonlinear denominator term $1 / (\sqrt{v_t} + \epsilon)$ amplifies delayed quantization noise from EF, destroying momentum state. This confirms that gradient-level compression + EF is fundamentally incompatible with Adam-family optimizers.
-
-### TurboQuantAdamW: Momentum-Level Compression (Breakthrough)
-
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/04_turboquant_adamw.svg" alt="TurboQuantAdamW optimizer architecture: warmup phase with standard FP32 AdamW, then compression phase with 4-bit momentum and frozen variance" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 4. TurboQuantAdamW optimizer structure — Warmup phase runs standard FP32 AdamW; compression phase applies 4-bit quantization to m_t while freezing v_t.</figcaption>
-</figure>
-
-Inspired by 1-bit Adam, we develop a custom optimizer that compresses the **first momentum ($m_t$) directly** instead of raw gradients, while freezing the second momentum ($v_t$) after warmup:
-
-<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
-  <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
-      <th style={{padding: '10px 14px', textAlign: 'left'}}>Phase</th>
-      <th style={{padding: '10px 14px', textAlign: 'left'}}>Operation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Warmup (Steps 0-50)</td>
-      <td style={{padding: '10px 14px'}}>Standard FP32 AdamW — both <em>m<sub>t</sub></em> and <em>v<sub>t</sub></em> updated normally</td>
-    </tr>
-    <tr>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Compression (Steps 51+)</td>
-      <td style={{padding: '10px 14px'}}>Update <em>m<sub>t</sub></em> only, apply 4-bit Hadamard + Lloyd-Max compression; <em>v<sub>t</sub></em> frozen</td>
-    </tr>
-  </tbody>
-</table>
 
 ### 4-bit Activation Memory Compression
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/07_activation_compression.svg" alt="Activation memory compression: 4-bit compressed storage in forward pass, decompressed retrieval in backward pass" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 5. TurboQuantLinear activation compression — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.</figcaption>
+  <img src="/assets/images/07_activation_compression.svg" alt="Activation compression architecture" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 7. TurboQuantLinear — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.</figcaption>
 </figure>
 
-We develop `TurboQuantLinear`, a custom `autograd.Function` layer that compresses activation tensors to 4-bit during forward pass using the same Hadamard + Adaptive Lloyd-Max pipeline, and decompresses during backward pass for gradient computation.
+`TurboQuantLinear` is a custom `autograd.Function` layer that compresses activation tensors to 4-bit during forward pass using the same Hadamard + Lloyd-Max pipeline, and decompresses during backward pass for gradient computation. Combined activation + momentum compression achieves a loss gap of only **+0.0001**.
 
 ## Key Contributions
 
-- **Empirical disproof** of the Beta distribution assumption for neural network training tensors, with strategic pivot to adaptive Gaussian codebooks
-- **Hadamard rotation + adaptive Lloyd-Max** pipeline achieving 82% MSE reduction over uniform quantization for heavy-tailed tensors
-- **Discovery of EF-AdamW incompatibility** — demonstrating that Error Feedback fundamentally conflicts with Adam's nonlinear variance scaling
-- **TurboQuantAdamW optimizer** — momentum-level 4-bit compression with variance freezing, achieving full convergence preservation
-- **TurboQuantLinear layer** — 4-bit activation compression with near-zero accuracy loss ($\Delta = 0.0022$)
-- **PyTorch DDP communication hook** compatible with standard distributed training infrastructure
+- **Empirical disproof** of Beta distribution assumption with strategic pivot to adaptive Gaussian codebooks
+- **Hadamard + Lloyd-Max pipeline** achieving 82% MSE reduction for heavy-tailed tensors
+- **Discovery of EF–AdamW incompatibility** — gradient-level EF fundamentally conflicts with Adam's nonlinear variance scaling
+- **Discovery of v_t freezing scale dependency** — 1-bit Adam's variance freezing diverges at 124M+ parameters
+- **TurboQuantAdamW v3** — momentum-level 4-bit compression with live $v_t$ and error compensation, validated to 355M parameters
+- **TurboQuantLinear** — 4-bit activation compression with near-zero accuracy loss ($\Delta = 0.0001$ when combined)
+- **Triton GPU kernels** — 8 custom kernels achieving 2.8× speedup with bit-exact accuracy vs. Python reference
+- **INT4 AllGather hook** — native PyTorch DDP integration for 8× bandwidth reduction
 
 ## Key Findings
 
-### Convergence Results Summary
+### Comprehensive Experiment Results
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/05_loss_comparison.svg" alt="Loss comparison across all experiments: bar chart showing baseline vs TurboQuant results" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 6. Experiment results comparison — TurboQuantAdamW and 4-bit activation compression both achieve successful convergence.</figcaption>
+  <img src="/assets/images/11_comprehensive_results.svg" alt="Comprehensive experiment results from 1M to 355M parameters" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 8. Full validation spectrum — from concept validation on M4 to GPU-scale experiments on 2× RTX 5000.</figcaption>
 </figure>
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
     <tr style={{borderBottom: '2px solid #2563EB'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Experiment</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Baseline Loss</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>TurboQuant Loss</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Delta</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Verdict</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>Model / Scale</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Baseline</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>TQ Loss</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Gap</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Steps</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Status</th>
     </tr>
   </thead>
   <tbody>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px'}}>4-bit Gradient (no EF)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.4020</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.7562</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.3542</td>
+      <td style={{padding: '10px 14px'}}>GPT-2 Nano / ~1M</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.402</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.756</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>+0.354</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>150</td>
       <td style={{padding: '10px 14px', textAlign: 'center', color: '#D97706', fontWeight: 700}}>Degraded</td>
     </tr>
     <tr style={{borderBottom: '1px solid #E2E8F0'}}>
       <td style={{padding: '10px 14px'}}>4-bit Gradient + EF</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.3953</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>1.0099</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.6146</td>
+      <td style={{padding: '10px 14px'}}>GPT-2 Nano / ~1M</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.395</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>1.010</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>+0.615</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>150</td>
       <td style={{padding: '10px 14px', textAlign: 'center', color: '#DC2626', fontWeight: 700}}>Failed</td>
     </tr>
     <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
-      <td style={{padding: '10px 14px', fontWeight: 700}}>4-bit Momentum (TurboQuantAdamW)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>0.5563</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>0.3770</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>-0.1793</td>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>v_t Live + EC (v3)</td>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Small / 124M</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>7.123</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>7.142</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.019</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>500</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>Long-run Convergence</td>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Small / 124M</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>6.456</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>6.457</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.002</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>1,500</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Medium + AMP</td>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Medium / 355M</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>7.357</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>7.360</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.002</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>500</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
     </tr>
     <tr style={{backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
-      <td style={{padding: '10px 14px', fontWeight: 700}}>4-bit Activation Compression</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>1.0029</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>1.0051</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>0.0022</td>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>Combined (Act + Mom)</td>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>Transformer / 70M</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>5.816</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>5.817</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.000</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>800</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
     </tr>
   </tbody>
 </table>
 
-### Compression Efficiency
+### Long-Run Convergence Stability
+
+<figure style={{margin: '2rem 0'}}>
+  <img src="/assets/images/10_long_convergence.svg" alt="1,500-step convergence stability" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 9. Loss gap remains bounded (0.0009–0.0024) across 1,500 steps — error compensation prevents accumulation.</figcaption>
+</figure>
+
+The loss gap between FP32 baseline and TurboQuant 4-bit **does not grow with training duration**, confirming that error compensation effectively prevents error accumulation. This is critical for production training runs spanning 100K+ steps.
+
+### Triton GPU Kernel Performance
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
     <tr style={{borderBottom: '2px solid #2563EB'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Metric</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Before</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>After</th>
-      <th style={{padding: '10px 14px', textAlign: 'center'}}>Reduction</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Python Reference</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Triton Kernel</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>Speedup</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Communication Bandwidth (AllReduce)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>FP32 (32-bit)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>4-bit</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>8x</td>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Round-trip latency (16M elements)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>73.47 ms</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>26.21 ms</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>2.8×</td>
     </tr>
-    <tr style={{backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
-      <td style={{padding: '10px 14px', fontWeight: 600}}>Activation Memory per Layer</td>
-      <td style={{padding: '10px 14px', textAlign: 'center'}}>FP32 (32-bit)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>4-bit</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>4x (with metadata)</td>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Communication payload</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>64 MB (FP32)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>8 MB (INT4)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>8.0×</td>
+    </tr>
+    <tr>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>Numerical accuracy</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>Reference</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>Bit-exact (6 decimal places)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>—</td>
     </tr>
   </tbody>
 </table>
 
-### Key Negative Result: Error Feedback + AdamW Incompatibility
-
-The EF mechanism, which is theoretically sound for SGD-based training, **amplifies quantization noise through AdamW's nonlinear denominator**. The delayed error term $e_{t-1}$ passes through the $1/(\sqrt{v_t} + \epsilon)$ scaling, causing exponential noise amplification that destroys optimizer momentum state. This finding has broad implications for the communication-efficient optimization community.
-
-### Regularization Effect of 4-bit Quantization
-
-TurboQuantAdamW not only matches but slightly outperforms FP32 baseline (0.3770 vs 0.5563), suggesting that 4-bit quantization noise acts as a beneficial regularizer during training — analogous to dropout or gradient noise injection. This is consistent with findings in the stochastic quantization literature.
-
 ## Evaluation Design
 
-- **Model**: GPT-2 Nano (4 layers, 128 dimensions) on Apple M4 (24GB) with PyTorch MPS
-- **Training**: 150 steps per configuration with AdamW optimizer
-- **Distribution validation**: Kolmogorov-Smirnov test on activation, gradient, and Adam moment tensors
-- **Pre-validation**: Simulated outlier-heavy gradients (100x magnitude) for quantization MSE comparison
-- **DDP validation**: 2-process `mp.spawn` simulation with extreme outlier injection
-- **Convergence benchmark**: Side-by-side comparison across 4 compression configurations
-- **Activation benchmark**: FP32 vs 4-bit activation storage with identical training conditions
+- **Concept validation**: MacBook Air 15" (Apple M4, 24GB) / PyTorch MPS — rapid hypothesis testing
+- **GPU validation**: 2× NVIDIA Quadro RTX 5000 (16GB) / Intel i9-10980XE / PyTorch 2.11 / Triton 3.6 / CUDA 12.8
+- **Models**: GPT-2 Nano (~1M), GPT-2 Small (124M), GPT-2 Medium (355M), custom Transformer (70M)
+- **Training**: WikiText-2, 150–1,500 steps per configuration, AdamW optimizer
+- **Distribution validation**: Kolmogorov-Smirnov test on training tensors across all model scales
+- **AMP compatibility**: Verified with PyTorch Automatic Mixed Precision on GPT-2 Medium
 
 ## Business Relevance
 
-TurboQuant-Adam directly addresses the two largest cost drivers in LLM training infrastructure:
+TurboQuant-Adam addresses the two largest cost drivers in LLM training:
 
-- **Communication cost reduction** — 8x bandwidth savings enables efficient training across lower-bandwidth interconnects (e.g., Ethernet instead of InfiniBand), dramatically reducing cluster costs
-- **Memory efficiency** — 4x activation memory reduction allows training larger batch sizes or deeper models on the same hardware, improving GPU utilization
-- **Training cost reduction** — Combined bandwidth and memory savings translate to 30-50% lower wall-clock training time in communication-bound distributed settings
-- **Hardware democratization** — Makes multi-GPU LLM training viable on commodity hardware, reducing the barrier to entry for enterprise AI teams
-- **Framework compatibility** — Built on standard PyTorch DDP APIs, enabling seamless integration with existing training pipelines without code restructuring
+- **Communication cost**: 8× bandwidth savings enables Ethernet-based training ($8M savings per 1,000-GPU cluster vs. InfiniBand)
+- **Memory efficiency**: 4× activation savings enables 2–3× larger batches or 50% fewer GPUs for 70B models
+- **Training cost**: Combined savings of 27–56% on 70B model training ($240K–$500K)
+- **Hardware democratization**: Makes multi-GPU LLM training viable on commodity Ethernet infrastructure
 
-## Limitations
+See the companion whitepaper [AEGIS-WP-2026-002](/en/publications/aegis-wp-2026-002) for detailed economic analysis.
 
-- **Concept verification only** — All experiments conducted on single Apple M4 device; multi-GPU cluster validation with actual NVLink/InfiniBand bandwidth measurements pending
-- **Model scale** — Evaluated on GPT-2 Nano (4 layers, 128 dims); behavior at billion-parameter scale needs verification
-- **Simulated communication** — Current 4-bit values transmitted as FP32; native INT4 AllGather + local decode pipeline requires C++/CUDA implementation for actual 8x compression
-- **Warmup sensitivity** — 50-step warmup threshold is manually tuned; automated warmup detection based on $v_t$ convergence could improve robustness
-- **FSDP/Megatron compatibility** — Not yet tested with Fully Sharded Data Parallel or tensor parallelism frameworks used in production LLM training
-- **Activation compression overhead** — Hadamard transform adds per-layer compute cost during both forward and backward passes; overhead-vs-savings tradeoff at scale not yet measured
+## Open Source
+
+The full implementation is available as an open-source Python package under Apache License 2.0:
+
+```bash
+git clone https://github.com/kwangilkimkenny/turboquant-adam.git
+cd turboquant-adam
+pip install -e .            # Base installation
+pip install -e ".[triton]"  # With Triton GPU kernels
+```
+
+**Drop-in usage** — TurboQuantAdamW is a drop-in replacement for PyTorch AdamW:
+
+```python
+from turboquant import TurboQuantAdamW
+
+optimizer = TurboQuantAdamW(
+    model.parameters(), lr=5e-4, weight_decay=0.01,
+    warmup_steps=200, n_bits=4, use_triton=True,
+)
+```
+
+See the [GitHub repository](https://github.com/kwangilkimkenny/turboquant-adam) for full documentation, DDP communication hook integration, and activation compression examples.
+
+## Limitations and Honest Assessment
+
+We want to be transparent about where this research stands. There is a meaningful gap between our current results and production readiness.
+
+- **Model scale**: Our largest model is 355M parameters. We **cannot guarantee** that these results will hold at 7B or 70B scale — this is the most critical open question
+- **Training duration**: 1,500 steps is very short compared to real LLM pretraining (100K+ steps). Long-term stability is unproven
+- **Speed overhead**: Quantization adds 2–4× computational overhead. Without C++/CUDA native kernels, the current implementation is not practical for production use
+- **Single-node only**: All benchmarks use 2 GPUs on NVLink where communication is not the bottleneck. Multi-node InfiniBand experiments — where the 8× compression would actually matter — have not been conducted
+- **Small team, limited resources**: This research was conducted on a MacBook Air and 2× RTX 5000. We lack access to the large-scale GPU clusters needed for definitive validation
+- **Memory**: Triton pipeline double-buffering increases temporary memory usage
+- **FSDP/Megatron**: Not yet tested with Fully Sharded Data Parallel or production tensor parallelism frameworks
+
+## References
+
+1. A. Zandieh (Google Research), M. Daliri (New York University), M. Hadian (Google DeepMind), V. Mirrokni (Google Research), "TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate," *ICLR*, 2026. [arXiv:2504.19874](https://arxiv.org/abs/2504.19874) — *foundational work; proves random rotation induces Beta-distributed coordinates on the unit hypersphere, enabling MSE-optimal codebook design. Originally developed for distributed inference (KV cache compression, vector search). Our starting point for extending to distributed training.*
+2. H. Tang et al., "1-bit Adam: Communication Efficient Large-Scale Training with Adam's Convergence Speed," *ICML*, 2021 — *momentum compression + v_t freezing strategy; direct inspiration for TurboQuantAdamW, whose scale limitations motivated our v3 live-v_t architecture*
+3. D. Alistarh et al., "QSGD: Communication-Efficient SGD via Gradient Quantization and Encoding," *NeurIPS*, 2017 — *stochastic quantization convergence theory*
+4. M. Lam et al., "THC: Accelerating Distributed Deep Learning Using Tensor Homomorphic Compression," *NSDI*, 2024 — *Hadamard rotation-based communication compression; overhead benchmarks*
+5. P. Richtárik et al., "EF21: A New, Simpler, Theoretically Better, and Practically Faster Error Feedback," *NeurIPS*, 2021 — *Error Feedback convergence theory; referenced in EF failure analysis*
+6. S. P. Karimireddy et al., "Communication Compression for Distributed Training: Review and Pitfalls," *NeurIPS Workshop*, 2019 — *theoretical background on quantization + EF limitations with Adam*
+7. Y. Lin et al., "Deep Gradient Compression: Reducing the Communication Bandwidth for Distributed Training," *ICLR*, 2018 — *momentum correction approach for gradient compression*
+8. T. Chen et al., "CompAct: Compressed Activations for Memory-Efficient LLM Training," *NAACL*, 2025 — *activation compression; comparison baseline*
+9. T. Chen et al., "Training Deep Nets with Sublinear Memory Cost," arXiv, 2016 — *gradient checkpointing*
+10. S. Lloyd, "An Optimum Quantization for Minimum Distortion," *IEEE Trans. Inf. Theory*, 1982 — *Lloyd-Max algorithm*
+11. J. Max, "Quantizing Signals Using Blocks of Samples," *IRE Trans. Inf. Theory*, 1960 — *optimal scalar quantization theory*
+
+## Acknowledgments
+
+This project would not have been possible without the pioneering work of **Amir Zandieh** (Google Research), **Majid Daliri** (New York University), **Majid Hadian** (Google DeepMind), and **Vahab Mirrokni** (Google Research) on TurboQuant. Their proof that random rotation induces Beta-distributed coordinates enabling near-optimal quantization was the theoretical foundation and direct inspiration for our exploration into the training domain. We hold their contribution in the highest regard — their decision to make this research openly accessible is what enabled a small independent team like ours to even attempt this kind of applied extension. We encourage all users of this project to read and cite the original paper, which represents a far more substantial contribution to the field than our applied work.
+
+We also gratefully acknowledge the authors of **1-bit Adam** (Tang et al., ICML 2021), **QSGD** (Alistarh et al., NeurIPS 2017), **THC** (Lam et al., NSDI 2024), **EF21** (Richtárik et al., NeurIPS 2021), and **CompAct** (Chen et al., NAACL 2025), whose work forms the theoretical foundation upon which this framework is built.
+
+## Disclaimer
+
+This project is an **independent applied research effort** by YATAV Research Lab. It is **not affiliated with, endorsed by, or officially connected to** the original TurboQuant authors, Google Research, Google DeepMind, or New York University. The name "TurboQuant-Adam" indicates intellectual lineage from the original TurboQuant paper. This codebase does not contain any source code from the original TurboQuant project — all implementations are original work.
+
+## Citation
+
+If you use this work, **please cite both** the original TurboQuant paper and this project:
+
+```
+@inproceedings{zandieh2026turboquant,
+  title   = {TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate},
+  author  = {Zandieh, Amir and Daliri, Majid and Hadian, Majid and Mirrokni, Vahab},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year    = {2026}
+}
+
+@misc{turboquant-adam-2026,
+  title  = {TurboQuant-Adam: 4-bit Adaptive Momentum Compression for
+            Communication-Efficient LLM Training},
+  author = {YATAV Research Lab},
+  year   = {2026},
+  url    = {https://github.com/kwangilkimkenny/turboquant-adam},
+  note   = {Applied research extending TurboQuant (Zandieh et al., ICLR 2026)
+            from distributed inference to distributed training}
+}
+```
