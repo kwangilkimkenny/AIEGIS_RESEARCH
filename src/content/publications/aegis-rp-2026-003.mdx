@@ -1,0 +1,541 @@
+---
+documentNumber: "AEGIS-RP-2026-003"
+slug: "aegis-rp-2026-003"
+type: "research-paper"
+title: "교육 분야 AI 에이전트 도입의 기대-현실 격차 분석: 학습 효과, 학문적 무결성, 형평성을 중심으로"
+subtitle: "Analyzing the Expectation-Reality Gap in AI Agent Adoption for Education: Focusing on Learning Effectiveness, Academic Integrity, and Equity"
+authors:
+  - "Kwangil Kim"
+  - "AEGIS Research Team"
+affiliation: "AEGIS Research, Yatav Inc."
+publishedDate: "2026-04-05"
+version: "1.0"
+categories:
+  - "education-ai-trust"
+  - "agent-safety"
+  - "regulation-and-governance"
+tags:
+  - "AI-agent"
+  - "education"
+  - "agentic-AI"
+  - "intelligent-tutoring"
+  - "academic-integrity"
+  - "equity"
+  - "digital-divide"
+  - "K-12"
+  - "higher-education"
+  - "Korea-education"
+  - "OECD"
+  - "personalized-learning"
+oneLinerKo: "28개 문헌 삼각검증으로 교육 분야 AI 에이전트 도입의 6대 축 기대-현실 격차를 분석하고, 학문적 무결성과 형평성 격차가 가장 크며 한국 AI 디지털 교과서 정책의 교훈을 도출"
+oneLinerEn: "Systematic review of 28 sources analyzing the expectation-reality gap in AI agent adoption for education across 6 axes, identifying academic integrity and equity as the largest gaps with lessons from Korea's AI textbook policy"
+abstract: "교육 분야에서 AI 에이전트의 도입이 급속히 확산되고 있다. 2025년 기준 글로벌 학생의 92%가 AI를 활용하고 있으나, 교육적 효과에 대한 기대와 현실 사이에는 상당한 격차가 존재한다. 본 연구는 2024-2026년 발행된 산업 보고서, 학술 논문, OECD 정책 보고서, 교육 현장 데이터 등 28개 문헌을 대상으로 삼각검증을 수행하여, 학습 효과, 교수자 신뢰, 학문적 무결성, 형평성/접근성, 거버넌스/정책, 데이터 프라이버시의 6대 핵심 축에서 격차를 분석하였다. 학문적 무결성(58% 부정 사용 vs 28% 정책 효과), 형평성(86% 대학생 활용 vs 5.3% 저소득 학교 접근), 교수자 신뢰(96% 교사 미훈련)에서 가장 큰 격차가 확인되었다. 한국의 AI 디지털 교과서 정책은 전국 의무화에서 자율 채택(30%)으로 전환된 사례로서 교훈을 제공한다. 본 연구는 교육 AI 에이전트 신뢰 형성 모델과 4단계 도입 성숙도 프레임워크를 제안한다."
+pdfUrl: "/assets/pdf/aegis-rp-2026-003.pdf"
+relatedPublications:
+  - "aegis-rp-2026-002"
+  - "aegis-rp-2026-001"
+status: "published"
+featured: true
+---
+
+> 주제어(Keywords): AI 에이전트, 교육, 에이전틱 AI, 지능형 튜터링, 학문적 무결성, 형평성, 디지털 격차, 개인화 학습, 한국 AI 교육 정책
+
+## 1. 서론
+
+### 1.1 연구의 배경
+
+교육 분야에서 AI 에이전트의 도입은 전례 없는 속도로 진행되고 있다. 2025년 기준 글로벌 학생의 AI 활용률은 92%에 달하며, 이는 2024년 66%에서 26%p 증가한 수치이다(DemandSage, 2026). 미국 K-12 교사의 83%가 수업 계획, 피드백, 콘텐츠 지원에 생성형 AI를 활용하고 있으며(Cengage Group, 2025), 고등교육에서는 학생의 86%가 AI를 주요 연구 및 브레인스토밍 파트너로 활용하고 있다(Engageli, 2026). 글로벌 교육 AI 시장은 2025년 70.5억 달러에서 2034년 1,123억 달러로 연평균 36%의 성장이 전망된다(PassiveSecrets, 2026).
+
+그러나 이러한 폭발적 확산의 이면에는 심각한 우려가 공존한다. 학생의 58%가 AI를 과제 부정 행위에 활용한 경험이 있으며(ICAI, 2024), AI 생성 과제의 94%가 감지되지 않고 있다(AllAboutAI, 2026). 교사의 96%는 공식적인 AI 교육을 받지 못했으며(Codegnan, 2026), 85%는 교실에서의 AI 관리에 준비되지 않았다고 느끼고 있다. OECD Digital Education Outlook 2026은 "교육적 원칙 없이 설계되거나 사용될 경우, GenAI는 실질적 학습 없이 단순히 성과만 향상시킨다"고 경고하였다.
+
+한국은 세계 최초로 AI 디지털 교과서를 전국적으로 도입하려 시도한 국가로, 2025년 1학기부터 초등 3-4학년 영어·수학, 중·고등학교 영어·수학·정보 교과에서 시범 운영하였다. 그러나 교육자와 학부모의 광범위한 반발로 전국 의무화에서 학교별 자율 채택 모델로 전환되었으며, 현재 채택률은 약 30%에 머무르고 있다(Korea Herald, 2026). 이 사례는 교육 AI 에이전트 도입에서 기대와 현실의 격차가 어떻게 정책적 좌절로 이어질 수 있는지를 보여주는 교훈적 사례이다.
+
+### 1.2 연구 목적 및 연구 질문
+
+본 연구의 목적은 교육 분야에서 AI 에이전트 도입 시 발생하는 기대-현실 격차를 다차원적으로 분석하고, 효과적인 도입 전략을 제시하는 데 있다.
+
+- RQ1: 교육 이해관계자(학생, 교수자, 행정가)가 AI 에이전트에 기대하는 핵심 요인은 무엇인가?
+- RQ2: 기대와 실제 도입 현실 사이의 격차는 어디에서 발생하며, 그 구조적 원인은 무엇인가?
+- RQ3: 한국 교육 시장의 AI 에이전트 도입은 글로벌 트렌드와 어떤 차별점을 갖는가?
+
+### 1.3 연구의 기여
+
+본 연구는 세 가지 차원에서 기여한다. 첫째, 기업 AI 에이전트 도입 분석(AEGIS-RP-2026-002)의 방법론을 교육 분야에 적용하여 6대 축별 기대-현실 격차 매트릭스를 제시한다. 둘째, 교수자의 AI 신뢰 형성에 특화된 통합 모델을 제안한다. 셋째, 한국의 AI 디지털 교과서 정책 사례를 통해 정부 주도 AI 교육 도입의 교훈을 도출한다.
+
+---
+
+## 2. 이론적 배경
+
+### 2.1 교육에서의 에이전틱 AI
+
+에이전틱 AI는 교육 맥락에서 단순한 정보 제공을 넘어 학습자의 필요에 동적으로 적응하고, 학습 경로를 능동적으로 안내하며, 개인화된 비계(scaffolding)를 제공하는 시스템을 의미한다(8Allocate, 2026). 주요 응용 형태는 다음과 같다:
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>응용 형태</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>기능</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>현재 수준</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>적응형 튜터링 에이전트</td>
+      <td style={{padding: '10px 14px'}}>학생 진도 모니터링, 오개념 식별, 적응적 피드백, 학습 속도 개인화</td>
+      <td style={{padding: '10px 14px'}}>상용화 초기</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>기억 기반 튜터링 에이전트</td>
+      <td style={{padding: '10px 14px'}}>장기간에 걸친 학습 이력 추적, 기억 흔적을 통한 투명성 확보</td>
+      <td style={{padding: '10px 14px'}}>연구 단계</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>멀티에이전트 교육 시스템</td>
+      <td style={{padding: '10px 14px'}}>역할 분담 에이전트(코치, 평가자, 동료), 협력적 학습 환경</td>
+      <td style={{padding: '10px 14px'}}>실험 단계</td>
+    </tr>
+    <tr>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>교수자 지원 에이전트</td>
+      <td style={{padding: '10px 14px'}}>수업 계획 생성, 평가 설계, 학생 분석, 행정 업무 자동화</td>
+      <td style={{padding: '10px 14px'}}>광범위 활용</td>
+    </tr>
+  </tbody>
+</table>
+
+Gartner(2025)는 멀티에이전트 시스템에 대한 문의가 2024년 1분기 대비 2025년 2분기에 1,445% 급증했으며, 2027년까지 멀티에이전트 시스템의 70%가 전문화된 에이전트로 구성될 것으로 전망하였다.
+
+### 2.2 AI 튜터링의 학습 효과 연구
+
+최근 연구는 AI 튜터의 교육적 효과에 대해 의미 있는 실증 결과를 제시하고 있다.
+
+하버드대 RCT 연구(2025년 6월, Scientific Reports). AI 튜터를 사용한 학생들이 전통적 능동 학습 환경의 학생들보다 유의미하게 높은 사후 검사 점수를 달성하였으며, 효과 크기(effect size)는 0.73~1.3 표준편차에 달하였다. AI 그룹의 과제 수행 중앙값은 49분으로, 교실 학습 그룹의 60분보다 짧았다.
+
+K-12 지능형 튜터링 체계적 리뷰(PMC, 2025). AI 기반 적응형 방법은 15~35%의 성적 향상, 최대 40%의 참여도 증가, 더 빠른 과제 완료율을 보고하였다. 그러나 비지능형 튜터링 시스템과 비교 시 효과가 완화되는 것으로 나타났다.
+
+OECD Digital Education Outlook 2026. "GenAI는 명확한 교육적 원칙에 의해 안내될 때 학습을 지원할 수 있으나, 교육적 지침 없이 설계되거나 사용될 경우 실질적 학습 성과 없이 단순히 성과만 향상시킨다"고 결론지었다. 이는 AI 에이전트가 '학습 파트너(learning partner)'가 아닌 '학습 지름길(learning shortcut)'로 전락할 위험성을 경고한 것이다.
+
+### 2.3 교육자 기술 수용과 AI 신뢰
+
+교육자의 AI 수용에 관한 최근 연구는 다음과 같은 핵심 발견을 제시한다.
+
+Michigan Virtual 메타분석(2025). 교육자의 AI 수용에서 인지된 유용성(perceived usefulness)이 가장 강력한 예측 변인으로 확인되었으며, 불안(anxiety)이 높을수록 지능형 도구 적응에 어려움을 겪는 것으로 나타났다.
+
+교수자-AI 신뢰 연구(SAGE, 2026). 교사의 AI 챗봇 수용에서 신뢰(trust)와 주관적 규범(subjective norm)이 핵심 역할을 하며, 혁신성(innovativeness)이 조절 변인으로 작용함을 실증하였다.
+
+Frontiers 연구(2026). AI 도입 장벽을 1차 장벽(외부: 자원 부족, 인프라)과 2차 장벽(내부: 기술 복잡성에 대한 믿음, 효용성 인식)으로 구분하였으며, 저항은 공개적 반대뿐 아니라 비사용, 최소 사용, 고급 기능 회피와 같은 수동적 형태로도 나타남을 밝혔다.
+
+### 2.4 선행 연구의 한계와 본 연구의 차별점
+
+기존 교육 AI 연구는 세 가지 한계를 갖는다. 첫째, 대부분 학생의 AI 활용에 초점을 맞추고 있으며, 교수자와 행정가의 관점을 충분히 반영하지 못한다. 둘째, 기업 도입의 기대-현실 격차 분석 방법론이 교육 분야에 체계적으로 적용된 사례가 드물다. 셋째, 한국의 AI 디지털 교과서 정책 사례에 대한 학술적 분석이 부족하다. 본 연구는 이 세 가지 한계를 동시에 해소하고자 한다.
+
+---
+
+## 3. 연구 방법론
+
+### 3.1 체계적 문헌 조사 설계
+
+본 연구는 2024년부터 2026년까지 발행된 총 28개 문헌을 대상으로 체계적 문헌 조사를 수행하였다.
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>범주</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>편수</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>주요 출처</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>국제기구 정책 보고서</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>4</td>
+      <td style={{padding: '10px 14px'}}>OECD, UNESCO, Brookings, Gartner</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>산업/시장 조사</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>5</td>
+      <td style={{padding: '10px 14px'}}>Cengage Group, DemandSage, Engageli, HumanizeAI, PassiveSecrets</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>학술 논문 (동료 심사)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>9</td>
+      <td style={{padding: '10px 14px'}}>Scientific Reports (Harvard RCT), npj Science of Learning, Frontiers, PMC, SAGE, ScienceDirect, Nature</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>교육 현장 데이터</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>4</td>
+      <td style={{padding: '10px 14px'}}>ICAI, AllAboutAI, Stack Overflow, Michigan Virtual</td>
+    </tr>
+    <tr>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>한국 시장 자료</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>6</td>
+      <td style={{padding: '10px 14px'}}>Korea Herald, MOE Korea, Friedrich Naumann Foundation, AACRAO, TestWe, Nucamp</td>
+    </tr>
+  </tbody>
+</table>
+
+### 3.2 분석 프레임워크: 6대 핵심 축
+
+교육 분야의 특성을 반영하여 기업 분석(AEGIS-RP-2026-002)의 8대 축을 교육 맥락에 적합한 6대 축으로 재구성하였다:
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>축</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>조작적 정의</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>기업 분석 대응 축</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>1. 학습 효과</td>
+      <td style={{padding: '10px 14px'}}>AI 에이전트 활용에 따른 학업 성취, 참여도, 자기조절학습 역량의 변화</td>
+      <td style={{padding: '10px 14px'}}>속도/효율, ROI</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>2. 교수자 신뢰</td>
+      <td style={{padding: '10px 14px'}}>교수자의 AI 에이전트에 대한 인지적·감정적·행동적 신뢰 및 수용 수준</td>
+      <td style={{padding: '10px 14px'}}>신뢰, 인재</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>3. 학문적 무결성</td>
+      <td style={{padding: '10px 14px'}}>AI 활용에 따른 학문적 정직성의 유지 수준과 평가의 신뢰성</td>
+      <td style={{padding: '10px 14px'}}>보안, 윤리</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>4. 형평성/접근성</td>
+      <td style={{padding: '10px 14px'}}>사회경제적, 지리적, 기관적 격차에 따른 AI 교육 도구의 공평한 접근</td>
+      <td style={{padding: '10px 14px'}}>통합 (신규)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>5. 거버넌스/정책</td>
+      <td style={{padding: '10px 14px'}}>AI 교육 도입에 대한 제도적 정책, 가이드라인, 규제의 체계성과 실효성</td>
+      <td style={{padding: '10px 14px'}}>거버넌스, 규제</td>
+    </tr>
+    <tr>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>6. 데이터 프라이버시</td>
+      <td style={{padding: '10px 14px'}}>학생 데이터의 수집, 저장, 활용에 대한 보호 수준과 연령 적합성</td>
+      <td style={{padding: '10px 14px'}}>보안</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 4. 분석 결과
+
+### 4.1 교육 AI 에이전트 도입 현황
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>지표</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>2024</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>2025</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>변화</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>출처</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>글로벌 학생 AI 활용률</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>66%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>92%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>+26%p</td>
+      <td style={{padding: '10px 14px'}}>DemandSage (2026)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>평가에 AI 활용 학생</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>53%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>88%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>+35%p</td>
+      <td style={{padding: '10px 14px'}}>Engageli (2026)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>K-12 교사 GenAI 활용률</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>51%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>83%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>+32%p</td>
+      <td style={{padding: '10px 14px'}}>Cengage Group (2025)</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>K-12 교사 수업 통합</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>51%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>63%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>+12%p YoY</td>
+      <td style={{padding: '10px 14px'}}>Cengage Group (2025)</td>
+    </tr>
+    <tr>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>교육 AI 시장 규모</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>$5.1B</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>$7.05B</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>→ $112.3B (2034)</td>
+      <td style={{padding: '10px 14px'}}>PassiveSecrets (2026)</td>
+    </tr>
+  </tbody>
+</table>
+
+### 4.2 6대 축별 기대-현실 격차 분석
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>축</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>기대 지표</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>기대 수치</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>현실 지표</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>현실 수치</th>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>격차 수준</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(220, 38, 38, 0.05)'}}>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>학문적 무결성</td>
+      <td style={{padding: '10px 14px'}}>AI 정책 효과에 대한 기대</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>높음</td>
+      <td style={{padding: '10px 14px'}}>AI 특화 표절 정책 효과 평가</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>28%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#DC2626'}}>Critical</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(220, 38, 38, 0.05)'}}>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>형평성/접근성</td>
+      <td style={{padding: '10px 14px'}}>대학생 AI 활용률</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>86%</td>
+      <td style={{padding: '10px 14px'}}>저소득/농촌 학교 AI 접근</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>제한적</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#DC2626'}}>Severe</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(220, 38, 38, 0.05)'}}>
+      <td style={{padding: '10px 14px', fontWeight: 700}}>교수자 신뢰</td>
+      <td style={{padding: '10px 14px'}}>교사 GenAI 활용률</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>83%</td>
+      <td style={{padding: '10px 14px'}}>공식 AI 훈련 미수혜</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>96%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#DC2626'}}>Severe</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>거버넌스/정책</td>
+      <td style={{padding: '10px 14px'}}>AI 정책 수립 필요 인식</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>높음</td>
+      <td style={{padding: '10px 14px'}}>모호한 정책, 불균등 시행</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>광범위</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#D97706'}}>High</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>데이터 프라이버시</td>
+      <td style={{padding: '10px 14px'}}>학생 데이터 보호 기대</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>높음</td>
+      <td style={{padding: '10px 14px'}}>연령 적합성 검증 체계</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>미성숙</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#D97706'}}>High</td>
+    </tr>
+    <tr style={{backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>학습 효과</td>
+      <td style={{padding: '10px 14px'}}>개인화 학습 효과 기대</td>
+      <td style={{padding: '10px 14px', textAlign: 'center'}}>높음</td>
+      <td style={{padding: '10px 14px'}}>Harvard RCT 효과 크기</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>0.73-1.3 SD</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>Moderate (긍정적)</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 제1위: 학문적 무결성 격차 (Critical)
+
+학생의 58%가 AI를 과제 부정 행위에 활용하였으며(ICAI, 2024), 2025년에는 평가에 AI를 활용하는 학생이 88%에 달한다(Engageli, 2026). AI 생성 과제의 94%가 감지되지 않고(AllAboutAI, 2026), 교수진이 평가한 AI 특화 표절 정책의 효과는 28%에 불과하다. 59%의 대학 행정가가 AI 이후 부정행위가 증가했다고 인식하고 있으며, 2022-2026년 사이 AI 관련 학생 징계가 33% 증가하였다. 선도 기관들은 감지 우선 접근법에서 평가 재설계, 투명한 공개 정책, 교수자 역량 개발 프로그램으로 전환하고 있다.
+
+#### 제2위: 형평성/접근성 격차 (Severe)
+
+대학생의 86%가 AI를 연구 파트너로 활용하는 반면, 미국만 해도 1,570만 명이 고속 인터넷에 접근하지 못하고 있다(Brookings, 2026). 저소득 가정, 농촌 지역, 자원이 부족한 기관의 학생들은 AI 도구를 구동하는 기술에 대한 접근에서 구조적 불이익을 받고 있다. 알고리즘 편향도 문제로, 대리 편향(proxy bias), 차별적 영향(disparate impact), 편향적 타겟팅(biased targeting)이 인종, 성별, 장애, 사회경제적 지위에 따라 소외 집단을 체계적으로 불리하게 만드는 것으로 보고되었다(Frontiers in Computer Science, 2026). OECD(2026)는 "디지털 격차가 지속되는 곳에서는 교육과정 연계 GenAI 자원과 대안적 솔루션을 제공해야 한다"고 권고하였다.
+
+#### 제3위: 교수자 신뢰 격차 (Severe)
+
+K-12 교사의 83%가 GenAI를 활용하고 있으나, 96%가 공식적 AI 교육을 받지 못했으며, 85%가 교실에서의 AI 관리에 준비되지 않았다고 느끼고 있다. 이는 '비훈련 활용(untrained adoption)'이라는 위험한 패턴을 형성한다. 교수자 신뢰가 서서히 성장하는 가운데, 최대 우려 사항은 학생의 부적절한 사용, 기술 과의존, 프라이버시 문제로 나타났다. 저항은 공개적 반대보다 비사용, 최소 사용, 고급 기능 회피와 같은 수동적 저항 형태로 더 빈번히 나타난다.
+
+#### 제4위: 거버넌스/정책 격차 (High)
+
+홍콩대학교 연구(ScienceDirect, 2025)에 따르면, 학문적 무결성, 공정성, 형평성, 프라이버시, 보안에 대한 우려가 존재하며, 모호한 정책, 불균등한 시행, 도구 접근의 격차가 보고되었다. 대학들은 2025년 2월 이후 혁신과 무결성의 균형을 맞추는 정책을 급히 작성하거나 재작성하고 있다. 호주 가톨릭 대학교는 2025년 오탐지(false-flag) 사건 이후 자동화된 AI 감지 시행을 중단하였으며, 많은 대학이 인간 검토와 알고리즘 경보를 결합하는 모델로 전환하고 있다.
+
+#### 제5위: 데이터 프라이버시 격차 (High)
+
+OECD(2026)는 "프라이버시, 안전, 편향 검사, 연령 적합성, 투명성, 교육 목표와의 정합성에 대한 명확한 기대가 신뢰할 수 있는 GenAI 교육 활용을 위한 환경을 조성한다"고 권고하였다. 그러나 미성년 학생의 데이터를 다루는 교육 AI 에이전트에 대한 특화된 규제 프레임워크는 아직 초기 단계에 있다.
+
+#### 제6위: 학습 효과 격차 (Moderate — 긍정적)
+
+6대 축 중 유일하게 현실이 기대에 근접하거나 부합하는 영역이다. Harvard RCT에서 0.73~1.3 표준편차의 효과 크기가 확인되었으며, AI 기반 개인화 학습은 학생 유지율을 15~25% 향상시키는 것으로 보고되었다. 다만 이러한 효과는 교과목, 연령대, 구현 품질에 따라 크게 달라지며, 과도한 자동화가 학생의 메타인지적 참여를 감소시켜 자기조절학습을 약화시킬 수 있다는 우려가 제기되고 있다.
+
+### 4.3 한국 교육 AI 에이전트 도입 분석
+
+#### AI 디지털 교과서 정책의 전개와 교훈
+
+한국 교육부는 세계 최초로 AI 디지털 교과서의 전국 도입을 추진하였다. 2025년 1학기부터 초등 3-4학년 영어·수학, 중·고등학교 영어·수학·정보 교과에서 시범 운영되었으나, 교육자와 학부모의 광범위한 반발에 직면하였다. 주요 반발 원인은 다음과 같다:
+
+- 교사 준비 부족: 충분한 교사 교육 없이 도입이 추진됨
+- 스크린 타임 우려: 학부모의 디지털 기기 과다 노출에 대한 우려
+- 교육적 효과 불확실: AI 교과서의 학습 효과에 대한 실증 근거 부족
+- 하향식 추진: 현장 의견 수렴 없는 정부 주도 의무화
+
+결과적으로 전국 의무화에서 학교별 자율 채택 모델로 전환되었으며, 현재 채택률은 약 30%에 머무르고 있다(Korea Herald, 2026). Friedrich Naumann Foundation(2026)은 "한국이 AI 교육에서 속도를 늦추고 있다"고 평가하였다.
+
+#### 한국의 광범위한 AI 교육 투자
+
+AI 디지털 교과서의 좌절에도 불구하고, 한국 정부는 AI 인재 양성에 대한 투자를 확대하고 있다:
+
+- "AI 인재 양성 종합 계획": 1.4조원($9.6억) 투자, 초등~대학원 연구자까지 전 단계 포괄
+- 초·중학교 9,000억원, 고등학교 5,000억원 배정
+- 2026년부터 3개 지역 교육청에 AI 교육 지원 센터 설립, 2028년까지 전국 17개로 확대
+- 국립 거점 대학에서 전공 무관 전 학생 대상 AI 기초 교육 제공
+- 2026년 예산 8% 증가, 10.1조원 AI 직접 투자·조달 배정
+
+#### 시사점
+
+한국 사례는 세 가지 교훈을 제공한다. 첫째, 기술 준비성과 현장 수용성은 별개의 문제이며, 기술이 준비되었다고 해서 교육 현장이 준비된 것은 아니다. 둘째, 교수자를 AI 도입의 핵심 이해관계자로 참여시키는 상향식(bottom-up) 접근이 하향식(top-down) 의무화보다 효과적이다. 셋째, 시범 운영과 실증 근거 축적이 전국 확대에 선행해야 한다.
+
+---
+
+## 5. 논의
+
+### 5.1 기대-현실 격차의 구조적 원인
+
+교육 분야 AI 에이전트 도입의 격차는 네 가지 구조적 원인에 의해 발생한다.
+
+첫째, '교육 없는 도입(adoption without education)' 현상. 교사의 83%가 AI를 사용하면서 96%가 훈련을 받지 못한 상태는 기업의 '거버넌스 없는 가속화'와 평행한 현상이다. 교육자가 AI의 잠재력과 한계를 이해하지 못한 상태에서의 도입은 부적절한 활용, 과신, 또는 회피로 이어진다.
+
+둘째, 평가 체계의 구조적 취약성. 전통적 과제 기반 평가는 AI 시대에 근본적으로 취약하다. AI 생성물의 94%가 감지되지 않는 현실은 탐지 기술의 한계가 아니라, 평가 패러다임 자체의 전환이 필요함을 시사한다.
+
+셋째, 디지털 격차의 AI 격차로의 전환. 기존의 디지털 격차(인프라, 기기 접근)가 AI 시대에는 AI 리터러시 격차로 확장되고 있다. AI 리터러시가 없는 개인은 합성 콘텐츠와 진정한 콘텐츠를 구별하는 데 어려움을 겪으며(Brookings, 2026), 이는 교육적 불평등을 심화시킨다.
+
+넷째, 정책과 기술의 시차(time lag). 한국의 AI 디지털 교과서 사례가 보여주듯, AI 기술의 발전 속도는 교육 정책 수립과 현장 준비 속도를 압도적으로 초과한다. OECD(2026)가 경고한 "학습 파트너가 아닌 학습 지름길"의 위험은 이 시차에서 비롯된다.
+
+### 5.2 교육 AI 에이전트 신뢰 형성 모델
+
+기업 AI 에이전트 신뢰 모델(AEGIS-RP-2026-002)을 교육 맥락에 적응시켜 다음과 같은 통합 모델을 제안한다:
+
+선행 요인: (1) 교육적 투명성 — AI의 추론 과정이 교육적으로 해석 가능한 수준으로 설명되는 정도, (2) 인지된 교육적 역량 — AI가 교과 내용을 정확하게 전달하고 학습을 촉진하는 능력에 대한 인식, (3) 교육적 정합성 — AI 도구가 교육과정 목표 및 교육 철학과 부합하는 정도, (4) 동료 영향 — 다른 교수자나 기관의 AI 활용 경험
+
+매개 변인: (1) 교육적 자기효능감 — AI를 교육적으로 효과적으로 활용할 수 있다는 교수자의 자신감, (2) 교육적 통제감 — AI가 교수자의 전문적 자율성을 침해하지 않는다는 인식
+
+조절 변인: (1) 교수자 AI 리터러시 수준, (2) 기관의 지원 체계(교육, 인프라, 정책), (3) 문화적 맥락(특히 한국의 교사 권위 문화)
+
+결과 변인: 신뢰 → 의미 있는 통합(meaningful integration) → 학습 효과 향상
+
+### 5.3 교육 AI 에이전트 도입 성숙도 프레임워크
+
+<table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+  <thead>
+    <tr style={{borderBottom: '2px solid #2563EB'}}>
+      <th style={{padding: '10px 14px', textAlign: 'center'}}>단계</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>명칭</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>AI 활용</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>교수자 역할</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>평가 체계</th>
+      <th style={{padding: '10px 14px', textAlign: 'left'}}>거버넌스</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>L1</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>비공식 실험</td>
+      <td style={{padding: '10px 14px'}}>개별 교수자/학생의 자발적 활용</td>
+      <td style={{padding: '10px 14px'}}>AI 인지 수준, 비체계적</td>
+      <td style={{padding: '10px 14px'}}>전통적 평가 유지</td>
+      <td style={{padding: '10px 14px'}}>정책 부재 또는 금지</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>L2</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>안내된 통합</td>
+      <td style={{padding: '10px 14px'}}>특정 교과/활동에 AI 도구 배정</td>
+      <td style={{padding: '10px 14px'}}>기본 AI 리터러시 교육 이수</td>
+      <td style={{padding: '10px 14px'}}>AI 활용 공개 정책 시행</td>
+      <td style={{padding: '10px 14px'}}>기본 가이드라인 수립</td>
+    </tr>
+    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>L3</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>교육적 통합</td>
+      <td style={{padding: '10px 14px'}}>교육과정 내 체계적 AI 통합</td>
+      <td style={{padding: '10px 14px'}}>AI 활용 교수 설계 역량 보유</td>
+      <td style={{padding: '10px 14px'}}>AI 시대 평가 재설계</td>
+      <td style={{padding: '10px 14px'}}>포괄적 거버넌스 운영</td>
+    </tr>
+    <tr>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>L4</td>
+      <td style={{padding: '10px 14px', fontWeight: 600}}>적응적 생태계</td>
+      <td style={{padding: '10px 14px'}}>멀티에이전트 개인화 학습 환경</td>
+      <td style={{padding: '10px 14px'}}>AI 협업 교수 전문가</td>
+      <td style={{padding: '10px 14px'}}>역량 중심 총체적 평가</td>
+      <td style={{padding: '10px 14px'}}>적응적 정책 프레임워크</td>
+    </tr>
+  </tbody>
+</table>
+
+현재 대부분의 교육 기관은 Level 1에서 Level 2로의 전환기에 있다. 학생들은 이미 Level 2~3 수준으로 AI를 활용하고 있으나, 교수자와 기관은 Level 1에 머무르는 '학습자-기관 성숙도 비대칭' 현상이 관찰된다.
+
+### 5.4 실무적 시사점
+
+- 교육 행정가: '교수자 우선(teacher-first)' 원칙 채택. AI 도구 도입 전 교수자 역량 개발 프로그램 선행, 상향식 정책 수립 참여 보장
+- 교수자: 평가 재설계에 투자. AI 시대에 적합한 과정 기반 평가, 구술 평가, 포트폴리오 평가 등 대안적 평가 방법 개발
+- EdTech 기업: 교육적 정합성을 최우선으로 설계. OECD가 경고한 '학습 지름길'이 아닌 '학습 파트너'로서의 AI 설계
+- 정책 입안자: 한국의 교훈을 반영하여, 시범 운영 → 실증 근거 축적 → 점진적 확대의 경로 추구. 형평성 보장을 위한 인프라 투자 병행
+
+---
+
+## 6. 결론
+
+### 6.1 주요 발견 요약
+
+- RQ1 (기대 구조): 교육 이해관계자는 AI 에이전트에 대해 개인화 학습(92% 활용), 교수 효율성(83% 활용), 즉각적 피드백을 기대하면서, 동시에 정확성(87% 우려), 부정행위, 프라이버시에 대한 우려를 공존시키고 있다
+- RQ2 (격차와 원인): 학문적 무결성(58% 부정 사용, 94% 미감지, 28% 정책 효과), 형평성(86% 대학 활용 vs 구조적 접근 격차), 교수자 신뢰(83% 활용 vs 96% 미훈련)에서 가장 큰 격차가 확인되었다. 학습 효과는 유일하게 기대에 부합하는 영역이다(0.73-1.3 SD 효과 크기)
+- RQ3 (한국 특수성): AI 디지털 교과서의 의무화 → 자율 채택(30%) 전환은 하향식 도입의 한계를 보여준다. 동시에 1.4조원 AI 인재 양성 투자는 장기적 비전을 시사한다
+
+### 6.2 연구의 한계
+
+본 연구는 2차 데이터에 의존하며, 교육 현장의 1차 데이터(교수자 인터뷰, 학생 설문)를 포함하지 않는다. 초·중·고등교육을 하나의 분석 단위로 다루고 있어 교육 단계별 차이를 충분히 반영하지 못할 수 있다. 한국 외 아시아 국가의 비교 분석이 부족하다.
+
+### 6.3 향후 연구 방향
+
+1. 한국 교수자 대상 1차 설문 조사: AI 디지털 교과서 경험 교수자의 신뢰, 수용, 저항 패턴 분석
+2. 교육 단계별 차별화 분석: K-12와 고등교육의 격차 양상 차이 규명
+3. 종단 연구: 학문적 무결성 격차의 시간적 변화 추적
+4. AI 리터러시 교육의 효과 검증: 교수자 AI 리터러시 프로그램의 신뢰 및 수용에 대한 인과적 효과 분석
+5. 동아시아 비교 분석: 한국, 일본, 중국, 싱가포르의 AI 교육 정책 비교
+
+---
+
+## 참고문헌
+
+### 국제기구 정책 보고서
+1. OECD. (2026). Digital Education Outlook 2026: Exploring Effective Uses of Generative AI in Education.
+2. Brookings Institution. (2026). AI and the next digital divide in education.
+3. Gartner. (2025). 40% of enterprise apps will feature task-specific AI agents by 2026.
+
+### 산업/시장 조사
+4. Cengage Group. (2025). AI in Education Report: Growing GenAI Adoption in K12 & Higher Education.
+5. DemandSage. (2026). 77 AI in Education Statistics 2026 (Global Trends & Facts).
+6. Engageli. (2026). 25 AI in Education Statistics to Guide Your Learning Strategy in 2026.
+7. HumanizeAI. (2025). AI Agents in Education Statistics 2025: Usage, Impact, and Market Growth.
+8. PassiveSecrets. (2026). 75+ AI in Education Statistics (2026): NEW Trends & Impact.
+
+### 학술 논문
+9. AI tutoring outperforms in-class active learning: an RCT. (2025). Scientific Reports. Nature.
+10. A systematic review of AI-driven intelligent tutoring systems in K-12 education. (2025). npj Science of Learning. Nature.
+11. Barriers to AI adoption among instructors in higher education. (2026). Frontiers in Education.
+12. Teacher-AI interaction: Trust, subjective norm, and innovativeness. (2026). SAGE Journals.
+13. Breaking barriers: A meta-analysis of educator acceptance of AI. (2025). Michigan Virtual.
+14. Exploring the role of agentic AI in fostering self-efficacy in higher education. (2025). PMC.
+15. AI and the digital divide in education. (2026). Frontiers in Computer Science.
+16. Trajectories of AI policy in higher education. (2025). ScienceDirect.
+17. Determinants of student adoption of AI applications in higher education. (2025). Scientific Reports. Nature.
+
+### 교육 현장 데이터
+18. International Center for Academic Integrity (ICAI). (2024). Academic integrity survey results.
+19. AllAboutAI. (2026). AI Cheating in Schools: 2026 Global Report.
+20. Stack Overflow. (2025). 2025 Developer Survey — AI Section.
+21. Codegnan. (2026). AI in Education Statistics 2026.
+22. Michigan Virtual. (2025). AI in Education: A 2025 Snapshot of Trust, Use, and Emerging Practices.
+
+### 한국 시장
+23. Korea Herald. (2026). Korea expands AI education, but long-term vision in question.
+24. Korea Herald. (2026). S. Korea to foster AI talent across all stages of life.
+25. AACRAO. (2026). South Korea pulls plug on AI textbooks.
+26. Friedrich Naumann Foundation. (2026). AI Education: South Korea slows down on AI education.
+27. Ministry of Education, Korea. (2025). Briefing on the Plan for AI Digital Textbooks.
+28. TestWe. (2026). In South Korea, AI is being used to personalise education.
