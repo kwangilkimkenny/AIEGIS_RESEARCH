@@ -33,11 +33,11 @@ status: "published"
 featured: true
 ---
 
-> **Note:** TurboQuant-Adam is an *applied research extension* of [TurboQuant](https://arxiv.org/abs/2504.19874) (Zandieh et al., ICLR 2026) from Google Research, Google DeepMind, and NYU. This is an independent effort by YATAV Research Lab — **not affiliated with** the original authors. See the [technical report](/en/publications/aegis-tr-2026-004) for full attribution and the [open-source repository](https://github.com/kwangilkimkenny/turboquant-adam) (Apache 2.0) for implementation.
+> Note: TurboQuant-Adam is an *applied research extension* of [TurboQuant](https://arxiv.org/abs/2504.19874) (Zandieh et al., ICLR 2026) from Google Research, Google DeepMind, and NYU. This is an independent effort by YATAV Research Lab — not affiliated with the original authors. See the [technical report](/en/publications/aegis-tr-2026-004) for full attribution and the [open-source repository](https://github.com/kwangilkimkenny/turboquant-adam) (Apache 2.0) for implementation.
 
 ## Executive Summary
 
-TurboQuant's 4-bit momentum compression (8× communication reduction) and activation compression (4× memory savings) directly impact the **two largest cost variables** in LLM distributed training:
+TurboQuant's 4-bit momentum compression (8× communication reduction) and activation compression (4× memory savings) directly impact the two largest cost variables in LLM distributed training:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -76,7 +76,7 @@ TurboQuant's 4-bit momentum compression (8× communication reduction) and activa
   </tbody>
 </table>
 
-**Projected savings:** $240K–$1.2M per 70B training run (20–40% of total cost) and $8M infrastructure savings per 1,000-GPU cluster deployment.
+Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) and $8M infrastructure savings per 1,000-GPU cluster deployment.
 
 ## Current State: GPU Training Cost Structure
 
@@ -188,7 +188,7 @@ TurboQuant's 4-bit momentum compression (8× communication reduction) and activa
   </tbody>
 </table>
 
-> **Key insight:** With TurboQuant, a $7M Ethernet infrastructure delivers **2× the effective throughput** of a $15M InfiniBand deployment — saving $8M per 1,000-GPU cluster.
+> Key insight: With TurboQuant, a $7M Ethernet infrastructure delivers 2× the effective throughput of a $15M InfiniBand deployment — saving $8M per 1,000-GPU cluster.
 
 This aligns with the industry trend exemplified by Meta's selection of RoCE Ethernet for 24,000-GPU Llama 3 training. TurboQuant makes this transition viable for a much broader range of organizations.
 
@@ -275,7 +275,7 @@ TurboQuant unlocks previously impossible deployment scenarios:
   </tbody>
 </table>
 
-> **For 70B models**, activation compression enables reducing tensor parallelism from TP=8 to TP=4, cutting required GPU count by half.
+> For 70B models, activation compression enables reducing tensor parallelism from TP=8 to TP=4, cutting required GPU count by half.
 
 ## Competitive Positioning
 
@@ -285,29 +285,29 @@ TurboQuant unlocks previously impossible deployment scenarios:
 </figure>
 
 TurboQuant's differentiators:
-1. **Dual-axis compression** — only framework addressing both communication AND memory simultaneously
-2. **AdamW-native design** — momentum-level compression avoids the proven EF–AdamW failure mode
-3. **AMP compatible** — validated with PyTorch Automatic Mixed Precision for production readiness
+1. Dual-axis compression — only framework addressing both communication AND memory simultaneously
+2. AdamW-native design — momentum-level compression avoids the proven EF–AdamW failure mode
+3. AMP compatible — validated with PyTorch Automatic Mixed Precision for production readiness
 
 ## Industry Impact
 
 ### Cloud Service Providers (AWS, GCP, Azure)
 
-- **New GPU instance tiers**: Low-cost training instances without InfiniBand premium
-- **Price competitiveness**: Ethernet-based GPU clusters at 30–50% lower cost
-- **Utilization**: Memory efficiency increases GPU throughput per customer
+- New GPU instance tiers: Low-cost training instances without InfiniBand premium
+- Price competitiveness: Ethernet-based GPU clusters at 30–50% lower cost
+- Utilization: Memory efficiency increases GPU throughput per customer
 
 ### AI Startups & Research Institutions
 
-- **Barrier reduction**: Large-scale training feasible on commodity Ethernet infrastructure
-- **Cost efficiency**: 70B training cost from $1.2M → $600K–$800K
-- **Experiment velocity**: Same budget enables 2–3× more training runs
+- Barrier reduction: Large-scale training feasible on commodity Ethernet infrastructure
+- Cost efficiency: 70B training cost from $1.2M → $600K–$800K
+- Experiment velocity: Same budget enables 2–3× more training runs
 
 ### On-Premises Operators
 
-- **Network CAPEX**: InfiniBand → Ethernet saves $8M per 1,000-GPU cluster
-- **Legacy reuse**: Existing Ethernet infrastructure becomes LLM-training capable
-- **Power**: InfiniBand switch elimination reduces power consumption 15–20%
+- Network CAPEX: InfiniBand → Ethernet saves $8M per 1,000-GPU cluster
+- Legacy reuse: Existing Ethernet infrastructure becomes LLM-training capable
+- Power: InfiniBand switch elimination reduces power consumption 15–20%
 
 ## Risk Assessment
 
@@ -367,15 +367,15 @@ TurboQuant's differentiators:
 
 ## Conclusion
 
-> **TurboQuant has the potential to fundamentally reshape the cost structure of LLM distributed training.**
+> TurboQuant has the potential to fundamentally reshape the cost structure of LLM distributed training.
 
 By resolving 20–55% communication overhead via 8× compression and 40–60% VRAM bottleneck via 4× activation savings:
 
-1. **$8M infrastructure savings** — InfiniBand → Ethernet transition per 1,000-GPU cluster
-2. **27–56% training cost reduction** — $240K–$500K per 70B model training run
-3. **2–3× larger batches** on identical hardware → improved throughput
-4. **50% GPU reduction** possible for 70B models via lower tensor parallelism
-5. **New architectures enabled** — multi-datacenter, cloud-hybrid, and edge-cloud training
+1. $8M infrastructure savings — InfiniBand → Ethernet transition per 1,000-GPU cluster
+2. 27–56% training cost reduction — $240K–$500K per 70B model training run
+3. 2–3× larger batches on identical hardware → improved throughput
+4. 50% GPU reduction possible for 70B models via lower tensor parallelism
+5. New architectures enabled — multi-datacenter, cloud-hybrid, and edge-cloud training
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -424,8 +424,8 @@ The technical results cited in this whitepaper are drawn from the companion tech
 
 ## Acknowledgments
 
-This business analysis is informed by the TurboQuant-Adam research framework, which builds upon the foundational work of **Amir Zandieh** (Google Research), **Majid Daliri** (New York University), **Majid Hadian** (Google DeepMind), and **Vahab Mirrokni** (Google Research) on TurboQuant (ICLR 2026). Their decision to make their research openly accessible enabled this applied extension from inference to training. We also acknowledge **Tang et al.** (1-bit Adam, ICML 2021) whose momentum compression strategy directly inspired the TurboQuantAdamW design. The communication bottleneck measurements referenced throughout are drawn from large-scale GPU cluster benchmarks in the distributed training community. Cost projections are estimates based on publicly available cloud pricing — actual savings will depend on specific deployment configurations.
+This business analysis is informed by the TurboQuant-Adam research framework, which builds upon the foundational work of Amir Zandieh (Google Research), Majid Daliri (New York University), Majid Hadian (Google DeepMind), and Vahab Mirrokni (Google Research) on TurboQuant (ICLR 2026). Their decision to make their research openly accessible enabled this applied extension from inference to training. We also acknowledge Tang et al. (1-bit Adam, ICML 2021) whose momentum compression strategy directly inspired the TurboQuantAdamW design. The communication bottleneck measurements referenced throughout are drawn from large-scale GPU cluster benchmarks in the distributed training community. Cost projections are estimates based on publicly available cloud pricing — actual savings will depend on specific deployment configurations.
 
 ## Disclaimer
 
-This whitepaper is an **independent analysis** by YATAV Research Lab. It is **not affiliated with, endorsed by, or officially connected to** the original TurboQuant authors, Google Research, Google DeepMind, or New York University. All cost projections are estimates and should be validated against specific deployment configurations before making infrastructure investment decisions.
+This whitepaper is an independent analysis by YATAV Research Lab. It is not affiliated with, endorsed by, or officially connected to the original TurboQuant authors, Google Research, Google DeepMind, or New York University. All cost projections are estimates and should be validated against specific deployment configurations before making infrastructure investment decisions.
