@@ -37,7 +37,7 @@ featured: true
 
 ## Executive Summary
 
-TurboQuant's 4-bit momentum compression (8× communication reduction) and activation compression (4× memory savings) directly impact the two largest cost variables in LLM distributed training:
+TurboQuant's 4-bit momentum compression (8× communication reduction) and activation compression (4× memory savings) directly impact the two largest cost variables in LLM distributed training.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -155,7 +155,7 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
   <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 1. Communication consumes 20–55% of training time; activations occupy 40–60% of VRAM. TurboQuant addresses both simultaneously.</figcaption>
 </figure>
 
-8× communication reduction transforms the effective bandwidth equation:
+8× communication reduction transforms the effective bandwidth equation.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -199,7 +199,7 @@ This aligns with the industry trend exemplified by Meta's selection of RoCE Ethe
   <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 2. Infrastructure transformation — from InfiniBand-dependent to Ethernet-capable distributed training.</figcaption>
 </figure>
 
-TurboQuant unlocks previously impossible deployment scenarios:
+TurboQuant unlocks previously impossible deployment scenarios.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -242,7 +242,7 @@ TurboQuant unlocks previously impossible deployment scenarios:
 
 ### Impact 4: GPU Memory Efficiency
 
-4× activation compression has cascading effects on hardware utilization:
+4× activation compression has cascading effects on hardware utilization.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -284,7 +284,7 @@ TurboQuant unlocks previously impossible deployment scenarios:
   <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 4. TurboQuant is the only framework addressing both communication and memory bottlenecks with full AdamW and AMP compatibility.</figcaption>
 </figure>
 
-TurboQuant's differentiators:
+TurboQuant은 다음과 같은 차별점을 갖는다.
 1. Dual-axis compression — only framework addressing both communication AND memory simultaneously
 2. AdamW-native design — momentum-level compression avoids the proven EF–AdamW failure mode
 3. AMP compatible — validated with PyTorch Automatic Mixed Precision for production readiness
@@ -369,7 +369,7 @@ TurboQuant's differentiators:
 
 > TurboQuant has the potential to fundamentally reshape the cost structure of LLM distributed training.
 
-By resolving 20–55% communication overhead via 8× compression and 40–60% VRAM bottleneck via 4× activation savings:
+20–55%의 통신 오버헤드를 8× 압축으로, 40–60%의 VRAM 병목을 4× 활성화 절감으로 해소함으로써 다음과 같은 효과가 달성된다.
 
 1. $8M infrastructure savings — InfiniBand → Ethernet transition per 1,000-GPU cluster
 2. 27–56% training cost reduction — $240K–$500K per 70B model training run
@@ -414,7 +414,7 @@ By resolving 20–55% communication overhead via 8× compression and 40–60% VR
 
 ## References
 
-The technical results cited in this whitepaper are drawn from the companion technical report [AEGIS-TR-2026-004](/en/publications/aegis-tr-2026-004) and the [open-source implementation](https://github.com/kwangilkimkenny/turboquant-adam). Key foundational references include:
+The technical results cited in this whitepaper are drawn from the companion technical report [AEGIS-TR-2026-004](/en/publications/aegis-tr-2026-004) and the [open-source implementation](https://github.com/kwangilkimkenny/turboquant-adam). 주요 기반 참고문헌은 아래와 같다.
 
 1. A. Zandieh (Google Research), M. Daliri (NYU), M. Hadian (Google DeepMind), V. Mirrokni (Google Research), "TurboQuant: Online Vector Quantization with Near-optimal Distortion Rate," *ICLR*, 2026. [arXiv:2504.19874](https://arxiv.org/abs/2504.19874) — *foundational quantization framework for distributed inference; our starting point*
 2. H. Tang et al., "1-bit Adam: Communication Efficient Large-Scale Training," *ICML*, 2021 — *momentum compression strategy*
@@ -424,8 +424,10 @@ The technical results cited in this whitepaper are drawn from the companion tech
 
 ## Acknowledgments
 
-This business analysis is informed by the TurboQuant-Adam research framework, which builds upon the foundational work of Amir Zandieh (Google Research), Majid Daliri (New York University), Majid Hadian (Google DeepMind), and Vahab Mirrokni (Google Research) on TurboQuant (ICLR 2026). Their decision to make their research openly accessible enabled this applied extension from inference to training. We also acknowledge Tang et al. (1-bit Adam, ICML 2021) whose momentum compression strategy directly inspired the TurboQuantAdamW design. The communication bottleneck measurements referenced throughout are drawn from large-scale GPU cluster benchmarks in the distributed training community. Cost projections are estimates based on publicly available cloud pricing — actual savings will depend on specific deployment configurations.
+본 백서는 소규모 스타트업인 YATAV Inc.의 연구 조직 AEGIS Research에서 수행한 소규모 프로젝트의 산출물이다. 대규모 기업의 인프라나 전담 경제 분석팀 없이, 공개된 기술 데이터와 클라우드 가격 정보를 기반으로 독립적인 비즈니스 영향 분석을 시도하였다.
+
+본 분석의 기술적 토대가 된 TurboQuant-Adam 연구 프레임워크는 Amir Zandieh(Google Research), Majid Daliri(New York University), Majid Hadian(Google DeepMind), Vahab Mirrokni(Google Research)의 TurboQuant(ICLR 2026) 위에 구축되었다. 그들이 연구를 공개적으로 접근 가능하게 한 결정이 추론에서 학습으로의 응용 확장을 가능하게 하였으며, 우리와 같은 소규모 팀이 이를 경제적 관점에서 분석할 기회를 제공하였다. 또한 Hanlin Tang et al.(1-bit Adam, ICML 2021)의 모멘텀 압축 전략이 TurboQuantAdamW 설계에 직접적 영감을 주었음에 감사드린다. 본문에서 인용된 통신 병목 측정 데이터는 분산 학습 커뮤니티의 대규모 GPU 클러스터 벤치마크에서 인용하였다. 비용 예측은 공개 클라우드 가격에 기반한 추정치이며, 실제 절감액은 특정 배포 구성에 따라 달라질 것이다.
 
 ## Disclaimer
 
-This whitepaper is an independent analysis by YATAV Research Lab. It is not affiliated with, endorsed by, or officially connected to the original TurboQuant authors, Google Research, Google DeepMind, or New York University. All cost projections are estimates and should be validated against specific deployment configurations before making infrastructure investment decisions.
+본 백서는 YATAV Inc. 산하 AEGIS Research의 독립적 분석이다. 원 TurboQuant 저자, Google Research, Google DeepMind, 뉴욕대학교와 제휴, 보증, 공식적 연관이 없다. 모든 비용 예측은 추정치이며, 인프라 투자 결정 전에 특정 배포 구성에 대해 검증되어야 한다.

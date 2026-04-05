@@ -41,7 +41,7 @@ featured: true
 
 ## Problem
 
-Large-scale LLM distributed training faces two critical bottlenecks that severely limit training efficiency and scalability:
+Large-scale LLM distributed training faces two critical bottlenecks that severely limit training efficiency and scalability.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -69,7 +69,7 @@ Existing gradient compression methods (QSGD, Deep Gradient Compression) assume S
 
 ## Related Work
 
-Gradient compression for distributed training has been explored along several axes. We position our work relative to the most relevant prior methods:
+Gradient compression for distributed training has been explored along several axes. We position our work relative to the most relevant prior methods.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -161,7 +161,7 @@ Key differentiators. (1) Most prior compression methods target SGD; adapting to 
 
 ### Theoretical Foundation
 
-Walsh-Hadamard Transform → CLT Gaussianization. For any tensor $g \in \mathbb{R}^d$:
+Walsh-Hadamard Transform → CLT Gaussianization. For any tensor $g \in \mathbb{R}^d$.
 
 $$\tilde{g} = \frac{1}{\sqrt{d}} H_d \cdot D \cdot g \sim \mathcal{N}(0, \sigma^2)$$
 
@@ -197,7 +197,7 @@ The 1-bit Adam approach of freezing $v_t$ after warmup works at small scale (~1M
   <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 5. TurboQuantAdamW v3 — live v_t + momentum-level error compensation. Error never enters v_t path, preserving nonlinear denominator stability.</figcaption>
 </figure>
 
-Three critical design decisions differentiate v3 from prior work:
+Three critical design decisions differentiate v3 from prior work.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
@@ -450,7 +450,7 @@ TurboQuant-Adam addresses the two largest cost drivers in LLM training. The esti
 
 ## Open Source
 
-The full implementation is available as an open-source Python package under Apache License 2.0:
+The full implementation is available as an open-source Python package under Apache License 2.0.
 
 ```bash
 git clone https://github.com/kwangilkimkenny/turboquant-adam.git
@@ -459,7 +459,7 @@ pip install -e .            # Base installation
 pip install -e ".[triton]"  # With Triton GPU kernels
 ```
 
-Drop-in usage — TurboQuantAdamW is a drop-in replacement for PyTorch AdamW:
+Drop-in usage — TurboQuantAdamW is a drop-in replacement for PyTorch AdamW.
 
 ```python
 from turboquant import TurboQuantAdamW
@@ -510,17 +510,19 @@ We want to be transparent about where this research stands. There is a meaningfu
 
 ## Acknowledgments
 
-This project would not have been possible without the pioneering work of Amir Zandieh (Google Research), Majid Daliri (New York University), Majid Hadian (Google DeepMind), and Vahab Mirrokni (Google Research) on TurboQuant. Their proof that random rotation induces Beta-distributed coordinates enabling near-optimal quantization was the theoretical foundation and direct inspiration for our exploration into the training domain. We hold their contribution in the highest regard — their decision to make this research openly accessible is what enabled a small independent team like ours to even attempt this kind of applied extension. We encourage all users of this project to read and cite the original paper, which represents a far more substantial contribution to the field than our applied work.
+본 연구는 소규모 스타트업인 YATAV Inc.의 연구 조직 AEGIS Research에서 제한된 자원(MacBook Air M4, 2x RTX 5000)으로 수행한 소규모 프로젝트이다. 대규모 GPU 클러스터나 전담 연구 인력 없이, 공개된 선행 연구의 이론적 기반 위에서 독립적인 응용 확장을 시도하였다.
 
-We also gratefully acknowledge the authors of 1-bit Adam (Tang et al., ICML 2021), QSGD (Alistarh et al., NeurIPS 2017), THC (Lam et al., NSDI 2024), EF21 (Richtárik et al., NeurIPS 2021), and CompAct (Chen et al., NAACL 2025), whose work forms the theoretical foundation upon which this framework is built.
+본 프로젝트는 무엇보다도 Amir Zandieh(Google Research), Majid Daliri(New York University), Majid Hadian(Google DeepMind), Vahab Mirrokni(Google Research)의 TurboQuant(ICLR 2026) 연구 없이는 불가능했을 것이다. 랜덤 회전이 거의 최적의 양자화를 가능하게 하는 베타 분포 좌표를 유도한다는 그들의 증명은 본 연구의 이론적 기반이자 직접적 영감이었다. 우리는 그들의 기여를 최고로 존중하며, 이 연구를 공개적으로 접근 가능하게 한 그들의 결정이 우리와 같은 소규모 독립 팀이 이러한 응용 확장을 시도할 수 있게 해주었다. 본 프로젝트의 모든 사용자가 우리의 응용 작업보다 훨씬 더 실질적인 기여를 하는 원 논문을 읽고 인용할 것을 강력히 권장한다.
+
+또한 1-bit Adam(Hanlin Tang et al., ICML 2021)의 모멘텀 압축 및 분산 동결 전략은 TurboQuantAdamW의 직접적 설계 영감이 되었으며, 그 스케일 한계가 v3 아키텍처의 실시간 v_t 설계를 촉발하였다. QSGD(Alistarh et al., NeurIPS 2017)의 확률적 양자화 수렴 이론, THC(Li et al., USENIX NSDI 2024)의 아다마르 회전 기반 통신 압축, EF21(Richtarik et al., NeurIPS 2021)의 오류 피드백 수렴 이론, CompAct(Shamshoum et al., NAACL 2025)의 활성화 압축 접근법에도 깊이 감사드린다. 이 연구자들의 공개적 학술 기여가 있었기에 소규모 팀인 우리도 이 분야에서 의미 있는 시도를 할 수 있었다.
 
 ## Disclaimer
 
-This project is an independent applied research effort by YATAV Research Lab. It is not affiliated with, endorsed by, or officially connected to the original TurboQuant authors, Google Research, Google DeepMind, or New York University. The name "TurboQuant-Adam" indicates intellectual lineage from the original TurboQuant paper. This codebase does not contain any source code from the original TurboQuant project — all implementations are original work.
+본 프로젝트는 YATAV Inc. 산하 AEGIS Research의 독립적 응용 연구 활동이다. 원 TurboQuant 저자, Google Research, Google DeepMind, 뉴욕대학교와 제휴, 보증, 공식적 연관이 없다. "TurboQuant-Adam"이라는 명칭은 원 TurboQuant 논문으로부터의 지적 계보를 나타낸다. 본 코드베이스는 원 TurboQuant 프로젝트의 소스 코드를 포함하지 않으며 — 모든 구현은 자체 개발 결과물이다.
 
 ## Citation
 
-If you use this work, please cite both the original TurboQuant paper and this project:
+If you use this work, please cite both the original TurboQuant paper and this project.
 
 ```
 @inproceedings{zandieh2026turboquant,
