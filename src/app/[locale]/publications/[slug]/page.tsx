@@ -7,6 +7,9 @@ import { DOCUMENT_TYPE_COLORS } from "@/lib/constants";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { locales, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -166,7 +169,7 @@ export default async function PublicationPage({ params }: PageProps) {
       <section className="py-16 sm:py-20 bg-background">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <article className="prose prose-slate dark:prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-card-border prose-a:text-accent-blue prose-table:text-sm">
-            <MDXRemote source={pub.content} />
+            <MDXRemote source={pub.content} options={{ mdxOptions: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } }} />
           </article>
         </div>
       </section>
