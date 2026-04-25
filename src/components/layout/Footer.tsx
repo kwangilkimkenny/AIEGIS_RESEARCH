@@ -26,38 +26,47 @@ export default function Footer({ locale, dict }: FooterProps) {
   };
 
   return (
-    <footer className="bg-navy-950 border-t border-white/5">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+    <footer className="bg-ink text-paper">
+      {/* Cobalt rule */}
+      <div className="h-1 bg-cobalt" />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-12">
           {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-blue">
-                <span className="text-sm font-bold text-white">A</span>
+          <div className="col-span-12 md:col-span-5">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex h-10 w-10 items-center justify-center bg-cobalt">
+                <span className="text-base font-extrabold text-paper leading-none">A</span>
               </div>
-              <div>
-                <span className="text-sm font-bold tracking-wide text-text-on-dark">
-                  A<span className="text-emerald-500 font-extrabold">I</span>EGIS Research
+              <div className="leading-none">
+                <span className="text-base font-extrabold tracking-tight text-paper">
+                  A<span className="text-cobalt-tint">I</span>EGIS
+                </span>
+                <span className="ml-2 font-mono text-[10px] tracking-[0.22em] uppercase text-paper/60">
+                  Research
                 </span>
               </div>
             </div>
-            <p className="text-sm leading-relaxed text-text-on-dark-muted">
+            <p className="max-w-md text-sm leading-relaxed text-paper/70">
               {t.tagline}
             </p>
           </div>
 
           {/* Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h3 className="text-sm font-semibold text-text-on-dark mb-4">
-                {title}
-              </h3>
+            <div key={title} className="col-span-6 md:col-span-2 lg:col-span-2">
+              <div className="flex items-center gap-2 mb-5">
+                <span className="block h-2 w-2 bg-cobalt" aria-hidden />
+                <h3 className="font-mono text-[10px] font-semibold tracking-[0.22em] uppercase text-paper/80">
+                  {title}
+                </h3>
+              </div>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-text-on-dark-muted hover:text-text-on-dark transition-colors"
+                      className="text-sm text-paper/80 hover:text-paper hover:underline underline-offset-4 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -69,12 +78,11 @@ export default function Footer({ locale, dict }: FooterProps) {
         </div>
 
         {/* Bottom */}
-        <div className="gradient-bar mt-12 mb-8" />
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-text-on-dark-muted">
-            &copy; {t.copyright}
+        <div className="mt-16 pt-6 border-t border-paper/15 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-paper/60">
+            © {t.copyright}
           </p>
-          <p className="text-xs text-text-on-dark-muted">
+          <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-paper/60">
             {t.motto}
           </p>
         </div>

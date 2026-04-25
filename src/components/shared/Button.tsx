@@ -14,19 +14,19 @@ interface ButtonProps {
 
 const variants = {
   primary:
-    "bg-accent-blue text-white hover:bg-accent-blue-hover shadow-sm",
+    "bg-cobalt text-paper hover:bg-cobalt-deep border border-cobalt hover:border-cobalt-deep",
   secondary:
-    "bg-navy-800 text-white hover:bg-navy-700",
+    "bg-ink text-paper hover:bg-ink-soft border border-ink",
   outline:
-    "border border-surface-200 text-text-primary hover:bg-surface-50 dark:border-[#1E2D45] dark:text-text-on-dark dark:hover:bg-[#151F32]",
+    "bg-paper text-ink border border-ink hover:bg-ink hover:text-paper",
   ghost:
-    "text-accent-blue hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    "bg-transparent text-ink hover:text-cobalt underline-offset-4 hover:underline",
 };
 
 const sizes = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-6 py-2.5 text-sm",
-  lg: "px-8 py-3 text-base",
+  sm: "px-4 py-2 text-xs tracking-wide",
+  md: "px-5 py-2.5 text-sm tracking-wide",
+  lg: "px-7 py-3.5 text-sm tracking-wide",
 };
 
 export default function Button({
@@ -40,7 +40,8 @@ export default function Button({
   target,
   rel,
 }: ButtonProps) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors ${variants[variant]} ${sizes[size]} ${className}`;
+  // Sharp corners (rounded-none) — Swiss/Bauhaus geometric language.
+  const classes = `inline-flex items-center justify-center gap-2 rounded-none font-semibold uppercase transition-colors duration-150 ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
     const isExternal = href.startsWith("http://") || href.startsWith("https://");

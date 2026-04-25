@@ -12,92 +12,95 @@ export default function HeroSection({ dict, locale }: Props) {
   const t = dict.hero;
 
   return (
-    <section className="relative hero-gradient overflow-hidden">
-      {/* Neural Network Background */}
+    <section className="relative bg-paper overflow-hidden border-b border-ink">
+      {/* Bauhaus geometric backdrop */}
       <NeuralMesh variant="hero" />
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-accent-blue/8 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-accent-cyan/8 blur-3xl" />
+
+      {/* Top hairline meta strip */}
+      <div className="relative z-10 border-b border-ink-faint">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between font-mono text-[10px] tracking-[0.22em] uppercase text-ink-mute">
+          <span>§ 01 / Frontier AI Safety</span>
+          <span className="hidden sm:inline">Yatav Inc. · AEGIS Research</span>
+        </div>
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
-        <div className="max-w-4xl">
-          {/* Badge */}
-          <div className="flex flex-wrap items-center gap-3 mb-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
-              <div className="h-1.5 w-1.5 rounded-full bg-accent-cyan animate-pulse" />
-              <span className="text-xs font-medium text-text-on-dark-muted tracking-wide">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-24 sm:pt-28 sm:pb-32">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-10">
+          {/* Left meta column — Bauhaus index strip */}
+          <aside className="col-span-12 lg:col-span-2 lg:pt-2">
+            <div className="flex lg:block items-center gap-4">
+              <span className="block h-3 w-3 bg-cobalt" aria-hidden="true" />
+              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-light lg:mt-3">
                 {t.badge}
-              </span>
+              </p>
             </div>
             <a
               href="https://aiaegis.io"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan px-4 py-1.5 text-xs font-medium text-white hover:opacity-90 transition-opacity"
+              className="mt-6 hidden lg:inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase text-cobalt hover:text-cobalt-deep border-b border-cobalt pb-1"
             >
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-              {t.visitProduct} →
+              {t.visitProduct} <span aria-hidden>↗</span>
             </a>
-          </div>
+          </aside>
 
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text-on-dark leading-[1.1]">
-            {t.headlinePre}{" "}
-            <span className="gradient-text">
-              {t.headlineHighlight}
-            </span>{" "}
-            {t.headlinePost}
-          </h1>
+          {/* Headline column */}
+          <div className="col-span-12 lg:col-span-10">
+            <h1 className="display-xl text-ink">
+              {t.headlinePre}{" "}
+              <span className="text-cobalt">{t.headlineHighlight}</span>{" "}
+              {t.headlinePost}
+            </h1>
 
-          {/* Subheadline */}
-          <p className="mt-6 max-w-3xl text-lg sm:text-xl leading-relaxed text-text-on-dark-muted">
-            {t.subheadline}
-          </p>
+            {/* Heavy ink rule under headline */}
+            <div className="mt-10 h-1 w-24 bg-ink" aria-hidden="true" />
 
-          {/* Body */}
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-text-on-dark-muted/70">
-            {t.body}
-          </p>
+            <div className="mt-10 grid grid-cols-12 gap-x-6">
+              <p className="col-span-12 md:col-span-7 text-lg sm:text-xl leading-relaxed text-ink">
+                {t.subheadline}
+              </p>
+              <p className="col-span-12 md:col-span-5 text-base leading-relaxed text-ink-light">
+                {t.body}
+              </p>
+            </div>
 
-          {/* CTA Buttons */}
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Button href={`/${locale}/publications`} variant="primary" size="lg">
-              {t.viewPublications}
-            </Button>
-            <Button href={`/${locale}/#research-areas`} variant="outline" size="lg">
-              <span className="text-text-on-dark">{t.exploreResearchAreas}</span>
-            </Button>
-            <Button href={`/${locale}/contact`} variant="ghost" size="lg">
-              <span className="text-text-on-dark-muted hover:text-text-on-dark">
+            {/* CTA Buttons */}
+            <div className="mt-12 flex flex-wrap gap-3">
+              <Button href={`/${locale}/publications`} variant="primary" size="lg">
+                {t.viewPublications}
+              </Button>
+              <Button href={`/${locale}/#research-areas`} variant="outline" size="lg">
+                {t.exploreResearchAreas}
+              </Button>
+              <Button href={`/${locale}/contact`} variant="ghost" size="lg">
                 {t.contactResearchTeam} →
-              </span>
-            </Button>
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Stats bar */}
-        <div className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-white/10 pt-10">
-          {[
-            { value: "10+", label: t.statsAreas },
-            { value: "6", label: t.statsTypes },
-            { value: "LLM", label: t.statsGuardrail },
-            { value: "2026", label: t.statsEstablished },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p className="text-2xl font-bold text-text-on-dark font-mono">
-                {stat.value}
-              </p>
-              <p className="mt-1 text-sm text-text-on-dark-muted">
-                {stat.label}
-              </p>
-            </div>
-          ))}
+        {/* Stats bar — Bauhaus index, sharp dividers */}
+        <div className="mt-24 border-t border-ink">
+          <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-ink-faint">
+            {[
+              { value: "10+", label: t.statsAreas, key: "01" },
+              { value: "6", label: t.statsTypes, key: "02" },
+              { value: "LLM", label: t.statsGuardrail, key: "03" },
+              { value: "2026", label: t.statsEstablished, key: "04" },
+            ].map((stat) => (
+              <div key={stat.label} className="px-2 py-6 sm:px-6">
+                <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-mute">
+                  / {stat.key}
+                </p>
+                <p className="mt-3 text-3xl font-extrabold text-ink tracking-tight">
+                  {stat.value}
+                </p>
+                <p className="mt-2 text-xs uppercase tracking-wider text-ink-light">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

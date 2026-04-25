@@ -2,60 +2,72 @@
 @plugin "@tailwindcss/typography";
 
 /* ========================================
-   AEGIS Research — Contrast Edge Design System
+   AEGIS Research — Swiss / Bauhaus Editorial
+   Light, geometric, typographic.
    ======================================== */
 
 :root {
-  /* Core Colors */
-  --navy-950: #0A1628;
-  --navy-900: #0F1D32;
-  --navy-800: #1E293B;
-  --navy-700: #334155;
+  /* Paper */
+  --paper: #FFFFFF;
+  --paper-warm: #F5F4EE;
+  --paper-cool: #F2F2F0;
 
-  /* Surface */
-  --surface-white: #FFFFFF;
-  --surface-gray-50: #F9FAFB;
-  --surface-gray-100: #F1F5F9;
-  --surface-gray-200: #E2E8F0;
+  /* Ink */
+  --ink: #111111;
+  --ink-soft: #1A1A1A;
+  --ink-mid: #2D2D2D;
+  --ink-light: #4A4A4A;
+  --ink-mute: #767676;
+  --ink-faint: #B5B5B5;
+  --ink-line: #111111;
+  --hairline: #111111;
 
-  /* Text */
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
-  --text-on-dark: #F8FAFC;
-  --text-on-dark-muted: #94A3B8;
+  /* Accents (used sparingly, as color blocks) */
+  --cobalt: #1F3FCF;        /* primary accent — research, links, CTA */
+  --cobalt-deep: #15309A;
+  --cobalt-tint: #DDE3FB;
+  --terracotta: #C4533C;    /* secondary accent — emphasis, alerts */
+  --terracotta-tint: #F5DDD5;
+  --mustard: #D4A82A;       /* tertiary accent for tags/dots only */
 
-  /* Accent */
-  --accent-blue: #2563EB;
-  --accent-blue-hover: #1D4ED8;
-  --accent-blue-light: #3B82F6;
-  --accent-cyan: #06B6D4;
-  --accent-cyan-light: #22D3EE;
-
-  /* Status */
-  --emerald: #059669;
-  --amber: #D97706;
+  /* Status (Swiss-flat) */
+  --emerald: #1F7A4D;
+  --amber: #D4A82A;
 
   /* Spacing */
-  --section-padding: 5rem;
+  --section-padding: 6rem;
   --container-max: 1280px;
 
-  /* Light mode defaults */
-  --background: var(--surface-white);
-  --foreground: var(--text-primary);
-  --card-bg: var(--surface-white);
-  --card-border: var(--surface-gray-200);
-  --section-alt-bg: var(--surface-gray-50);
-}
+  /* Semantic — light surfaces */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card-bg: var(--paper);
+  --card-border: var(--ink);
+  --section-alt-bg: var(--paper-warm);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0B1120;
-    --foreground: var(--text-on-dark);
-    --card-bg: #151F32;
-    --card-border: #1E2D45;
-    --section-alt-bg: #0F1929;
-  }
+  /* Legacy token mapping — components still call these names but
+     resolve to the Swiss palette. */
+  --navy-950: var(--ink);
+  --navy-900: var(--ink-soft);
+  --navy-800: var(--ink-mid);
+  --navy-700: var(--ink-light);
+
+  --surface-white: var(--paper);
+  --surface-gray-50: var(--paper-warm);
+  --surface-gray-100: var(--paper-cool);
+  --surface-gray-200: var(--ink);
+
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-light);
+  --text-muted: var(--ink-mute);
+  --text-on-dark: var(--paper);
+  --text-on-dark-muted: var(--ink-faint);
+
+  --accent-blue: var(--cobalt);
+  --accent-blue-hover: var(--cobalt-deep);
+  --accent-blue-light: var(--cobalt);
+  --accent-cyan: var(--terracotta);
+  --accent-cyan-light: var(--terracotta);
 }
 
 @theme inline {
@@ -64,7 +76,24 @@
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
 
-  /* Design tokens */
+  /* Swiss palette — primary tokens */
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-paper-cool: var(--paper-cool);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mid: var(--ink-mid);
+  --color-ink-light: var(--ink-light);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-faint: var(--ink-faint);
+  --color-cobalt: var(--cobalt);
+  --color-cobalt-deep: var(--cobalt-deep);
+  --color-cobalt-tint: var(--cobalt-tint);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-tint: var(--terracotta-tint);
+  --color-mustard: var(--mustard);
+
+  /* Legacy token bridges */
   --color-navy-950: var(--navy-950);
   --color-navy-900: var(--navy-900);
   --color-navy-800: var(--navy-800);
@@ -92,48 +121,133 @@
   --color-section-alt: var(--section-alt-bg);
 }
 
+/* ----------------------------------------
+   Base
+---------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--paper);
+  color: var(--ink);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Gradient accent bar */
+/* ----------------------------------------
+   Typography — Swiss editorial
+---------------------------------------- */
+.display-xl {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+}
+.display-lg {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
+}
+.display-md {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+}
+
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.eyebrow-cobalt { color: var(--cobalt); }
+
+.section-num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+}
+
+/* ----------------------------------------
+   Swiss primitives
+---------------------------------------- */
+
+/* Hairline — primary structural device. */
+.hairline      { border-top: 1px solid var(--ink); }
+.hairline-b    { border-bottom: 1px solid var(--ink); }
+.hairline-l    { border-left: 1px solid var(--ink); }
+.hairline-soft { border-top: 1px solid var(--ink-faint); }
+
+/* Heavy rule */
+.rule-heavy    { border-top: 4px solid var(--ink); }
+
+/* Solid color blocks */
+.block-cobalt    { background: var(--cobalt); color: var(--paper); }
+.block-terracotta{ background: var(--terracotta); color: var(--paper); }
+.block-ink       { background: var(--ink); color: var(--paper); }
+.block-paper     { background: var(--paper-warm); color: var(--ink); }
+
+/* Cobalt color square — left-aligned section marker */
+.section-marker {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--cobalt);
+  vertical-align: middle;
+}
+
+/* Bauhaus geometric backdrop helpers */
+.bauhaus-grid {
+  background-image:
+    linear-gradient(to right, rgba(17,17,17,0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17,17,17,0.06) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ----------------------------------------
+   Legacy utility shims (kept so existing
+   components keep working visually)
+---------------------------------------- */
+
 .gradient-bar {
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+  height: 4px;
+  background: var(--cobalt);
 }
-
-/* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-blue-light) 0%, var(--accent-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--cobalt);
+  background: none;
+  -webkit-text-fill-color: currentColor;
 }
-
-/* Hero gradient background */
+/* Ink-slab hero — used by CTA, contact, and publication-detail pages.
+   The home hero is rebuilt as a paper-white composition and does NOT
+   use this class. */
 .hero-gradient {
-  background: linear-gradient(180deg, var(--navy-950) 0%, var(--navy-800) 100%);
+  background: var(--ink);
+  color: var(--paper);
 }
-
-/* Subtle grid pattern for hero */
 .hero-pattern {
   background-image:
-    linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(17, 17, 17, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
 }
 
-/* Card hover effect */
 .card-hover {
-  transition: all 0.2s ease;
+  transition: transform 160ms ease, border-color 160ms ease;
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+  border-color: var(--cobalt);
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+/* Selection */
+::selection {
+  background: var(--cobalt);
+  color: var(--paper);
 }
