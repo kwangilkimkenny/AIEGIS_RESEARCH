@@ -14,31 +14,31 @@
   <rect width="1100" height="600" fill="#fff"/>
 
   <!-- Title -->
-  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">분산 통신 파이프라인 (Phase 2-C)</text>
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">Distributed Communication Pipeline (Phase 2-C)</text>
   <line x1="320" y1="46" x2="780" y2="46" stroke="#111" stroke-width="1.5"/>
-  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">PyTorch DDP Communication Hook — 4-Step Pipeline</text>
+  <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">PyTorch DDP Communication Hook &#x2014; 4-Step Pipeline</text>
 
   <!-- Worker 1 box -->
   <rect x="40" y="90" width="490" height="420" rx="2" fill="#fff" stroke="#333" stroke-width="1" stroke-dasharray="8,4"/>
-  <text x="285" y="112" text-anchor="middle" fill="#333" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Worker 1 (GPU₁)</text>
+  <text x="285" y="112" text-anchor="middle" fill="#333" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Worker 1 (GPU&#x2081;)</text>
 
   <!-- Worker 2 box -->
   <rect x="570" y="90" width="490" height="420" rx="2" fill="#fff" stroke="#333" stroke-width="1" stroke-dasharray="8,4"/>
-  <text x="815" y="112" text-anchor="middle" fill="#333" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Worker 2 (GPU₂)</text>
+  <text x="815" y="112" text-anchor="middle" fill="#333" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Worker 2 (GPU&#x2082;)</text>
 
   <!-- Step 1 -->
   <g font-family="'Helvetica Neue', sans-serif">
     <rect x="65" y="130" width="440" height="50" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
     <circle cx="88" cy="155" r="13" fill="#eee" stroke="#333" stroke-width="1.2"/>
     <text x="88" y="160" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">1</text>
-    <text x="108" y="150" fill="#222" font-size="12" font-weight="bold">Hadamard 회전</text>
-    <text x="108" y="168" fill="#666" font-size="11">g&#x0303; = H_d · D · g    (이상치 제거, 가우시안화)</text>
+    <text x="108" y="150" fill="#222" font-size="12" font-weight="bold">Hadamard Rotation</text>
+    <text x="108" y="168" fill="#666" font-size="11">g&#x0303; = H_d &#xb7; D &#xb7; g    (outlier removal, Gaussianization)</text>
 
     <rect x="595" y="130" width="440" height="50" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
     <circle cx="618" cy="155" r="13" fill="#eee" stroke="#333" stroke-width="1.2"/>
     <text x="618" y="160" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">1</text>
-    <text x="638" y="150" fill="#222" font-size="12" font-weight="bold">Hadamard 회전</text>
-    <text x="638" y="168" fill="#666" font-size="11">g&#x0303; = H_d · D · g    (동일 부호 행렬 D 공유)</text>
+    <text x="638" y="150" fill="#222" font-size="12" font-weight="bold">Hadamard Rotation</text>
+    <text x="638" y="168" fill="#666" font-size="11">g&#x0303; = H_d &#xb7; D &#xb7; g    (shared sign matrix D)</text>
   </g>
 
   <!-- Step 1 → 2 arrows -->
@@ -50,14 +50,14 @@
     <rect x="65" y="208" width="440" height="50" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
     <circle cx="88" cy="233" r="13" fill="#eee" stroke="#333" stroke-width="1.2"/>
     <text x="88" y="238" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">2</text>
-    <text x="108" y="228" fill="#222" font-size="12" font-weight="bold">4-bit 적응형 양자화</text>
-    <text x="108" y="246" fill="#666" font-size="11">g&#x0302; = Q_LM(g&#x0303;, σ²_EMA)    FP32 → 4-bit index</text>
+    <text x="108" y="228" fill="#222" font-size="12" font-weight="bold">4-bit Adaptive Quantization</text>
+    <text x="108" y="246" fill="#666" font-size="11">g&#x0302; = Q_LM(g&#x0303;, &#x3c3;&#xb2;_EMA)    FP32 &#x2192; 4-bit index</text>
 
     <rect x="595" y="208" width="440" height="50" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
     <circle cx="618" cy="233" r="13" fill="#eee" stroke="#333" stroke-width="1.2"/>
     <text x="618" y="238" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">2</text>
-    <text x="638" y="228" fill="#222" font-size="12" font-weight="bold">4-bit 적응형 양자화</text>
-    <text x="638" y="246" fill="#666" font-size="11">g&#x0302; = Q_LM(g&#x0303;, σ²_EMA)    FP32 → 4-bit index</text>
+    <text x="638" y="228" fill="#222" font-size="12" font-weight="bold">4-bit Adaptive Quantization</text>
+    <text x="638" y="246" fill="#666" font-size="11">g&#x0302; = Q_LM(g&#x0303;, &#x3c3;&#xb2;_EMA)    FP32 &#x2192; 4-bit index</text>
   </g>
 
   <!-- Step 2 → 3 arrows -->
@@ -69,8 +69,8 @@
   <g font-family="'Helvetica Neue', sans-serif">
     <circle cx="230" cy="328" r="15" fill="#ddd" stroke="#111" stroke-width="1.5"/>
     <text x="230" y="333" text-anchor="middle" fill="#222" font-size="14" font-weight="bold">3</text>
-    <text x="550" y="320" text-anchor="middle" fill="#111" font-size="14" font-weight="bold">AllReduce (분산 합산)</text>
-    <text x="550" y="342" text-anchor="middle" fill="#555" font-size="12">G&#x0302;_sum = AllReduce(g&#x0302;)  —  4-bit 압축 상태로 네트워크 전송</text>
+    <text x="550" y="320" text-anchor="middle" fill="#111" font-size="14" font-weight="bold">AllReduce (Distributed Summation)</text>
+    <text x="550" y="342" text-anchor="middle" fill="#555" font-size="12">G&#x0302;_sum = AllReduce(g&#x0302;)  &#x2014;  Network transfer in 4-bit compressed state</text>
   </g>
 
   <!-- Bidirectional arrows inside AllReduce -->
@@ -86,14 +86,14 @@
     <rect x="65" y="396" width="440" height="50" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
     <circle cx="88" cy="421" r="13" fill="#eee" stroke="#333" stroke-width="1.2"/>
     <text x="88" y="426" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">4</text>
-    <text x="108" y="416" fill="#222" font-size="12" font-weight="bold">역변환 (Inverse Hadamard)</text>
-    <text x="108" y="434" fill="#666" font-size="11">g_final = D^T · H_d^T · (G&#x0302;_sum / N)</text>
+    <text x="108" y="416" fill="#222" font-size="12" font-weight="bold">Inverse Transform (Inverse Hadamard)</text>
+    <text x="108" y="434" fill="#666" font-size="11">g_final = D^T &#xb7; H_d^T &#xb7; (G&#x0302;_sum / N)</text>
 
     <rect x="595" y="396" width="440" height="50" rx="2" fill="#fafafa" stroke="#333" stroke-width="1.2"/>
     <circle cx="618" cy="421" r="13" fill="#eee" stroke="#333" stroke-width="1.2"/>
     <text x="618" y="426" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">4</text>
-    <text x="638" y="416" fill="#222" font-size="12" font-weight="bold">역변환 (Inverse Hadamard)</text>
-    <text x="638" y="434" fill="#666" font-size="11">g_final = D^T · H_d^T · (G&#x0302;_sum / N)</text>
+    <text x="638" y="416" fill="#222" font-size="12" font-weight="bold">Inverse Transform (Inverse Hadamard)</text>
+    <text x="638" y="434" fill="#666" font-size="11">g_final = D^T &#xb7; H_d^T &#xb7; (G&#x0302;_sum / N)</text>
   </g>
 
   <!-- Bandwidth comparison -->
@@ -108,10 +108,10 @@
     <rect x="540" y="3" width="40" height="14" rx="2" fill="#ccc" stroke="#333" stroke-width="1"/>
     <text x="560" y="14" text-anchor="middle" fill="#333" font-size="9">4b</text>
 
-    <text x="600" y="14" fill="#111" font-size="13" font-weight="bold">= 8× 압축</text>
+    <text x="600" y="14" fill="#111" font-size="13" font-weight="bold">= 8&#xd7; compression</text>
   </g>
 
   <!-- Bottom note -->
   <rect x="200" y="560" width="700" height="28" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
-  <text x="550" y="579" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif">검증 완료: 극단적 이상치(×100) 혼입 환경에서 2-프로세스 AllReduce 완벽 동기화 확인</text>
+  <text x="550" y="579" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif">Validated: Perfect 2-process AllReduce synchronization confirmed with extreme outliers (&#xd7;100) injected</text>
 </svg>

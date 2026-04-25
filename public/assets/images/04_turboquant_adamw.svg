@@ -11,7 +11,7 @@
   <rect width="1100" height="640" fill="#fff"/>
 
   <!-- Title -->
-  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">TurboQuantAdamW 옵티마이저 구조</text>
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">TurboQuantAdamW Optimizer Architecture</text>
   <line x1="310" y1="46" x2="790" y2="46" stroke="#111" stroke-width="1.5"/>
   <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Phase 2-B: Momentum Compression + Variance Freezing (inspired by 1-bit Adam)</text>
 
@@ -21,7 +21,7 @@
     <rect x="0" y="0" width="300" height="10" rx="2" fill="#ddd" stroke="#333" stroke-width="1"/>
     <rect x="300" y="0" width="680" height="10" rx="2" fill="#bbb" stroke="#333" stroke-width="1"/>
     <text x="0" y="-5" fill="#999" font-size="10">Step 0</text>
-    <text x="300" y="-5" fill="#333" font-size="11" font-weight="bold">Step 50 (전환점)</text>
+    <text x="300" y="-5" fill="#333" font-size="11" font-weight="bold">Step 50 (transition point)</text>
     <line x1="300" y1="-2" x2="300" y2="12" stroke="#333" stroke-width="1.5"/>
     <text x="980" y="-5" text-anchor="end" fill="#999" font-size="10">Step N</text>
 
@@ -33,83 +33,83 @@
   <g transform="translate(40, 140)">
     <rect width="460" height="340" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
     <rect width="460" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
-    <text x="230" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">웜업 단계 (Steps 0–50): 표준 FP32 AdamW</text>
+    <text x="230" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Warmup Phase (Steps 0&#x2013;50): Standard FP32 AdamW</text>
 
     <!-- g_t -->
     <rect x="30" y="48" width="400" height="40" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
-    <text x="230" y="64" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">입력: 그래디언트 g_t (FP32)</text>
-    <text x="230" y="80" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">역전파에서 수신</text>
+    <text x="230" y="64" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Input: Gradient g_t (FP32)</text>
+    <text x="230" y="80" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">Received from backpropagation</text>
 
     <line x1="230" y1="88" x2="230" y2="108" stroke="#333" stroke-width="1" marker-end="url(#a3)"/>
 
     <!-- m_t -->
     <rect x="30" y="114" width="400" height="44" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
-    <text x="230" y="133" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">1차 모멘텀 m_t 갱신</text>
-    <text x="230" y="150" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">m_t = β₁ · m_(t-1) + (1-β₁) · g_t</text>
+    <text x="230" y="133" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">1st Momentum m_t Update</text>
+    <text x="230" y="150" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">m_t = &#x3b2;&#x2081; &#xb7; m_(t-1) + (1-&#x3b2;&#x2081;) &#xb7; g_t</text>
 
     <line x1="230" y1="158" x2="230" y2="178" stroke="#333" stroke-width="1" marker-end="url(#a3)"/>
 
     <!-- v_t -->
     <rect x="30" y="184" width="400" height="44" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
-    <text x="230" y="203" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">2차 모멘텀 v_t 갱신</text>
-    <text x="230" y="220" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">v_t = β₂ · v_(t-1) + (1-β₂) · g_t²</text>
+    <text x="230" y="203" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">2nd Momentum v_t Update</text>
+    <text x="230" y="220" text-anchor="middle" fill="#666" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">v_t = &#x3b2;&#x2082; &#xb7; v_(t-1) + (1-&#x3b2;&#x2082;) &#xb7; g_t&#xb2;</text>
 
     <line x1="230" y1="228" x2="230" y2="248" stroke="#333" stroke-width="1" marker-end="url(#a3)"/>
 
     <!-- Weight update -->
     <rect x="30" y="254" width="400" height="40" rx="2" fill="#eee" stroke="#333" stroke-width="1.2"/>
-    <text x="230" y="270" text-anchor="middle" fill="#222" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">가중치 갱신</text>
-    <text x="230" y="286" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">w = w − lr · m_t / (√v_t + ε)</text>
+    <text x="230" y="270" text-anchor="middle" fill="#222" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Weight Update</text>
+    <text x="230" y="286" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif" font-style="italic">w = w &#x2212; lr &#xb7; m_t / (&#x221a;v_t + &#x3b5;)</text>
 
     <!-- Note -->
-    <text x="230" y="320" text-anchor="middle" fill="#888" font-size="11" font-style="italic">v_t가 안정적 수렴값에 도달할 때까지 정상 갱신</text>
+    <text x="230" y="320" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Normal updates until v_t reaches stable convergence</text>
   </g>
 
   <!-- Transition arrow -->
   <g transform="translate(510, 300)">
     <line x1="0" y1="0" x2="70" y2="0" stroke="#333" stroke-width="2" marker-end="url(#a3)"/>
-    <text x="35" y="-8" text-anchor="middle" fill="#333" font-size="11" font-weight="bold" font-family="'Helvetica Neue', sans-serif">전환</text>
+    <text x="35" y="-8" text-anchor="middle" fill="#333" font-size="11" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Switch</text>
   </g>
 
   <!-- Compression Phase -->
   <g transform="translate(600, 140)">
     <rect width="460" height="340" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
     <rect width="460" height="28" rx="2" fill="#ddd" stroke="#111" stroke-width="2"/>
-    <text x="230" y="20" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">압축 단계 (Steps 51+): 4-bit 모멘텀 통신</text>
+    <text x="230" y="20" text-anchor="middle" fill="#111" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Compression Phase (Steps 51+): 4-bit Momentum Comm.</text>
 
     <!-- g_t -->
     <rect x="30" y="48" width="250" height="40" rx="2" fill="#fafafa" stroke="#333" stroke-width="1"/>
-    <text x="155" y="64" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">그래디언트 g_t (FP32)</text>
-    <text x="155" y="80" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">역전파에서 수신</text>
+    <text x="155" y="64" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Gradient g_t (FP32)</text>
+    <text x="155" y="80" text-anchor="middle" fill="#888" font-size="11" font-family="'Helvetica Neue', sans-serif">Received from backpropagation</text>
 
     <line x1="155" y1="88" x2="155" y2="108" stroke="#333" stroke-width="1" marker-end="url(#a3)"/>
 
     <!-- m_t + compress -->
     <rect x="30" y="114" width="250" height="60" rx="2" fill="#f0f0f0" stroke="#333" stroke-width="1.2"/>
-    <text x="155" y="132" text-anchor="middle" fill="#222" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">m_t 갱신 + 4-bit 압축</text>
-    <text x="155" y="150" text-anchor="middle" fill="#666" font-size="10" font-family="'Helvetica Neue', sans-serif" font-style="italic">m_t = β₁ · m_(t-1) + (1-β₁) · g_t</text>
-    <text x="155" y="166" text-anchor="middle" fill="#333" font-size="10" font-family="'Helvetica Neue', sans-serif" font-weight="bold">→ Hadamard + Lloyd-Max Q(m_t)</text>
+    <text x="155" y="132" text-anchor="middle" fill="#222" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">m_t Update + 4-bit Compression</text>
+    <text x="155" y="150" text-anchor="middle" fill="#666" font-size="10" font-family="'Helvetica Neue', sans-serif" font-style="italic">m_t = &#x3b2;&#x2081; &#xb7; m_(t-1) + (1-&#x3b2;&#x2081;) &#xb7; g_t</text>
+    <text x="155" y="166" text-anchor="middle" fill="#333" font-size="10" font-family="'Helvetica Neue', sans-serif" font-weight="bold">&#x2192; Hadamard + Lloyd-Max Q(m_t)</text>
 
     <!-- v_t FROZEN -->
     <rect x="300" y="114" width="140" height="60" rx="2" fill="url(#diag)" stroke="#333" stroke-width="1.2" stroke-dasharray="6,3"/>
-    <text x="370" y="140" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">v_t 동결</text>
+    <text x="370" y="140" text-anchor="middle" fill="#333" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold">v_t Frozen</text>
     <text x="370" y="158" text-anchor="middle" fill="#888" font-size="10" font-family="'Helvetica Neue', sans-serif">FROZEN</text>
-    <text x="370" y="170" text-anchor="middle" fill="#888" font-size="9" font-family="'Helvetica Neue', sans-serif">갱신 없음</text>
+    <text x="370" y="170" text-anchor="middle" fill="#888" font-size="9" font-family="'Helvetica Neue', sans-serif">No updates</text>
 
     <line x1="155" y1="174" x2="155" y2="198" stroke="#333" stroke-width="1" marker-end="url(#a3)"/>
 
     <!-- AllReduce -->
     <rect x="30" y="204" width="400" height="42" rx="2" fill="#eee" stroke="#111" stroke-width="1.5"/>
     <text x="230" y="222" text-anchor="middle" fill="#111" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">4-bit m_t AllReduce</text>
-    <text x="230" y="240" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif">통신량 = FP32의 1/8 (8× 절감)</text>
+    <text x="230" y="240" text-anchor="middle" fill="#555" font-size="11" font-family="'Helvetica Neue', sans-serif">Comm. volume = 1/8 of FP32 (8&#xd7; reduction)</text>
 
     <line x1="230" y1="246" x2="230" y2="268" stroke="#333" stroke-width="1" marker-end="url(#a3)"/>
 
     <!-- Weight update -->
     <rect x="30" y="274" width="400" height="36" rx="2" fill="#f0f0f0" stroke="#333" stroke-width="1.2"/>
-    <text x="230" y="296" text-anchor="middle" fill="#222" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold" font-style="italic">w = w − lr · m_t(4-bit) / (√v_t_frozen + ε)</text>
+    <text x="230" y="296" text-anchor="middle" fill="#222" font-size="12" font-family="'Helvetica Neue', sans-serif" font-weight="bold" font-style="italic">w = w &#x2212; lr &#xb7; m_t(4-bit) / (&#x221a;v_t_frozen + &#x3b5;)</text>
 
-    <text x="230" y="330" text-anchor="middle" fill="#888" font-size="11" font-style="italic">동결된 v_t로 안정적 비선형 분모 보장</text>
+    <text x="230" y="330" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Frozen v_t ensures stable nonlinear denominator</text>
   </g>
 
   <!-- Insight box -->
@@ -119,14 +119,14 @@
     <text x="510" y="19" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Key Insights</text>
 
     <g font-family="'Helvetica Neue', sans-serif" font-size="12">
-      <text x="30" y="48" fill="#333" font-weight="bold">m_t (1차 모멘텀)</text>
-      <text x="200" y="48" fill="#555">매 스텝 갱신 필수, 통신 대상 → 4-bit 압축으로 대역폭 8× 절감</text>
+      <text x="30" y="48" fill="#333" font-weight="bold">m_t (1st momentum)</text>
+      <text x="200" y="48" fill="#555">Must update every step, comm. target &#x2192; 8&#xd7; bandwidth reduction via 4-bit compression</text>
 
-      <text x="30" y="72" fill="#333" font-weight="bold">v_t (2차 모멘텀)</text>
-      <text x="200" y="72" fill="#555">~50 스텝 후 수렴 → 동결 가능. 비선형 분모 1/√v_t 안정화로 EF 실패 원인 해소</text>
+      <text x="30" y="72" fill="#333" font-weight="bold">v_t (2nd momentum)</text>
+      <text x="200" y="72" fill="#555">Converges after ~50 steps &#x2192; can be frozen. Stabilizes nonlinear denominator 1/&#x221a;v_t, resolving EF failure</text>
 
-      <text x="30" y="96" fill="#111" font-weight="bold">결과</text>
-      <text x="80" y="96" fill="#111" font-weight="bold">Loss 0.3770 &lt; Baseline 0.5563 — 4-bit 노이즈가 정규화(Regularization) 효과로 작용</text>
+      <text x="30" y="96" fill="#111" font-weight="bold">Result</text>
+      <text x="80" y="96" fill="#111" font-weight="bold">Loss 0.3770 &lt; Baseline 0.5563 &#x2014; 4-bit noise acts as regularization effect</text>
     </g>
   </g>
 </svg>

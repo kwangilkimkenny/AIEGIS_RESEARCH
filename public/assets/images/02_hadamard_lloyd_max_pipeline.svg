@@ -8,7 +8,7 @@
   <rect width="1100" height="620" fill="#fff"/>
 
   <!-- Title -->
-  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">Hadamard 회전 + 적응형 가우시안 Lloyd-Max 양자화</text>
+  <text x="550" y="36" text-anchor="middle" fill="#111" font-size="22" font-weight="bold" letter-spacing="1">Hadamard Rotation + Adaptive Gaussian Lloyd-Max Quantization</text>
   <line x1="250" y1="46" x2="850" y2="46" stroke="#111" stroke-width="1.5"/>
   <text x="550" y="66" text-anchor="middle" fill="#666" font-size="12" font-style="italic" font-family="'Helvetica Neue', sans-serif">Core Algorithm: Distribution-Agnostic Optimal Scalar Quantization</text>
 
@@ -16,7 +16,7 @@
   <g transform="translate(40, 95)">
     <rect width="280" height="230" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
     <rect width="280" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
-    <text x="140" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(a) 원본 텐서 g</text>
+    <text x="140" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(a) Original Tensor g</text>
 
     <!-- Heavy-tailed distribution -->
     <g transform="translate(30, 50)">
@@ -44,7 +44,7 @@
       <text x="110" y="160" text-anchor="middle" fill="#555" font-size="10" font-family="'Helvetica Neue', sans-serif">Heavy-tailed (Laplace/Cauchy-like)</text>
     </g>
 
-    <text x="140" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">이상치가 구조적으로 존재</text>
+    <text x="140" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">Outliers structurally present</text>
   </g>
 
   <!-- Arrow 1 -->
@@ -58,7 +58,7 @@
   <g transform="translate(420, 95)">
     <rect width="280" height="230" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
     <rect width="280" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
-    <text x="140" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(b) Hadamard 변환 후 g&#x0303;</text>
+    <text x="140" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(b) After Hadamard Transform g&#x0303;</text>
 
     <!-- Gaussian distribution -->
     <g transform="translate(30, 50)">
@@ -72,9 +72,9 @@
 
       <!-- sigma markers -->
       <line x1="60" y1="138" x2="60" y2="142" stroke="#333" stroke-width="1"/>
-      <text x="60" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">-2σ</text>
+      <text x="60" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">-2&#x3c3;</text>
       <line x1="160" y1="138" x2="160" y2="142" stroke="#333" stroke-width="1"/>
-      <text x="160" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">+2σ</text>
+      <text x="160" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">+2&#x3c3;</text>
       <line x1="110" y1="138" x2="110" y2="142" stroke="#333" stroke-width="1"/>
       <text x="110" y="155" text-anchor="middle" fill="#666" font-size="9" font-family="'Helvetica Neue', sans-serif">0</text>
 
@@ -84,9 +84,9 @@
 
     <!-- CLT label -->
     <rect x="60" y="170" width="160" height="20" rx="2" fill="#f5f5f5" stroke="#333" stroke-width="0.8"/>
-    <text x="140" y="184" text-anchor="middle" fill="#333" font-size="10" font-family="'Helvetica Neue', sans-serif">CLT에 의해 𝒩(0, σ²)로 수렴</text>
+    <text x="140" y="184" text-anchor="middle" fill="#333" font-size="10" font-family="'Helvetica Neue', sans-serif">Converges to &#x1d4a9;(0, &#x3c3;&#xb2;) by CLT</text>
 
-    <text x="140" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">이상치 완전 제거, 매끄러운 분포</text>
+    <text x="140" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">Outliers fully removed, smooth distribution</text>
   </g>
 
   <!-- Arrow 2 -->
@@ -100,7 +100,7 @@
   <g transform="translate(800, 95)">
     <rect width="260" height="230" rx="2" fill="#fff" stroke="#333" stroke-width="1.5"/>
     <rect width="260" height="28" rx="2" fill="#eee" stroke="#333" stroke-width="1.5"/>
-    <text x="130" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(c) 4-bit 양자화 출력</text>
+    <text x="130" y="20" text-anchor="middle" fill="#222" font-size="13" font-weight="bold" font-family="'Helvetica Neue', sans-serif">(c) 4-bit Quantized Output</text>
 
     <g transform="translate(20, 50)">
       <line x1="0" y1="140" x2="220" y2="140" stroke="#ddd" stroke-width="0.5"/>
@@ -137,8 +137,8 @@
       <line x1="0" y1="142" x2="220" y2="142" stroke="#333" stroke-width="1"/>
     </g>
 
-    <text x="130" y="210" text-anchor="middle" fill="#555" font-size="10" font-family="'Helvetica Neue', sans-serif">16 levels (2⁴), 이론적 최적 배치</text>
-    <text x="130" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">가우시안 최적 스칼라 양자화</text>
+    <text x="130" y="210" text-anchor="middle" fill="#555" font-size="10" font-family="'Helvetica Neue', sans-serif">16 levels (2&#x2074;), theoretically optimal placement</text>
+    <text x="130" y="222" text-anchor="middle" fill="#888" font-size="10" font-style="italic">Gaussian optimal scalar quantization</text>
   </g>
 
   <!-- Formula Box -->
@@ -148,34 +148,34 @@
     <text x="510" y="20" text-anchor="middle" fill="#222" font-size="14" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Mathematical Formulation</text>
 
     <text x="40" y="55" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Step 1.</text>
-    <text x="110" y="55" fill="#444" font-size="13">Walsh-Hadamard 변환:  g&#x0303; = H_d · D · g</text>
-    <text x="520" y="55" fill="#777" font-size="12" font-style="italic">임의 분포 → 가우시안 𝒩(0, σ²)</text>
+    <text x="110" y="55" fill="#444" font-size="13">Walsh-Hadamard Transform:  g&#x0303; = H_d &#xb7; D &#xb7; g</text>
+    <text x="520" y="55" fill="#777" font-size="12" font-style="italic">Arbitrary distribution &#x2192; Gaussian &#x1d4a9;(0, &#x3c3;&#xb2;)</text>
 
     <text x="40" y="80" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Step 2.</text>
-    <text x="110" y="80" fill="#444" font-size="13">스케일링 성질:  c_i = σ · c*_i ,  b_i = σ · b*_i</text>
-    <text x="520" y="80" fill="#777" font-size="12" font-style="italic">사전 계산 코드북 × σ 로 실시간 적응</text>
+    <text x="110" y="80" fill="#444" font-size="13">Scaling property:  c_i = &#x3c3; &#xb7; c*_i ,  b_i = &#x3c3; &#xb7; b*_i</text>
+    <text x="520" y="80" fill="#777" font-size="12" font-style="italic">Pre-computed codebook &#xd7; &#x3c3; for real-time adaptation</text>
 
     <text x="40" y="105" fill="#333" font-size="13" font-family="'Helvetica Neue', sans-serif" font-weight="bold">Step 3.</text>
-    <text x="110" y="105" fill="#444" font-size="13">분산 추적:  σ² ← EMA(σ²)</text>
-    <text x="520" y="105" fill="#777" font-size="12" font-style="italic">학습 중 분포 변화에 자동 적응</text>
+    <text x="110" y="105" fill="#444" font-size="13">Variance tracking:  &#x3c3;&#xb2; &#x2190; EMA(&#x3c3;&#xb2;)</text>
+    <text x="520" y="105" fill="#777" font-size="12" font-style="italic">Automatic adaptation to distribution changes during training</text>
   </g>
 
   <!-- Comparison Box -->
   <g transform="translate(40, 495)">
     <rect width="500" height="100" rx="2" fill="#fff" stroke="#333" stroke-width="1"/>
     <rect width="500" height="24" fill="#eee" stroke="#333" stroke-width="1"/>
-    <text x="250" y="18" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">기존 방식의 한계</text>
-    <text x="20" y="44" fill="#555" font-size="12">1. 고정 Beta 코드북 → 실제 분포 불일치로 양자화 붕괴</text>
-    <text x="20" y="64" fill="#555" font-size="12">2. 균일 양자화 → 분포 형태 무시, 높은 MSE</text>
-    <text x="20" y="84" fill="#555" font-size="12">3. 이상치(Outlier) 처리 불가 → 극단값 정보 손실</text>
+    <text x="250" y="18" text-anchor="middle" fill="#222" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Limitations of Existing Methods</text>
+    <text x="20" y="44" fill="#555" font-size="12">1. Fixed Beta codebook &#x2192; quantization collapse from distribution mismatch</text>
+    <text x="20" y="64" fill="#555" font-size="12">2. Uniform quantization &#x2192; ignores distribution shape, high MSE</text>
+    <text x="20" y="84" fill="#555" font-size="12">3. No outlier handling &#x2192; extreme value information loss</text>
   </g>
 
   <g transform="translate(560, 495)">
     <rect width="500" height="100" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
     <rect width="500" height="24" fill="#ddd" stroke="#111" stroke-width="2"/>
-    <text x="250" y="18" text-anchor="middle" fill="#111" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">본 연구의 해결책</text>
-    <text x="20" y="44" fill="#333" font-size="12" font-weight="bold">1. Hadamard 변환으로 어떤 분포든 가우시안으로 정규화</text>
-    <text x="20" y="64" fill="#333" font-size="12" font-weight="bold">2. 가우시안 최적 Lloyd-Max 코드북 적용</text>
-    <text x="20" y="84" fill="#333" font-size="12" font-weight="bold">3. σ 하나로 실시간 적응 → 균일 양자화 대비 MSE 82%↓</text>
+    <text x="250" y="18" text-anchor="middle" fill="#111" font-size="12" font-weight="bold" font-family="'Helvetica Neue', sans-serif">Our Solution</text>
+    <text x="20" y="44" fill="#333" font-size="12" font-weight="bold">1. Hadamard transform normalizes any distribution to Gaussian</text>
+    <text x="20" y="64" fill="#333" font-size="12" font-weight="bold">2. Gaussian-optimal Lloyd-Max codebook applied</text>
+    <text x="20" y="84" fill="#333" font-size="12" font-weight="bold">3. Real-time adaptation via single &#x3c3; &#x2192; 82% MSE reduction vs uniform</text>
   </g>
 </svg>
