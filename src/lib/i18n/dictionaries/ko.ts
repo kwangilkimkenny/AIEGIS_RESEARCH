@@ -19,7 +19,7 @@ const ko: Dictionary = {
     contact: "문의",
     latestPapers: "최신 논문",
     tagline: "산업 전반에 걸친 안전하고 신뢰할 수 있는 AI 배포를 위한 연구.",
-    copyright: "YATAV AIEGIS Research. All rights reserved.",
+    copyright: "YATAV Research. All rights reserved.",
     motto: "검증 가능하고, 제어 가능하며, 책임 있는 AI를 만들어갑니다.",
   },
   hero: {

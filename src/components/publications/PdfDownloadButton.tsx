@@ -73,7 +73,7 @@ export default function PdfDownloadButton({
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
               <div>
                 <div style="font-size: 11px; font-weight: 600; color: #000000; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">
-                  AEGIS RESEARCH
+                  YATAV RESEARCH
                 </div>
                 <div style="font-size: 10px; color: #767676; font-family: monospace;">
                   ${documentNumber} &middot; v${version}
@@ -118,7 +118,7 @@ export default function PdfDownloadButton({
           <!-- Footer -->
           <div style="margin-top: 40px; padding-top: 16px; border-top: 1px solid #111111; text-align: center;">
             <p style="font-size: 10px; color: #4A4A4A; margin: 0; letter-spacing: 1px;">
-              &copy; YATAV AIEGIS Research. All rights reserved.
+              &copy; YATAV Research. All rights reserved.
             </p>
             <p style="font-size: 9px; color: #767676; margin: 4px 0 0 0; font-family: monospace;">
               ${documentNumber} &middot; ${formattedDate}

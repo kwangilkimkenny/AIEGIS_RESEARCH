@@ -17,7 +17,7 @@ const en = {
     contact: "Contact",
     latestPapers: "Latest Papers",
     tagline: "Research for safe, secure, compliant, and trustworthy AI deployment across industries.",
-    copyright: "YATAV AIEGIS Research. All rights reserved.",
+    copyright: "YATAV Research. All rights reserved.",
     motto: "Making AI verifiable, controllable, and accountable.",
   },
   hero: {
