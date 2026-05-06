@@ -30,17 +30,17 @@ export default function Header({ locale, dict }: HeaderProps) {
     <header className="fixed top-0 left-0 right-0 z-50 bg-paper/95 backdrop-blur-sm border-b border-ink">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo — cobalt block monogram + monospace metadata */}
+          {/* Logo — ink block monogram + monospace metadata */}
           <Link href={`/${locale}`} className="flex items-center gap-3 group">
             <div className="flex h-9 w-9 items-center justify-center bg-cobalt">
-              <span className="text-base font-extrabold text-paper leading-none">A</span>
+              <span className="text-base font-extrabold text-paper leading-none">Y</span>
             </div>
             <div className="flex flex-col leading-none">
               <span className="text-[15px] font-extrabold tracking-tight text-ink">
-                A<span className="text-cobalt">I</span>EGIS
+                YATAV
               </span>
               <span className="mt-1 font-mono text-[9px] font-semibold tracking-[0.22em] uppercase text-ink-mute">
-                Research / 2026
+                Research
               </span>
             </div>
           </Link>
