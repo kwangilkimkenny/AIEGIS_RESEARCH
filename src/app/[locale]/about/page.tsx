@@ -71,27 +71,6 @@ export default async function AboutPage({ params }: Props) {
               </div>
             </div>
             <div className="space-y-10">
-              {/* CEO */}
-              <div>
-                <SectionHeading title={t.ceoTitle} />
-                <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
-                  <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-ink text-paper">
-                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-text-primary">
-                      Seongchan Lee
-                    </h3>
-                    <p className="text-sm font-medium text-ink-light">
-                      Korea Univ. &middot; {t.ceoRole}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* Research Leadership */}
               <div>
                 <SectionHeading title={t.leadershipTitle} />

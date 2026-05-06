@@ -138,8 +138,6 @@ const ko: Dictionary = {
     missionHighlight: "검증 가능하고, 제어 가능하며, 책임 있는",
     missionText2: "AEGIS Research는 AI가 실제 환경에서 신뢰받기 위해 필수적인 안전장치를 연구하고 운영화하는 연구 기관입니다. 모델 성능에만 집중하지 않습니다. 기업과 개인이 LLM을 워크플로우, 서비스, 의사결정 지원, 자동화, 에이전트, 멀티모달 시스템, VLA 파이프라인, 로보틱스 및 미래 AI 환경에 배포할 때 발생하는 실제 문제에 집중합니다.",
     visitMainSite: "AIAEGIS 웹사이트 방문",
-    ceoTitle: "CEO",
-    ceoRole: "대표이사",
     leadershipTitle: "연구 리더십",
     leadershipRole: "M.S. (USYD) · 연구 총괄",
     leadershipDesc: "AI 안전, 가드레일, 환각 완화 및 기업 배포 신뢰 전반에 걸친 AIEGIS 연구 이니셔티브를 총괄합니다.",
