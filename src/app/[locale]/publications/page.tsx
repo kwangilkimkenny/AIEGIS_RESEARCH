@@ -52,14 +52,14 @@ export default async function PublicationsPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {publications.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-lg text-text-muted dark:text-text-on-dark-muted">
+              <p className="text-lg text-text-muted">
                 {t.comingSoon}
               </p>
             </div>
           ) : (
             <>
               <div className="mb-10 flex items-center justify-between">
-                <p className="text-sm text-text-muted dark:text-text-on-dark-muted">
+                <p className="text-sm text-text-muted">
                   {publications.length} {publications.length !== 1 ? t.publicationsCount : t.publicationCount}
                 </p>
               </div>

@@ -33,7 +33,7 @@ export default function FeaturedResearch({ publications, dict, locale }: Feature
               <div className="flex flex-col flex-1 p-6">
                 {/* Doc number & type */}
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="font-mono text-xs text-text-muted dark:text-text-on-dark-muted">
+                  <span className="font-mono text-xs text-text-muted">
                     {pub.documentNumber}
                   </span>
                   <span
@@ -46,12 +46,12 @@ export default function FeaturedResearch({ publications, dict, locale }: Feature
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-text-primary dark:text-text-on-dark group-hover:text-accent-blue transition-colors leading-snug">
+                <h3 className="text-lg font-semibold text-text-primary group-hover:text-accent-blue transition-colors leading-snug">
                   {pub.title}
                 </h3>
 
                 {/* Summary */}
-                <p className="mt-3 text-sm leading-relaxed text-text-secondary dark:text-text-on-dark-muted flex-1">
+                <p className="mt-3 text-sm leading-relaxed text-text-secondary flex-1">
                   {locale === "ko" ? pub.oneLinerKo : pub.oneLinerEn}
                 </p>
 
@@ -60,7 +60,7 @@ export default function FeaturedResearch({ publications, dict, locale }: Feature
                   {pub.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-md bg-surface-100 dark:bg-navy-800 px-2 py-0.5 text-xs text-text-muted dark:text-text-on-dark-muted"
+                      className="rounded-md bg-surface-100 px-2 py-0.5 text-xs text-text-muted"
                     >
                       {tag}
                     </span>

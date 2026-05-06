@@ -67,60 +67,60 @@ export default function PdfDownloadButton({
       // Build a standalone HTML container for the PDF
       const container = document.createElement("div");
       container.innerHTML = `
-        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; padding: 0;">
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #111111; padding: 0;">
           <!-- Cover Header -->
-          <div style="border-bottom: 3px solid #2563eb; padding-bottom: 24px; margin-bottom: 32px;">
+          <div style="border-bottom: 4px solid #000000; padding-bottom: 24px; margin-bottom: 32px;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
               <div>
-                <div style="font-size: 11px; font-weight: 600; color: #2563eb; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">
+                <div style="font-size: 11px; font-weight: 600; color: #000000; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">
                   AEGIS RESEARCH
                 </div>
-                <div style="font-size: 10px; color: #6b7280; font-family: monospace;">
+                <div style="font-size: 10px; color: #767676; font-family: monospace;">
                   ${documentNumber} &middot; v${version}
                 </div>
               </div>
               <div style="text-align: right;">
-                <div style="display: inline-block; background: #eff6ff; color: #2563eb; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 4px;">
+                <div style="display: inline-block; border: 1px solid #111111; color: #111111; font-size: 10px; font-weight: 600; padding: 3px 10px; letter-spacing: 1px; text-transform: uppercase;">
                   ${typeLabel[type] || type}
                 </div>
               </div>
             </div>
 
-            <h1 style="font-size: 26px; font-weight: 700; line-height: 1.25; margin: 0 0 8px 0; color: #0f172a;">
+            <h1 style="font-size: 26px; font-weight: 700; line-height: 1.25; margin: 0 0 8px 0; color: #111111;">
               ${title}
             </h1>
-            <p style="font-size: 14px; color: #64748b; font-style: italic; margin: 0 0 16px 0;">
+            <p style="font-size: 14px; color: #4A4A4A; font-style: italic; margin: 0 0 16px 0;">
               ${subtitle}
             </p>
 
-            <div style="font-size: 11px; color: #6b7280; line-height: 1.6;">
-              <div><strong>Authors:</strong> ${authors.join(", ")}</div>
-              <div><strong>Affiliation:</strong> ${affiliation}</div>
-              <div><strong>Published:</strong> ${formattedDate}</div>
+            <div style="font-size: 11px; color: #4A4A4A; line-height: 1.6;">
+              <div><strong style="color: #111111;">Authors:</strong> ${authors.join(", ")}</div>
+              <div><strong style="color: #111111;">Affiliation:</strong> ${affiliation}</div>
+              <div><strong style="color: #111111;">Published:</strong> ${formattedDate}</div>
             </div>
           </div>
 
           <!-- Abstract -->
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 32px;">
-            <h2 style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #475569; margin: 0 0 8px 0;">
+          <div style="background: #F5F4EE; border-left: 3px solid #111111; padding: 20px 24px; margin-bottom: 32px;">
+            <h2 style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #111111; margin: 0 0 10px 0;">
               Abstract
             </h2>
-            <p style="font-size: 12px; line-height: 1.7; color: #334155; margin: 0;">
+            <p style="font-size: 12px; line-height: 1.7; color: #2D2D2D; margin: 0;">
               ${abstract}
             </p>
           </div>
 
           <!-- Main Content -->
-          <div class="pdf-body" style="font-size: 12px; line-height: 1.7; color: #1e293b;">
+          <div class="pdf-body" style="font-size: 12px; line-height: 1.7; color: #1A1A1A;">
             ${articleEl.innerHTML}
           </div>
 
           <!-- Footer -->
-          <div style="margin-top: 40px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center;">
-            <p style="font-size: 10px; color: #94a3b8; margin: 0;">
+          <div style="margin-top: 40px; padding-top: 16px; border-top: 1px solid #111111; text-align: center;">
+            <p style="font-size: 10px; color: #4A4A4A; margin: 0; letter-spacing: 1px;">
               &copy; YATAV AIEGIS Research. All rights reserved.
             </p>
-            <p style="font-size: 9px; color: #cbd5e1; margin: 4px 0 0 0;">
+            <p style="font-size: 9px; color: #767676; margin: 4px 0 0 0; font-family: monospace;">
               ${documentNumber} &middot; ${formattedDate}
             </p>
           </div>
@@ -136,35 +136,36 @@ export default function PdfDownloadButton({
           margin-top: 28px;
           margin-bottom: 12px;
           padding-bottom: 8px;
-          border-bottom: 1px solid #e2e8f0;
-          color: #0f172a;
+          border-bottom: 2px solid #111111;
+          color: #111111;
+          letter-spacing: -0.01em;
         }
         .pdf-body h3 {
           font-size: 15px;
           font-weight: 600;
           margin-top: 20px;
           margin-bottom: 8px;
-          color: #1e293b;
+          color: #111111;
         }
         .pdf-body h4 {
           font-size: 13px;
           font-weight: 600;
           margin-top: 16px;
           margin-bottom: 6px;
-          color: #334155;
+          color: #2D2D2D;
         }
         .pdf-body p {
           font-size: 12px;
           line-height: 1.7;
           margin-bottom: 10px;
-          color: #334155;
+          color: #2D2D2D;
         }
         .pdf-body ul, .pdf-body ol {
           font-size: 12px;
           line-height: 1.7;
           margin-bottom: 10px;
           padding-left: 20px;
-          color: #334155;
+          color: #2D2D2D;
         }
         .pdf-body li {
           margin-bottom: 4px;
@@ -176,39 +177,43 @@ export default function PdfDownloadButton({
           font-size: 10px;
         }
         .pdf-body th, .pdf-body td {
-          border: 1px solid #d1d5db;
+          border: 1px solid #111111;
           padding: 6px 8px;
           text-align: left;
         }
         .pdf-body th {
-          background: #f1f5f9;
+          background: #111111;
+          color: #FFFFFF;
           font-weight: 600;
-          color: #334155;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          font-size: 9px;
         }
         .pdf-body td {
-          color: #475569;
+          color: #2D2D2D;
         }
         .pdf-body strong {
-          color: #0f172a;
+          color: #111111;
         }
         .pdf-body blockquote {
-          border-left: 3px solid #2563eb;
-          padding-left: 12px;
+          border-left: 3px solid #111111;
+          padding-left: 14px;
           margin: 12px 0;
-          color: #475569;
+          color: #2D2D2D;
           font-style: italic;
         }
         .pdf-body code {
           font-size: 11px;
-          background: #f1f5f9;
+          background: #F2F2F0;
+          color: #111111;
           padding: 1px 4px;
-          border-radius: 3px;
+          border-radius: 2px;
         }
         .pdf-body pre {
-          background: #1e293b;
-          color: #e2e8f0;
+          background: #111111;
+          color: #F5F4EE;
           padding: 12px;
-          border-radius: 6px;
+          border-radius: 2px;
           font-size: 10px;
           overflow-x: auto;
           margin: 12px 0;
@@ -223,8 +228,9 @@ export default function PdfDownloadButton({
           margin: 12px 0;
         }
         .pdf-body a {
-          color: #2563eb;
-          text-decoration: none;
+          color: #111111;
+          text-decoration: underline;
+          text-underline-offset: 2px;
         }
       `;
       container.prepend(style);

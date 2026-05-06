@@ -24,10 +24,10 @@ export default function PublicationTypes({ dict }: Props) {
                 {icons[i]}
               </span>
               <div>
-                <h3 className="text-sm font-semibold text-text-primary dark:text-text-on-dark">
+                <h3 className="text-sm font-semibold text-text-primary">
                   {type.name}
                 </h3>
-                <p className="mt-1 text-sm text-text-secondary dark:text-text-on-dark-muted">
+                <p className="mt-1 text-sm text-text-secondary">
                   {type.description}
                 </p>
               </div>

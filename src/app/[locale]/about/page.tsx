@@ -54,14 +54,14 @@ export default async function AboutPage({ params }: Props) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
               <SectionHeading title={t.missionTitle} />
-              <p className="text-lg leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+              <p className="text-lg leading-relaxed text-text-secondary">
                 {t.missionText1}{" "}
-                <strong className="text-text-primary dark:text-text-on-dark">
+                <strong className="text-text-primary">
                   {t.missionHighlight}
                 </strong>
                 .
               </p>
-              <p className="mt-4 text-base leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+              <p className="mt-4 text-base leading-relaxed text-text-secondary">
                 {t.missionText2}
               </p>
               <div className="mt-6">
@@ -75,17 +75,17 @@ export default async function AboutPage({ params }: Props) {
               <div>
                 <SectionHeading title={t.ceoTitle} />
                 <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
-                  <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                    <svg className="w-8 h-8 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-ink text-paper">
+                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
                       <circle cx="12" cy="7" r="4" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-text-primary dark:text-text-on-dark">
+                    <h3 className="text-lg font-bold text-text-primary">
                       Seongchan Lee
                     </h3>
-                    <p className="text-sm font-medium text-emerald-500">
+                    <p className="text-sm font-medium text-ink-light">
                       Korea Univ. &middot; {t.ceoRole}
                     </p>
                   </div>
@@ -97,65 +97,79 @@ export default async function AboutPage({ params }: Props) {
                 <SectionHeading title={t.leadershipTitle} />
                 <div className="space-y-3">
                   <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
-                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-accent-blue/10 border border-accent-blue/20">
-                      <svg className="w-8 h-8 text-accent-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-text-primary dark:text-text-on-dark">
+                      <h3 className="text-lg font-bold text-text-primary">
                         Kwang Il Kim
                       </h3>
                       <p className="text-sm font-medium text-accent-blue">
                         {t.leadershipRole}
                       </p>
-                      <p className="mt-2 text-sm text-text-secondary dark:text-text-on-dark-muted leading-relaxed">
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
                         {t.leadershipDesc}
                       </p>
                     </div>
                   </div>
                   <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
-                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-accent-blue/10 border border-accent-blue/20">
-                      <svg className="w-8 h-8 text-accent-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-text-primary dark:text-text-on-dark">
+                      <h3 className="text-lg font-bold text-text-primary">
                         Seokju Kang
                       </h3>
                       <p className="text-sm font-medium text-accent-blue">
                         {t.cisoRole}
                       </p>
-                      <p className="mt-2 text-sm text-text-secondary dark:text-text-on-dark-muted leading-relaxed">
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
                         {t.cisoDesc}
                       </p>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Advisor */}
-              <div>
-                <SectionHeading title={t.advisorTitle} />
-                <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
-                  <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-violet-500/10 border border-violet-500/20">
-                    <svg className="w-8 h-8 text-violet-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
+                  <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M16 18l6-6-6-6" />
+                        <path d="M8 6l-6 6 6 6" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-text-primary">
+                        Hyukjun Yoo
+                      </h3>
+                      <p className="text-sm font-medium text-accent-blue">
+                        {t.engineerRole}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                        {t.engineerDesc}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-text-primary dark:text-text-on-dark">
-                      Dr. Taejeong Park
-                    </h3>
-                    <p className="text-sm font-medium text-violet-500">
-                      {t.advisorRole}
-                    </p>
-                    <p className="mt-2 text-sm text-text-secondary dark:text-text-on-dark-muted leading-relaxed">
-                      {t.advisorDesc}
-                    </p>
+                  <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 3v18h18" />
+                        <path d="M7 17l4-6 4 3 5-8" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-text-primary">
+                        Kitae Kim
+                      </h3>
+                      <p className="text-sm font-medium text-accent-blue">
+                        {t.mathResearcherRole}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                        {t.mathResearcherDesc}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -164,10 +178,10 @@ export default async function AboutPage({ params }: Props) {
               <div>
                 <SectionHeading title={t.coreBeliefTitle} />
                 <div className="rounded-2xl border border-card-border bg-card-bg p-8">
-                  <p className="text-lg font-medium text-text-primary dark:text-text-on-dark leading-relaxed">
+                  <p className="text-lg font-medium text-text-primary leading-relaxed">
                     &ldquo;{t.coreBeliefQuote}&rdquo;
                   </p>
-                  <p className="mt-4 text-sm text-text-muted dark:text-text-on-dark-muted">
+                  <p className="mt-4 text-sm text-text-muted">
                     {t.coreBeliefAttribution}
                   </p>
                 </div>
@@ -193,7 +207,7 @@ export default async function AboutPage({ params }: Props) {
                 <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md bg-accent-blue/10 text-xs font-bold text-accent-blue font-mono">
                   {i + 1}
                 </span>
-                <p className="text-sm leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+                <p className="text-sm leading-relaxed text-text-secondary">
                   {principle}
                 </p>
               </div>
@@ -215,14 +229,14 @@ export default async function AboutPage({ params }: Props) {
                 key={area.id}
                 className="flex items-start gap-3 rounded-xl border border-card-border bg-card-bg p-4"
               >
-                <span className="text-text-secondary dark:text-text-on-dark-muted flex-shrink-0">
+                <span className="text-text-secondary flex-shrink-0">
                   <ResearchIcon id={area.id} className="w-5 h-5" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-semibold text-text-primary dark:text-text-on-dark">
+                  <h3 className="text-sm font-semibold text-text-primary">
                     {ra.areas[area.id as keyof typeof ra.areas]?.title ?? area.title}
                   </h3>
-                  <p className="mt-1 text-xs text-text-muted dark:text-text-on-dark-muted">
+                  <p className="mt-1 text-xs text-text-muted">
                     {ra.areas[area.id as keyof typeof ra.areas]?.description ?? area.description}
                   </p>
                 </div>
@@ -237,13 +251,13 @@ export default async function AboutPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title={t.whyTitle} />
           <div className="max-w-3xl space-y-6">
-            <p className="text-base leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+            <p className="text-base leading-relaxed text-text-secondary">
               {t.whyText1}
             </p>
-            <p className="text-base leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+            <p className="text-base leading-relaxed text-text-secondary">
               {t.whyText2}
             </p>
-            <p className="text-base leading-relaxed text-text-primary dark:text-text-on-dark font-medium">
+            <p className="text-base leading-relaxed text-text-primary font-medium">
               {t.whyText3}
             </p>
           </div>

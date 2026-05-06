@@ -104,10 +104,10 @@ export default function ContactPage() {
                   />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-text-primary dark:text-text-on-dark">
+              <h2 className="text-2xl font-bold text-text-primary">
                 {t.thankYou}
               </h2>
-              <p className="mt-3 text-text-secondary dark:text-text-on-dark-muted">
+              <p className="mt-3 text-text-secondary">
                 {t.thankYouText}
               </p>
             </div>
@@ -119,15 +119,18 @@ export default function ContactPage() {
               />
 
               {error && (
-                <div className="mb-6 rounded-lg border border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800 p-4">
-                  <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+                <div className="mb-6 border-l-4 border-ink bg-paper-warm p-4">
+                  <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ink-mute mb-1">
+                    Error
+                  </p>
+                  <p className="text-sm text-ink font-medium">{error}</p>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Inquiry Type */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary dark:text-text-on-dark mb-2">
+                  <label className="block text-sm font-medium text-text-primary mb-2">
                     {t.inquiryType}
                   </label>
                   <div className="flex flex-wrap gap-3">
@@ -143,7 +146,7 @@ export default function ContactPage() {
                           defaultChecked={type.value === "general"}
                           className="text-accent-blue"
                         />
-                        <span className="text-sm text-text-primary dark:text-text-on-dark">
+                        <span className="text-sm text-text-primary">
                           {type.label}
                         </span>
                       </label>
@@ -154,26 +157,26 @@ export default function ContactPage() {
                 {/* Name & Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-text-primary dark:text-text-on-dark mb-2">
+                    <label className="block text-sm font-medium text-text-primary mb-2">
                       {t.name} *
                     </label>
                     <input
                       type="text"
                       name="name"
                       required
-                      className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary dark:text-text-on-dark placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors"
+                      className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors"
                       placeholder={t.namePlaceholder}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-primary dark:text-text-on-dark mb-2">
+                    <label className="block text-sm font-medium text-text-primary mb-2">
                       {t.email} *
                     </label>
                     <input
                       type="email"
                       name="email"
                       required
-                      className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary dark:text-text-on-dark placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors"
+                      className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors"
                       placeholder={t.emailPlaceholder}
                     />
                   </div>
@@ -181,27 +184,27 @@ export default function ContactPage() {
 
                 {/* Organization */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary dark:text-text-on-dark mb-2">
+                  <label className="block text-sm font-medium text-text-primary mb-2">
                     {t.organization}
                   </label>
                   <input
                     type="text"
                     name="organization"
-                    className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary dark:text-text-on-dark placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors"
+                    className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors"
                     placeholder={t.orgPlaceholder}
                   />
                 </div>
 
                 {/* Message */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary dark:text-text-on-dark mb-2">
+                  <label className="block text-sm font-medium text-text-primary mb-2">
                     {t.message} *
                   </label>
                   <textarea
                     name="message"
                     required
                     rows={5}
-                    className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary dark:text-text-on-dark placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors resize-y"
+                    className="w-full rounded-lg border border-card-border bg-card-bg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-blue focus:ring-1 focus:ring-accent-blue outline-none transition-colors resize-y"
                     placeholder={t.messagePlaceholder}
                   />
                 </div>
@@ -238,10 +241,10 @@ export default function ContactPage() {
                 key={item.title}
                 className="rounded-xl border border-card-border bg-card-bg p-6"
               >
-                <h3 className="text-base font-semibold text-text-primary dark:text-text-on-dark">
+                <h3 className="text-base font-semibold text-text-primary">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm text-text-secondary dark:text-text-on-dark-muted">
+                <p className="mt-2 text-sm text-text-secondary">
                   {item.description}
                 </p>
               </div>

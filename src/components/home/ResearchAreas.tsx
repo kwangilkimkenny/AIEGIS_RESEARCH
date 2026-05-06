@@ -23,14 +23,14 @@ export default function ResearchAreas({ dict }: Props) {
                 className="group rounded-2xl border border-card-border bg-card-bg p-6 card-hover"
               >
                 <div className="flex items-start gap-4">
-                  <span className="text-text-secondary dark:text-text-on-dark-muted group-hover:text-accent-blue transition-colors">
+                  <span className="text-text-secondary group-hover:text-accent-blue transition-colors">
                     <ResearchIcon id={area.id} className="w-6 h-6" />
                   </span>
                   <div>
-                    <h3 className="text-base font-semibold text-text-primary dark:text-text-on-dark group-hover:text-accent-blue transition-colors">
+                    <h3 className="text-base font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
                       {translated?.title ?? area.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                       {translated?.description ?? area.description}
                     </p>
                   </div>

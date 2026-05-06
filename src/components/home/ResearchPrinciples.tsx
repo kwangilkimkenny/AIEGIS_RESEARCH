@@ -21,7 +21,7 @@ export default function ResearchPrinciples({ dict }: Props) {
               <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-accent-blue/10 text-sm font-bold text-accent-blue font-mono">
                 {index + 1}
               </span>
-              <p className="text-base text-text-primary dark:text-text-on-dark leading-relaxed">
+              <p className="text-base text-text-primary leading-relaxed">
                 {principle}
               </p>
             </div>

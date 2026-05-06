@@ -22,7 +22,7 @@ export default function PublicationCard({ publication, locale, dict }: Publicati
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs text-text-muted dark:text-text-on-dark-muted">
+            <span className="font-mono text-xs text-text-muted">
               {publication.documentNumber}
             </span>
             <span
@@ -33,7 +33,7 @@ export default function PublicationCard({ publication, locale, dict }: Publicati
               {dtLabels[publication.type]}
             </span>
           </div>
-          <time className="text-xs text-text-muted dark:text-text-on-dark-muted">
+          <time className="text-xs text-text-muted">
             {new Date(publication.publishedDate).toLocaleDateString(dateLocale, {
               year: "numeric",
               month: "short",
@@ -43,23 +43,23 @@ export default function PublicationCard({ publication, locale, dict }: Publicati
 
         {/* Title */}
         <Link href={`/${locale}/publications/${publication.slug}`}>
-          <h2 className="text-lg font-semibold text-text-primary dark:text-text-on-dark group-hover:text-accent-blue transition-colors leading-snug">
+          <h2 className="text-lg font-semibold text-text-primary group-hover:text-accent-blue transition-colors leading-snug">
             {publication.title}
           </h2>
         </Link>
 
         {/* Subtitle */}
-        <p className="mt-1 text-sm text-text-muted dark:text-text-on-dark-muted italic">
+        <p className="mt-1 text-sm text-text-muted italic">
           {publication.subtitle}
         </p>
 
         {/* Authors */}
-        <p className="mt-3 text-xs text-text-muted dark:text-text-on-dark-muted">
+        <p className="mt-3 text-xs text-text-muted">
           {publication.authors.join(", ")}
         </p>
 
         {/* Abstract */}
-        <p className="mt-3 text-sm leading-relaxed text-text-secondary dark:text-text-on-dark-muted flex-1 line-clamp-3">
+        <p className="mt-3 text-sm leading-relaxed text-text-secondary flex-1 line-clamp-3">
           {publication.abstract}
         </p>
 
@@ -68,7 +68,7 @@ export default function PublicationCard({ publication, locale, dict }: Publicati
           {publication.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="rounded-md bg-surface-100 dark:bg-navy-800 px-2 py-0.5 text-xs text-text-muted dark:text-text-on-dark-muted"
+              className="rounded-md bg-surface-100 px-2 py-0.5 text-xs text-text-muted"
             >
               {tag}
             </span>

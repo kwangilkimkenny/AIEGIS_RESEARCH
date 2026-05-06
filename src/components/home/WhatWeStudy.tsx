@@ -14,18 +14,18 @@ export default function WhatWeStudy({ dict }: Props) {
         <SectionHeading title={t.title} subtitle={t.subtitle} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="rounded-2xl border border-card-border bg-card-bg p-8">
-            <h3 className="text-lg font-semibold text-text-primary dark:text-text-on-dark mb-3">
+            <h3 className="text-lg font-semibold text-text-primary mb-3">
               {t.card1Title}
             </h3>
-            <p className="text-text-secondary dark:text-text-on-dark-muted leading-relaxed">
+            <p className="text-text-secondary leading-relaxed">
               {t.card1Text}
             </p>
           </div>
           <div className="rounded-2xl border border-card-border bg-card-bg p-8">
-            <h3 className="text-lg font-semibold text-text-primary dark:text-text-on-dark mb-3">
+            <h3 className="text-lg font-semibold text-text-primary mb-3">
               {t.card2Title}
             </h3>
-            <p className="text-text-secondary dark:text-text-on-dark-muted leading-relaxed">
+            <p className="text-text-secondary leading-relaxed">
               {t.card2Text}
             </p>
           </div>

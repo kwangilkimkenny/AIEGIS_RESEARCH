@@ -56,47 +56,47 @@ Every incoming query is classified into one of seven intent categories with asso
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Intent Code</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Category</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Risk Level</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>loan_inquiry</td>
       <td style={{padding: '12px 16px'}}>Loan Products & Rates</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#D97706', fontWeight: 600}}>Medium</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#2D2D2D', fontWeight: 600}}>Medium</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>deposit_inquiry</td>
       <td style={{padding: '12px 16px'}}>Deposit & Savings</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#059669', fontWeight: 600}}>Low</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#767676', fontWeight: 600}}>Low</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>investment_advisory</td>
       <td style={{padding: '12px 16px'}}>Investment Advice</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#DC2626', fontWeight: 600}}>High</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#111111', fontWeight: 600}}>High</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>credit_assessment</td>
       <td style={{padding: '12px 16px'}}>Credit Evaluation</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#DC2626', fontWeight: 600}}>High</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#111111', fontWeight: 600}}>High</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>insurance_inquiry</td>
       <td style={{padding: '12px 16px'}}>Insurance Products</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#D97706', fontWeight: 600}}>Medium</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#2D2D2D', fontWeight: 600}}>Medium</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>general_inquiry</td>
       <td style={{padding: '12px 16px'}}>General Questions</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#059669', fontWeight: 600}}>Low</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#767676', fontWeight: 600}}>Low</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px', fontFamily: 'monospace', fontSize: '0.85rem'}}>out_of_scope</td>
       <td style={{padding: '12px 16px'}}>Non-Financial</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', color: '#DC2626', fontWeight: 600}}>Reject</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', color: '#111111', fontWeight: 600}}>Reject</td>
     </tr>
   </tbody>
 </table>
@@ -115,7 +115,7 @@ The system deploys three independent detection layers:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Tier</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Content</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Authority</th>
@@ -123,22 +123,22 @@ The system deploys three independent detection layers:
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(37, 99, 235, 0.04)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'rgba(17, 17, 17, 0.04)'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>A: Regulatory</td>
       <td style={{padding: '12px 16px'}}>Laws, regulations, disclosure requirements</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#DC2626'}}>Highest</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#111111'}}>Highest</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>Quarterly</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>B: Sector</td>
       <td style={{padding: '12px 16px'}}>Banking/insurance/securities-specific guidelines</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#D97706'}}>Medium</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#2D2D2D'}}>Medium</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>Monthly</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px', fontWeight: 700}}>C: Institutional</td>
       <td style={{padding: '12px 16px'}}>Products, internal policies, FAQs</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#059669'}}>Operational</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#767676'}}>Operational</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>Weekly</td>
     </tr>
   </tbody>
@@ -150,7 +150,7 @@ Seven core compliance rules enforce regulatory boundaries at generation time:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 12px', textAlign: 'left'}}>Rule ID</th>
       <th style={{padding: '10px 12px', textAlign: 'left'}}>Name</th>
       <th style={{padding: '10px 12px', textAlign: 'left'}}>Trigger</th>
@@ -158,37 +158,37 @@ Seven core compliance rules enforce regulatory boundaries at generation time:
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontFamily: 'monospace'}}>CG-001</td>
       <td style={{padding: '10px 12px'}}>Investment Solicitation</td>
       <td style={{padding: '10px 12px'}}>25 solicitation patterns</td>
       <td style={{padding: '10px 12px'}}>Replace with disclaimer</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontFamily: 'monospace'}}>CG-002</td>
       <td style={{padding: '10px 12px'}}>Return Guarantee</td>
       <td style={{padding: '10px 12px'}}>9 guarantee patterns</td>
       <td style={{padding: '10px 12px'}}>Remove + warning</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontFamily: 'monospace'}}>CG-003</td>
       <td style={{padding: '10px 12px'}}>Numerical Source Required</td>
       <td style={{padding: '10px 12px'}}>Numbers without citation</td>
       <td style={{padding: '10px 12px'}}>Flag for review</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontFamily: 'monospace'}}>CG-004</td>
       <td style={{padding: '10px 12px'}}>Interest Rate Accuracy</td>
       <td style={{padding: '10px 12px'}}>Rate deviation ±0.01%p</td>
       <td style={{padding: '10px 12px'}}>Correct or escalate</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontFamily: 'monospace'}}>CG-005</td>
       <td style={{padding: '10px 12px'}}>Mandatory Disclaimer</td>
       <td style={{padding: '10px 12px'}}>Investment/credit intents</td>
       <td style={{padding: '10px 12px'}}>Auto-append disclaimer</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontFamily: 'monospace'}}>CG-006</td>
       <td style={{padding: '10px 12px'}}>PII Exposure</td>
       <td style={{padding: '10px 12px'}}>Residual PII in output</td>
@@ -225,30 +225,30 @@ For high-risk queries, responses are validated across multiple LLMs using agglom
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Consensus Score</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Classification</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.04)'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>≥ 0.95</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>≥ 0.95</td>
       <td style={{padding: '12px 16px'}}>Full consensus</td>
       <td style={{padding: '12px 16px'}}>Approve response</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>≥ 0.60</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>≥ 0.60</td>
       <td style={{padding: '12px 16px'}}>Majority consensus</td>
       <td style={{padding: '12px 16px'}}>Log minority dissent, return majority</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#D97706'}}>≥ 0.40</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D'}}>≥ 0.40</td>
       <td style={{padding: '12px 16px'}}>Partial consensus</td>
       <td style={{padding: '12px 16px'}}>Log all responses, return with caveat</td>
     </tr>
     <tr>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#DC2626'}}>&lt; 0.40</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>&lt; 0.40</td>
       <td style={{padding: '12px 16px'}}>No consensus</td>
       <td style={{padding: '12px 16px'}}>Escalate to human review</td>
     </tr>
@@ -259,40 +259,40 @@ For high-risk queries, responses are validated across multiple LLMs using agglom
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Priority</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>SLA</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Trigger Condition</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(220, 38, 38, 0.04)'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#DC2626'}}>CRITICAL</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'rgba(17, 17, 17, 0.04)'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>CRITICAL</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>5 min</td>
       <td style={{padding: '12px 16px'}}>HIGH/CRITICAL guardrail violations</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(220, 38, 38, 0.04)'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#DC2626'}}>CRITICAL</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'rgba(17, 17, 17, 0.04)'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>CRITICAL</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>15 min</td>
       <td style={{padding: '12px 16px'}}>Investment intent + amount ≥ 100M KRW</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#D97706'}}>HIGH</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D'}}>HIGH</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>30 min</td>
       <td style={{padding: '12px 16px'}}>Uncertainty U ≥ 0.7 or fraud detection</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#D97706'}}>HIGH</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D'}}>HIGH</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>30 min</td>
       <td style={{padding: '12px 16px'}}>AML suspicious activity patterns</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>MEDIUM</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>60 min</td>
       <td style={{padding: '12px 16px'}}>Low retrieval relevance + low intent confidence</td>
     </tr>
     <tr>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#059669'}}>LOW</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#767676'}}>LOW</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>Auto</td>
       <td style={{padding: '12px 16px'}}>Citation coverage 0.5–0.8 (auto-disclaimer)</td>
     </tr>
@@ -305,7 +305,7 @@ For high-risk queries, responses are validated across multiple LLMs using agglom
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 12px', textAlign: 'left'}}>Cache Level</th>
       <th style={{padding: '10px 12px', textAlign: 'center'}}>Latency</th>
       <th style={{padding: '10px 12px', textAlign: 'center'}}>Capacity</th>
@@ -314,23 +314,23 @@ For high-risk queries, responses are validated across multiple LLMs using agglom
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(37, 99, 235, 0.04)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'rgba(17, 17, 17, 0.04)'}}>
       <td style={{padding: '10px 12px', fontWeight: 700}}>L1: In-Memory LRU</td>
-      <td style={{padding: '10px 12px', textAlign: 'center', color: '#059669', fontWeight: 600}}>&lt; 1ms</td>
+      <td style={{padding: '10px 12px', textAlign: 'center', color: '#767676', fontWeight: 600}}>&lt; 1ms</td>
       <td style={{padding: '10px 12px', textAlign: 'center'}}>1,000 entries</td>
       <td style={{padding: '10px 12px'}}>Interest rates, exchange rates, product info</td>
       <td style={{padding: '10px 12px', textAlign: 'center', fontWeight: 600}}>~35%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 12px', fontWeight: 700}}>L2: Redis Cache</td>
-      <td style={{padding: '10px 12px', textAlign: 'center', color: '#059669', fontWeight: 600}}>&lt; 5ms</td>
+      <td style={{padding: '10px 12px', textAlign: 'center', color: '#767676', fontWeight: 600}}>&lt; 5ms</td>
       <td style={{padding: '10px 12px', textAlign: 'center'}}>500 entries</td>
       <td style={{padding: '10px 12px'}}>RAG search results, prompt templates</td>
       <td style={{padding: '10px 12px', textAlign: 'center', fontWeight: 600}}>~25%</td>
     </tr>
     <tr>
       <td style={{padding: '10px 12px', fontWeight: 700}}>L3: Semantic Cache</td>
-      <td style={{padding: '10px 12px', textAlign: 'center', color: '#059669', fontWeight: 600}}>&lt; 10ms</td>
+      <td style={{padding: '10px 12px', textAlign: 'center', color: '#767676', fontWeight: 600}}>&lt; 10ms</td>
       <td style={{padding: '10px 12px', textAlign: 'center'}}>5,000 entries</td>
       <td style={{padding: '10px 12px'}}>Query embedding similarity (≥ 0.95)</td>
       <td style={{padding: '10px 12px', textAlign: 'center', fontWeight: 600}}>~15%</td>
@@ -348,49 +348,49 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Category</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Test Cases</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Description</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Factual accuracy</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px'}}>Correct financial fact generation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Numerical accuracy</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px'}}>Interest rate, fee precision</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Compliance</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px'}}>Guardrail rule enforcement</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Citation verification</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px'}}>Source attribution accuracy</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Fabrication detection</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px'}}>Detecting invented facts</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>PII protection</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px'}}>PII masking effectiveness</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Injection defense</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700}}>15</td>
       <td style={{padding: '12px 16px'}}>Adversarial prompt attacks</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Integration (E2E)</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>12</td>
       <td style={{padding: '12px 16px'}}>Full pipeline end-to-end</td>
@@ -407,7 +407,7 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Hallucination Type</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Cases</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Detected</th>
@@ -415,41 +415,41 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Numerical fabrication</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Return guarantees</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Investment solicitation</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>PII leakage</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Insider information</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{backgroundColor: 'rgba(37, 99, 235, 0.04)'}}>
+    <tr style={{backgroundColor: 'rgba(17, 17, 17, 0.04)'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>Total</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700}}>12</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700}}>12</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
   </tbody>
 </table>
@@ -458,7 +458,7 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Attack Type</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Cases</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Blocked</th>
@@ -466,47 +466,47 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Direct override</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Role manipulation</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Jailbreak</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Korean injection</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Unicode obfuscation</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>2</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Format injection</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>3</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{backgroundColor: 'rgba(37, 99, 235, 0.04)'}}>
+    <tr style={{backgroundColor: 'rgba(17, 17, 17, 0.04)'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>Total</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700}}>15</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700}}>15</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
   </tbody>
 </table>
@@ -515,26 +515,26 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Percentile</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Latency</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Target</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>p50</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>45ms</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>45ms</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>—</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.04)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>p95</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>142ms</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>≤ 200ms ✓</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>142ms</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>≤ 200ms ✓</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>p99</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>187ms</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>187ms</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>—</td>
     </tr>
   </tbody>
@@ -544,7 +544,7 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Metric</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Python</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Rust</th>
@@ -552,23 +552,23 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Throughput</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>10K patterns/sec</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>85K patterns/sec</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>8.5×</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>85K patterns/sec</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>8.5×</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>p95 Latency</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>18ms</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>2ms</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>9.0×</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>2ms</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>9.0×</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px'}}>Memory</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>45MB</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>12MB</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>3.75×</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>12MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>3.75×</td>
     </tr>
   </tbody>
 </table>
@@ -577,41 +577,41 @@ The system was evaluated on 104 test cases across 10 categories in a Korean fina
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Configuration</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Detection Rate</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Notes</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.04)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>Full system (4 layers)</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
       <td style={{padding: '12px 16px'}}>Baseline</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Without Layer 1 (input governance)</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>100%</td>
-      <td style={{padding: '12px 16px', color: '#DC2626'}}>Injection attacks succeed</td>
+      <td style={{padding: '12px 16px', color: '#111111'}}>Injection attacks succeed</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Without Layer 3 (output verification)</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#DC2626'}}>~82%</td>
-      <td style={{padding: '12px 16px', color: '#DC2626'}}>Numerical errors and ungrounded claims pass</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#111111'}}>~82%</td>
+      <td style={{padding: '12px 16px', color: '#111111'}}>Numerical errors and ungrounded claims pass</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Without uncertainty scorer</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#D97706'}}>~88%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#2D2D2D'}}>~88%</td>
       <td style={{padding: '12px 16px'}}>No confidence-based escalation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Without consensus validation</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#D97706'}}>~94%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#2D2D2D'}}>~94%</td>
       <td style={{padding: '12px 16px'}}>High-risk queries may pass unchecked</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px'}}>Without citation linker</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#D97706'}}>~91%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#2D2D2D'}}>~91%</td>
       <td style={{padding: '12px 16px'}}>Ungrounded claims not flagged</td>
     </tr>
   </tbody>

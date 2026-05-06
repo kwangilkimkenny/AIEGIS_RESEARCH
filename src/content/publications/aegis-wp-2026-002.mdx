@@ -41,7 +41,7 @@ TurboQuant's 4-bit momentum compression (8× communication reduction) and activa
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Impact Dimension</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Current Bottleneck</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>TurboQuant Effect</th>
@@ -49,19 +49,19 @@ TurboQuant's 4-bit momentum compression (8× communication reduction) and activa
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Network Cost</td>
       <td style={{padding: '10px 14px'}}>Communication = 20–55% of training time</td>
       <td style={{padding: '10px 14px'}}>8× traffic reduction</td>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Ethernet replaces InfiniBand</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>GPU Memory</td>
       <td style={{padding: '10px 14px'}}>Activations = 40–60% of VRAM</td>
       <td style={{padding: '10px 14px'}}>4× activation compression</td>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Larger batches, fewer GPUs</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Infrastructure</td>
       <td style={{padding: '10px 14px'}}>InfiniBand mandatory (2× cost)</td>
       <td style={{padding: '10px 14px'}}>Ethernet sufficient</td>
@@ -84,7 +84,7 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>GPU</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Major Cloud</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Specialized Cloud</th>
@@ -92,7 +92,7 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>H100 SXM5</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>$6.88–$12.29/hr</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>$1.87–$3.44/hr</td>
@@ -111,7 +111,7 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Model Scale</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Estimated Cost</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>GPU Configuration</th>
@@ -119,19 +119,19 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>7B</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>$50K–$500K</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>64× H100</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>2–4 weeks</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>70B</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>$1.2M–$6M</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>256× H100</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>3–8 weeks</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>175B (GPT-3 class)</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>$500K–$4.6M</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>1,000–2,000× H100</td>
@@ -151,15 +151,15 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
 ### Impact 1: Communication — Enabling the InfiniBand-to-Ethernet Transition
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/12_cost_structure.svg" alt="LLM training cost bottleneck analysis" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 1. Communication consumes 20–55% of training time; activations occupy 40–60% of VRAM. TurboQuant addresses both simultaneously.</figcaption>
+  <img src="/assets/images/12_cost_structure.svg" alt="LLM training cost bottleneck analysis" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 1. Communication consumes 20–55% of training time; activations occupy 40–60% of VRAM. TurboQuant addresses both simultaneously.</figcaption>
 </figure>
 
 8× communication reduction transforms the effective bandwidth equation.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Network</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Physical BW</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>With TQ (Effective)</th>
@@ -167,17 +167,17 @@ Projected savings: $240K–$1.2M per 70B training run (20–40% of total cost) a
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>InfiniBand NDR</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>400 Gbps</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>3,200 Gbps (eff.)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', color: '#D97706'}}>Over-provisioned</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', color: '#2D2D2D'}}>Over-provisioned</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>Ethernet 100G</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>100 Gbps</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>800 Gbps (eff.)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>2× InfiniBand NDR</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>800 Gbps (eff.)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>2× InfiniBand NDR</td>
     </tr>
     <tr>
       <td style={{padding: '10px 14px'}}>Ethernet 25G</td>
@@ -195,32 +195,32 @@ This aligns with the industry trend exemplified by Meta's selection of RoCE Ethe
 ### Impact 2: Infrastructure Architecture Transformation
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/13_network_comparison.svg" alt="Infrastructure architecture before and after TurboQuant" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 2. Infrastructure transformation — from InfiniBand-dependent to Ethernet-capable distributed training.</figcaption>
+  <img src="/assets/images/13_network_comparison.svg" alt="Infrastructure architecture before and after TurboQuant" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 2. Infrastructure transformation — from InfiniBand-dependent to Ethernet-capable distributed training.</figcaption>
 </figure>
 
 TurboQuant unlocks previously impossible deployment scenarios.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Scenario</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Current</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>With TurboQuant</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Multi-datacenter training</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Impossible (bandwidth)</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 600}}>Feasible (8× compression)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Cloud-hybrid training</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Impractical</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 600}}>Practical</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Low-cost GPU pool utilization</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Inefficient without IB</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 600}}>Ethernet sufficient</td>
@@ -236,8 +236,8 @@ TurboQuant unlocks previously impossible deployment scenarios.
 ### Impact 3: Direct Training Cost Reduction
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/15_cost_savings.svg" alt="Projected cost savings for 70B and 175B models" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 3. Projected cost savings — $240K–$500K for 70B training (27–56%), $1.2M+ operational + $8M infrastructure for 175B training.</figcaption>
+  <img src="/assets/images/15_cost_savings.svg" alt="Projected cost savings for 70B and 175B models" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 3. Projected cost savings — $240K–$500K for 70B training (27–56%), $1.2M+ operational + $8M infrastructure for 175B training.</figcaption>
 </figure>
 
 ### Impact 4: GPU Memory Efficiency
@@ -246,7 +246,7 @@ TurboQuant unlocks previously impossible deployment scenarios.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Model</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Current (H100)</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>With TQ (H100)</th>
@@ -254,23 +254,23 @@ TurboQuant unlocks previously impossible deployment scenarios.
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>7B</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>batch=32</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 600}}>batch=64–96</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Training time −20–30%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>13B</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>batch=16</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 600}}>batch=32–48</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>GPU utilization ↑</td>
     </tr>
-    <tr style={{backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>70B</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>batch=1–2 (TP=8)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>batch=4–8 (TP=4)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>GPU count −50%</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>batch=4–8 (TP=4)</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>GPU count −50%</td>
     </tr>
   </tbody>
 </table>
@@ -280,8 +280,8 @@ TurboQuant unlocks previously impossible deployment scenarios.
 ## Competitive Positioning
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/14_competitive_positioning.svg" alt="Competitive technology positioning matrix" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 4. TurboQuant is the only framework addressing both communication and memory bottlenecks with full AdamW and AMP compatibility.</figcaption>
+  <img src="/assets/images/14_competitive_positioning.svg" alt="Competitive technology positioning matrix" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 4. TurboQuant is the only framework addressing both communication and memory bottlenecks with full AdamW and AMP compatibility.</figcaption>
 </figure>
 
 TurboQuant은 다음과 같은 차별점을 갖는다.
@@ -315,24 +315,24 @@ TurboQuant은 다음과 같은 차별점을 갖는다.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Risk</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Severity</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Mitigation</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>7B+ scale unvalidated</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 600}}>High</td>
       <td style={{padding: '10px 14px'}}>Staged scale-up experiments planned</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Speed overhead (2–4×)</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Medium</td>
       <td style={{padding: '10px 14px'}}>C++/CUDA native kernel optimization</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Long-run stability (100K+ steps)</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Medium</td>
       <td style={{padding: '10px 14px'}}>Incremental training duration experiments</td>
@@ -379,31 +379,31 @@ TurboQuant은 다음과 같은 차별점을 갖는다.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Dimension</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Assessment</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Technical Viability</td>
-      <td style={{padding: '10px 14px', fontWeight: 600, color: '#059669'}}>Validated (355M, 1,500 steps, loss gap &lt; 0.003)</td>
+      <td style={{padding: '10px 14px', fontWeight: 600, color: '#767676'}}>Validated (355M, 1,500 steps, loss gap &lt; 0.003)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Business Impact</td>
-      <td style={{padding: '10px 14px', fontWeight: 600, color: '#059669'}}>High (multi-million dollar savings potential)</td>
+      <td style={{padding: '10px 14px', fontWeight: 600, color: '#767676'}}>High (multi-million dollar savings potential)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Time to Market</td>
       <td style={{padding: '10px 14px'}}>3–6 months (C++ optimization + 7B validation)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Market Timing</td>
-      <td style={{padding: '10px 14px', fontWeight: 600, color: '#059669'}}>Aligned (Ethernet transition trend)</td>
+      <td style={{padding: '10px 14px', fontWeight: 600, color: '#767676'}}>Aligned (Ethernet transition trend)</td>
     </tr>
     <tr>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Competitive Position</td>
-      <td style={{padding: '10px 14px', fontWeight: 600, color: '#059669'}}>Differentiated (unique dual-axis compression)</td>
+      <td style={{padding: '10px 14px', fontWeight: 600, color: '#767676'}}>Differentiated (unique dual-axis compression)</td>
     </tr>
   </tbody>
 </table>

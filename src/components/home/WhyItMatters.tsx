@@ -17,10 +17,10 @@ export default function WhyItMatters({ dict }: Props) {
             <div key={point.title} className="flex gap-4">
               <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-cyan" />
               <div>
-                <h3 className="text-sm font-semibold text-text-primary dark:text-text-on-dark">
+                <h3 className="text-sm font-semibold text-text-primary">
                   {point.title}
                 </h3>
-                <p className="mt-1 text-sm text-text-secondary dark:text-text-on-dark-muted leading-relaxed">
+                <p className="mt-1 text-sm text-text-secondary leading-relaxed">
                   {point.description}
                 </p>
               </div>
@@ -28,7 +28,7 @@ export default function WhyItMatters({ dict }: Props) {
           ))}
         </div>
         <div className="mt-12 rounded-2xl border border-card-border bg-card-bg p-8">
-          <p className="text-base leading-relaxed text-text-secondary dark:text-text-on-dark-muted">
+          <p className="text-base leading-relaxed text-text-secondary">
             {t.bottomText}
           </p>
         </div>

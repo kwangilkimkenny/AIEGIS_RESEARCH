@@ -2,8 +2,9 @@
 @plugin "@tailwindcss/typography";
 
 /* ========================================
-   AEGIS Research — Swiss / Bauhaus Editorial
-   Light, geometric, typographic.
+   AEGIS Research — Monochrome Editorial
+   Black ink on paper. Tonal hierarchy via
+   value, weight, and composition. No hue.
    ======================================== */
 
 :root {
@@ -22,17 +23,18 @@
   --ink-line: #111111;
   --hairline: #111111;
 
-  /* Accents (used sparingly, as color blocks) */
-  --cobalt: #1F3FCF;        /* primary accent — research, links, CTA */
-  --cobalt-deep: #15309A;
-  --cobalt-tint: #DDE3FB;
-  --terracotta: #C4533C;    /* secondary accent — emphasis, alerts */
-  --terracotta-tint: #F5DDD5;
-  --mustard: #D4A82A;       /* tertiary accent for tags/dots only */
+  /* Accents — monochrome. Differentiation by VALUE, not hue.
+     Naming kept stable for backward compatibility. */
+  --cobalt: #000000;        /* primary accent — pure black, gallery signature */
+  --cobalt-deep: #2D2D2D;   /* pressed/hover — barely-visible shift */
+  --cobalt-tint: #E8E8E8;   /* cool ink-wash — soft accent backgrounds */
+  --terracotta: #3D3D3D;    /* secondary accent — graphite, distinct from primary by value */
+  --terracotta-tint: #EAE7DE;/* warm toasted-paper — secondary backgrounds */
+  --mustard: #8A8A8A;       /* tertiary tag/dot — neutral mid-gray */
 
-  /* Status (Swiss-flat) */
-  --emerald: #1F7A4D;
-  --amber: #D4A82A;
+  /* Status — neutralized to grayscale; meaning carried by icon + typography */
+  --emerald: #2D2D2D;
+  --amber: #6B6B6B;
 
   /* Spacing */
   --section-padding: 6rem;
@@ -126,12 +128,38 @@
 ---------------------------------------- */
 html {
   scroll-behavior: smooth;
+  /* Editorial monochrome is a single, deliberate composition.
+     Lock light mode so OS dark-mode preference cannot invert
+     prose text (Tailwind Typography's dark:prose-invert) onto
+     our always-white paper background. */
+  color-scheme: light;
 }
 body {
   background: var(--paper);
   color: var(--ink);
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
+}
+
+/* Neutralize Tailwind Typography's dark inversion. The site has
+   no dark theme; prose must always render on light paper. */
+.prose.dark\:prose-invert {
+  --tw-prose-invert-body: var(--tw-prose-body);
+  --tw-prose-invert-headings: var(--tw-prose-headings);
+  --tw-prose-invert-lead: var(--tw-prose-lead);
+  --tw-prose-invert-links: var(--tw-prose-links);
+  --tw-prose-invert-bold: var(--tw-prose-bold);
+  --tw-prose-invert-counters: var(--tw-prose-counters);
+  --tw-prose-invert-bullets: var(--tw-prose-bullets);
+  --tw-prose-invert-hr: var(--tw-prose-hr);
+  --tw-prose-invert-quotes: var(--tw-prose-quotes);
+  --tw-prose-invert-quote-borders: var(--tw-prose-quote-borders);
+  --tw-prose-invert-captions: var(--tw-prose-captions);
+  --tw-prose-invert-code: var(--tw-prose-code);
+  --tw-prose-invert-pre-code: var(--tw-prose-pre-code);
+  --tw-prose-invert-pre-bg: var(--tw-prose-pre-bg);
+  --tw-prose-invert-th-borders: var(--tw-prose-th-borders);
+  --tw-prose-invert-td-borders: var(--tw-prose-td-borders);
 }
 
 /* ----------------------------------------

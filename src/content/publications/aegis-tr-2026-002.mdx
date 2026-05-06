@@ -82,7 +82,7 @@ Warning Banner ←── Classification Result
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Model</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Parameters</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>F1-micro</th>
@@ -92,27 +92,27 @@ Warning Banner ←── Classification Result
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px', fontWeight: 500}}>XLM-RoBERTa-base</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>278M</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99969</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99974</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>0.99969</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>0.99974</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>265.9 MB</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>43 min</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(37, 99, 235, 0.05)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'rgba(17, 17, 17, 0.05)'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>DistilBERT-multilingual</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>135M</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>135M</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>0.99780</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>0.99813</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>129.5 MB</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>16 min</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>129.5 MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>16 min</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px', fontWeight: 500}}>mDeBERTa-v3-base</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>279M</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99969</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>0.99974</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>0.99969</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>0.99974</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>322.8 MB</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>52 min</td>
     </tr>
@@ -127,27 +127,27 @@ The F1-micro difference between the top-performing models (XLM-RoBERTa, mDeBERTa
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Metric</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Value</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Label-specific accuracy</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>66.7% (6/9)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.08)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '12px 16px', fontWeight: 700}}>Binary detection accuracy (safe vs. harmful)</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669', fontSize: '1.1rem'}}>100% (9/9)</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676', fontSize: '1.1rem'}}>100% (9/9)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '12px 16px'}}>Multilingual prompt injection detection</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>100% (3/3)</td>
     </tr>
     <tr>
       <td style={{padding: '12px 16px', fontWeight: 700}}>Average inference latency (CPU, INT8)</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>7.6 ms/sample</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>7.6 ms/sample</td>
     </tr>
   </tbody>
 </table>
@@ -170,7 +170,7 @@ All label confusion cases occurred **within the same threat cluster** — the bi
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'center', width: '80px'}}>Priority</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Criterion</th>
       <th style={{padding: '12px 16px', textAlign: 'center'}}>Requirement</th>
@@ -178,26 +178,26 @@ All label confusion cases occurred **within the same threat cluster** — the bi
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>1</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>1</td>
       <td style={{padding: '12px 16px'}}>Deployment size</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>&lt; 150 MB</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>129.5 MB</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>129.5 MB</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>2</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>2</td>
       <td style={{padding: '12px 16px'}}>Binary detection accuracy</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>100%</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>100%</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>100%</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>3</td>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>3</td>
       <td style={{padding: '12px 16px'}}>Inference speed</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>Real-time</td>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>7.6 ms/sample</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>7.6 ms/sample</td>
     </tr>
     <tr>
-      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#2563EB'}}>4</td>
+      <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 700, color: '#111111'}}>4</td>
       <td style={{padding: '12px 16px'}}>Label-specific accuracy</td>
       <td style={{padding: '12px 16px', textAlign: 'center'}}>Best effort</td>
       <td style={{padding: '12px 16px', textAlign: 'center', fontWeight: 600}}>99.78% F1-micro</td>

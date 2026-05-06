@@ -143,9 +143,10 @@ const en = {
     leadershipDesc: "Leading and overseeing all AIEGIS research initiatives across AI safety, guardrails, hallucination mitigation, and enterprise deployment trust.",
     cisoRole: "SeoulTech · CISO",
     cisoDesc: "Leading information security strategy and overseeing cybersecurity operations across AIEGIS research infrastructure and enterprise AI deployments.",
-    advisorTitle: "Advisor",
-    advisorRole: "Ph.D. (SNU) · Education Advisor",
-    advisorDesc: "Advising on education-sector AI safety, academic research collaboration, and trustworthy AI adoption in educational environments.",
+    engineerRole: "University of Seoul · Full-Stack Developer",
+    engineerDesc: "Leads full-stack engineering of AIEGIS research platforms and publication systems, building the product infrastructure that ships our research reliably to the field.",
+    mathResearcherRole: "Yonsei Univ. · AI & Mathematics Researcher",
+    mathResearcherDesc: "Drives AI engineering and the mathematical foundations of AIEGIS research — formal methods and modeling for safety, alignment, and verification.",
     coreBeliefTitle: "Core Belief",
     coreBeliefQuote: "Powerful AI must also be trustworthy AI, and AI that enters the real world must be verifiable, controllable, and accountable.",
     coreBeliefAttribution: "— AEGIS Research Founding Principle",
@@ -253,7 +254,7 @@ export type Dictionary = {
   publicationTypes: { title: string; subtitle: string; types: { name: string; description: string }[] };
   researchPrinciples: { title: string; principles: string[] };
   cta: { title: string; text1: string; text2: string; contactResearchTeam: string; requestDemo: string; explorePublications: string };
-  about: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; missionTitle: string; missionText1: string; missionHighlight: string; missionText2: string; visitMainSite: string; ceoTitle: string; ceoRole: string; leadershipTitle: string; leadershipRole: string; leadershipDesc: string; cisoRole: string; cisoDesc: string; advisorTitle: string; advisorRole: string; advisorDesc: string; coreBeliefTitle: string; coreBeliefQuote: string; coreBeliefAttribution: string; philosophyTitle: string; philosophySubtitle: string; philosophyPrinciples: string[]; scopeTitle: string; scopeSubtitle: string; whyTitle: string; whyText1: string; whyText2: string; whyText3: string; ctaTitle: string; ctaText: string; ctaContact: string; ctaPublications: string };
+  about: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; missionTitle: string; missionText1: string; missionHighlight: string; missionText2: string; visitMainSite: string; ceoTitle: string; ceoRole: string; leadershipTitle: string; leadershipRole: string; leadershipDesc: string; cisoRole: string; cisoDesc: string; engineerRole: string; engineerDesc: string; mathResearcherRole: string; mathResearcherDesc: string; coreBeliefTitle: string; coreBeliefQuote: string; coreBeliefAttribution: string; philosophyTitle: string; philosophySubtitle: string; philosophyPrinciples: string[]; scopeTitle: string; scopeSubtitle: string; whyTitle: string; whyText1: string; whyText2: string; whyText3: string; ctaTitle: string; ctaText: string; ctaContact: string; ctaPublications: string };
   publications: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; comingSoon: string; publicationCount: string; publicationsCount: string; readSummary: string };
   publicationDetail: { authors: string; published: string; affiliation: string; summary: string; downloadPdf: string; contactUs: string; assetsAndDownloads: string; fullPaper: string; executiveSummary: string; slideDeck: string; demoVideo: string; githubRepo: string; tryItOut: string; comingSoon: string; download: string; ctaTitle: string; ctaText: string; requestDemo: string; contactResearchTeam: string };
   contact: { metaTitle: string; heroTitle: string; heroSubtitle: string; formTitle: string; formSubtitle: string; inquiryType: string; general: string; research: string; demo: string; partnership: string; media: string; name: string; email: string; organization: string; message: string; namePlaceholder: string; emailPlaceholder: string; orgPlaceholder: string; messagePlaceholder: string; send: string; thankYou: string; thankYouText: string; infoCards: { title: string; description: string }[] };

@@ -77,34 +77,34 @@ AEGIS implements governance through a policy-as-code paradigm where safety rules
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Component</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Description</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Implementation</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Category Rules</td>
       <td style={{padding: '10px 14px'}}>Per-threat-category thresholds and actions</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>TagConfig with 10+ categories</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Severity Tiers</td>
       <td style={{padding: '10px 14px'}}>CRITICAL/HIGH/MEDIUM/LOW with graduated responses</td>
       <td style={{padding: '10px 14px'}}>Enum-based severity mapping</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Action Types</td>
       <td style={{padding: '10px 14px'}}>BLOCK, MODIFY, ESCALATE, APPROVE, REASK, THROTTLE</td>
       <td style={{padding: '10px 14px'}}>6-action verdict taxonomy</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Custom Patterns</td>
       <td style={{padding: '10px 14px'}}>Organization-specific detection patterns</td>
       <td style={{padding: '10px 14px'}}>Regex + semantic pattern matching</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Escalation Paths</td>
       <td style={{padding: '10px 14px'}}>Automatic routing for ambiguous cases</td>
       <td style={{padding: '10px 14px'}}>Configurable escalation chains</td>
@@ -133,39 +133,39 @@ Comprehensive audit logging is implemented through 23 distinct event types cover
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Category</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Event Types</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Data Captured</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Authentication</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>UserLogin, UserLogout, TokenRefresh, ApiKeyCreated, ApiKeyRevoked</td>
       <td style={{padding: '10px 14px'}}>User ID, IP, timestamp, method</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Authorization</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>PermissionGranted, PermissionDenied, RoleChanged</td>
       <td style={{padding: '10px 14px'}}>Resource, action, role, outcome</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Safety Operations</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>ContentBlocked, ContentModified, ThreatDetected, EscalationTriggered</td>
       <td style={{padding: '10px 14px'}}>Input hash, verdict, confidence, tier</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Configuration</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>PolicyUpdated, ModelConfigChanged, ThresholdAdjusted</td>
       <td style={{padding: '10px 14px'}}>Before/after values, change author</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>System</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>ServiceStarted, ServiceStopped, HealthCheckFailed, RateLimitExceeded</td>
       <td style={{padding: '10px 14px'}}>Service name, status, metrics</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Data</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>DataExported, DataDeleted, PiiDetected, PiiPseudonymized</td>
       <td style={{padding: '10px 14px'}}>Data type, scope, method</td>
@@ -196,44 +196,44 @@ Every safety judgment produces a structured `VerdictExplanation` providing full 
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Field</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Type</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>decision_tier</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>DecisionTier</td>
       <td style={{padding: '10px 14px'}}>Which tier (Rule/ML/Judge) made the decision</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>layer_explanations</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<LayerExplanation>"}</td>
       <td style={{padding: '10px 14px'}}>Per-layer analysis results</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>pattern_matches</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<PatternMatch>"}</td>
       <td style={{padding: '10px 14px'}}>Specific patterns that triggered</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>token_attributions</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<TokenAttribution>"}</td>
       <td style={{padding: '10px 14px'}}>Per-token risk attribution</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>confidence</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>f64</td>
       <td style={{padding: '10px 14px'}}>Overall confidence score</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>regulatory_refs</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"Vec<String>"}</td>
       <td style={{padding: '10px 14px'}}>Applicable regulatory references</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>recommended_action</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>VerdictAction</td>
       <td style={{padding: '10px 14px'}}>System recommendation</td>
@@ -289,34 +289,34 @@ Authorization combines Role-Based Access Control (RBAC) with Attribute-Based Acc
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Role</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Inherits From</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Key Permissions</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>SuperAdmin</td>
       <td style={{padding: '10px 14px'}}>All roles</td>
       <td style={{padding: '10px 14px'}}>System configuration, tenant management</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>TenantAdmin</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Analyst, Operator</td>
       <td style={{padding: '10px 14px'}}>Tenant settings, user management, policy config</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Operator</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Analyst</td>
       <td style={{padding: '10px 14px'}}>Run evaluations, modify configurations</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Analyst</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Viewer</td>
       <td style={{padding: '10px 14px'}}>View reports, export data, run queries</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Viewer</td>
       <td style={{padding: '10px 14px'}}>---</td>
       <td style={{padding: '10px 14px'}}>Read-only access to dashboards and results</td>
@@ -328,34 +328,34 @@ Authorization combines Role-Based Access Control (RBAC) with Attribute-Based Acc
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Attribute</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Type</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Example Policy</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tenant_id</td>
       <td style={{padding: '10px 14px'}}>Identity</td>
       <td style={{padding: '10px 14px'}}>Users can only access their own tenant's data</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>ip_range</td>
       <td style={{padding: '10px 14px'}}>Network</td>
       <td style={{padding: '10px 14px'}}>Admin access restricted to corporate VPN</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>time_window</td>
       <td style={{padding: '10px 14px'}}>Temporal</td>
       <td style={{padding: '10px 14px'}}>Destructive operations only during maintenance windows</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>resource_sensitivity</td>
       <td style={{padding: '10px 14px'}}>Data</td>
       <td style={{padding: '10px 14px'}}>PII access requires explicit pii_reader permission</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>request_rate</td>
       <td style={{padding: '10px 14px'}}>Behavioral</td>
       <td style={{padding: '10px 14px'}}>Burst requests trigger additional verification</td>
@@ -395,7 +395,7 @@ AEGIS deploys an 8-layer middleware stack where every request passes through mul
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Layer</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Module</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Function</th>
@@ -403,55 +403,55 @@ AEGIS deploys an 8-layer middleware stack where every request passes through mul
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>1</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>security_headers</td>
       <td style={{padding: '10px 14px'}}>CSP, HSTS, X-Frame-Options, X-Content-Type</td>
       <td style={{padding: '10px 14px'}}>{"<0.1ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>2</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>rate_limit</td>
       <td style={{padding: '10px 14px'}}>Redis sliding window, per-tenant quotas</td>
       <td style={{padding: '10px 14px'}}>{"<1ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>3</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>auth</td>
       <td style={{padding: '10px 14px'}}>JWT/API Key validation, identity extraction</td>
       <td style={{padding: '10px 14px'}}>{"<2ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>4</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>rbac_check</td>
       <td style={{padding: '10px 14px'}}>Role + attribute authorization</td>
       <td style={{padding: '10px 14px'}}>{"<0.5ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>5</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>input_validation</td>
       <td style={{padding: '10px 14px'}}>SQL injection, XSS, path traversal detection</td>
       <td style={{padding: '10px 14px'}}>{"<1ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>6</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>request_logging</td>
       <td style={{padding: '10px 14px'}}>Structured request/response audit logging</td>
       <td style={{padding: '10px 14px'}}>{"<0.5ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>7</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>sensitive_scrub</td>
       <td style={{padding: '10px 14px'}}>Scrub PII/secrets from logs and responses</td>
       <td style={{padding: '10px 14px'}}>{"<0.5ms"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>8</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>error_handler</td>
       <td style={{padding: '10px 14px'}}>Sanitized error responses (no stack traces)</td>
       <td style={{padding: '10px 14px'}}>{"<0.1ms"}</td>
     </tr>
-    <tr style={{borderBottom: '2px solid #2563EB', fontWeight: 600}}>
+    <tr style={{borderBottom: '2px solid #111111', fontWeight: 600}}>
       <td style={{padding: '10px 14px'}}>Total</td>
       <td style={{padding: '10px 14px'}}></td>
       <td style={{padding: '10px 14px'}}>End-to-end middleware overhead</td>
@@ -510,44 +510,44 @@ impl SensitiveDataScrubber {
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Header</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Value</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Content-Security-Policy</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"default-src 'self'; script-src 'self'"}</td>
       <td style={{padding: '10px 14px'}}>Prevent XSS via inline scripts</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Strict-Transport-Security</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>max-age=31536000; includeSubDomains</td>
       <td style={{padding: '10px 14px'}}>Enforce HTTPS</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>X-Frame-Options</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>DENY</td>
       <td style={{padding: '10px 14px'}}>Prevent clickjacking</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>X-Content-Type-Options</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>nosniff</td>
       <td style={{padding: '10px 14px'}}>Prevent MIME sniffing</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>X-XSS-Protection</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>1; mode=block</td>
       <td style={{padding: '10px 14px'}}>Browser XSS filter</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Referrer-Policy</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>strict-origin-when-cross-origin</td>
       <td style={{padding: '10px 14px'}}>Control referrer leakage</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>Permissions-Policy</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"camera=(), microphone=(), geolocation=()"}</td>
       <td style={{padding: '10px 14px'}}>Restrict browser APIs</td>
@@ -563,7 +563,7 @@ All security fixes follow a priority classification system:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Priority</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Criteria</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>SLA</th>
@@ -571,25 +571,25 @@ All security fixes follow a priority classification system:
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>P0 --- Critical</td>
       <td style={{padding: '10px 14px'}}>Exploitable vulnerability, data exposure risk</td>
       <td style={{padding: '10px 14px'}}>Immediate</td>
       <td style={{padding: '10px 14px'}}>Missing auth on endpoints, SQL injection</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>P1 --- High</td>
       <td style={{padding: '10px 14px'}}>Security weakness, defense gap</td>
       <td style={{padding: '10px 14px'}}>24 hours</td>
       <td style={{padding: '10px 14px'}}>Missing rate limiting, weak input validation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>P2 --- Medium</td>
       <td style={{padding: '10px 14px'}}>Hardening opportunity, best practice gap</td>
       <td style={{padding: '10px 14px'}}>1 week</td>
       <td style={{padding: '10px 14px'}}>Missing security headers, log scrubbing</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>P3 --- Low</td>
       <td style={{padding: '10px 14px'}}>Code quality, defense-in-depth improvement</td>
       <td style={{padding: '10px 14px'}}>1 month</td>
@@ -610,7 +610,7 @@ LLM-powered agents that interact with external tools, APIs, and data sources int
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>#</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Module</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Threat Addressed</th>
@@ -618,85 +618,85 @@ LLM-powered agents that interact with external tools, APIs, and data sources int
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>1</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>direct_prompt_injection (DPI)</td>
       <td style={{padding: '10px 14px'}}>Direct adversarial prompts</td>
       <td style={{padding: '10px 14px'}}>Pattern + ML classifier</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>2</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>indirect_prompt_injection (IPI)</td>
       <td style={{padding: '10px 14px'}}>Hidden instructions in retrieved data</td>
       <td style={{padding: '10px 14px'}}>Context boundary analysis</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>3</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>stochastic_attack (STAC)</td>
       <td style={{padding: '10px 14px'}}>Probabilistic jailbreak attempts</td>
       <td style={{padding: '10px 14px'}}>Statistical distribution analysis</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>4</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>memory_poisoning</td>
       <td style={{padding: '10px 14px'}}>Corrupted conversation memory</td>
       <td style={{padding: '10px 14px'}}>Memory integrity verification</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>5</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>reasoning_manipulation</td>
       <td style={{padding: '10px 14px'}}>Chain-of-thought exploitation</td>
       <td style={{padding: '10px 14px'}}>Reasoning consistency checks</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>6</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tool_disguise</td>
       <td style={{padding: '10px 14px'}}>Malicious tools masquerading as benign</td>
       <td style={{padding: '10px 14px'}}>Tool signature verification</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>7</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>supply_chain</td>
       <td style={{padding: '10px 14px'}}>Compromised model weights or data</td>
       <td style={{padding: '10px 14px'}}>Provenance chain validation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>8</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>credential_guard</td>
       <td style={{padding: '10px 14px'}}>Credential leakage through prompts</td>
       <td style={{padding: '10px 14px'}}>Secret pattern detection</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>9</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>autonomy_control</td>
       <td style={{padding: '10px 14px'}}>Unauthorized autonomous actions</td>
       <td style={{padding: '10px 14px'}}>Action boundary enforcement</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>10</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>token_monitor</td>
       <td style={{padding: '10px 14px'}}>Token budget exhaustion attacks</td>
       <td style={{padding: '10px 14px'}}>Usage tracking and limits</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>11</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tool_chain_anomaly</td>
       <td style={{padding: '10px 14px'}}>Unusual tool invocation sequences</td>
       <td style={{padding: '10px 14px'}}>Sequence anomaly detection</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>12</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>permission_boundary</td>
       <td style={{padding: '10px 14px'}}>Privilege escalation attempts</td>
       <td style={{padding: '10px 14px'}}>RBAC+ABAC enforcement</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>13</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>mcp_trust</td>
       <td style={{padding: '10px 14px'}}>Untrusted MCP server connections</td>
       <td style={{padding: '10px 14px'}}>Trust score evaluation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>14</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>credential_guard (enhanced)</td>
       <td style={{padding: '10px 14px'}}>Runtime credential exposure</td>
@@ -724,34 +724,34 @@ The Model Context Protocol (MCP) trust module evaluates external server connecti
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Trust Factor</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Weight</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Assessment</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Server identity verification</td>
       <td style={{padding: '10px 14px'}}>0.30</td>
       <td style={{padding: '10px 14px'}}>TLS certificate, domain reputation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Historical behavior</td>
       <td style={{padding: '10px 14px'}}>0.25</td>
       <td style={{padding: '10px 14px'}}>Past interaction success rate</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Capability declarations</td>
       <td style={{padding: '10px 14px'}}>0.20</td>
       <td style={{padding: '10px 14px'}}>Scope of requested permissions</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Data handling policy</td>
       <td style={{padding: '10px 14px'}}>0.15</td>
       <td style={{padding: '10px 14px'}}>Privacy policy compliance</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Community reputation</td>
       <td style={{padding: '10px 14px'}}>0.10</td>
       <td style={{padding: '10px 14px'}}>Registry ratings, audit history</td>
@@ -771,7 +771,7 @@ The PII Proxy Engine provides format-preserving pseudonymization for 7 personall
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>PII Type</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Detection Pattern</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Pseudonymization Method</th>
@@ -779,43 +779,43 @@ The PII Proxy Engine provides format-preserving pseudonymization for 7 personall
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Credit Card</td>
       <td style={{padding: '10px 14px'}}>Luhn-valid 16-digit</td>
       <td style={{padding: '10px 14px'}}>Random Luhn-valid number</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (passes Luhn check)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Phone Number</td>
       <td style={{padding: '10px 14px'}}>International formats</td>
       <td style={{padding: '10px 14px'}}>Prefix-preserving random</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (country code kept)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Email</td>
       <td style={{padding: '10px 14px'}}>RFC 5322 pattern</td>
       <td style={{padding: '10px 14px'}}>Domain-preserving hash</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (valid email format)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>SSN/ID</td>
       <td style={{padding: '10px 14px'}}>Country-specific formats</td>
       <td style={{padding: '10px 14px'}}>Format-preserving encryption</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (digit pattern)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Name</td>
       <td style={{padding: '10px 14px'}}>NER + pattern matching</td>
       <td style={{padding: '10px 14px'}}>Consistent pseudonym mapping</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (realistic names)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Address</td>
       <td style={{padding: '10px 14px'}}>Structured address parsing</td>
       <td style={{padding: '10px 14px'}}>Locality-preserving transform</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>{"✓ (valid address format)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Date of Birth</td>
       <td style={{padding: '10px 14px'}}>Date format detection</td>
       <td style={{padding: '10px 14px'}}>Age-bracket preserving shift</td>
@@ -840,7 +840,7 @@ For organizations requiring model improvement without data centralization, AEGIS
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Strategy</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Module</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Privacy Guarantee</th>
@@ -848,19 +848,19 @@ For organizations requiring model improvement without data centralization, AEGIS
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>FedAvg</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>fed_avg.rs</td>
       <td style={{padding: '10px 14px'}}>Data locality (no raw data shared)</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"O(model_size × rounds)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Secure Aggregation</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>secure_aggregation.rs</td>
       <td style={{padding: '10px 14px'}}>Cryptographic (no individual updates visible)</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>{"O(model_size × clients²)"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Differential Privacy</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>differential_privacy.rs</td>
       <td style={{padding: '10px 14px'}}>{"(ε, δ)-DP per-round guarantee"}</td>
@@ -895,7 +895,7 @@ The regulatory reporting module (`regulatory_report.rs`, 620 lines) generates co
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Framework</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Articles/Functions Mapped</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Key Requirements</th>
@@ -903,25 +903,25 @@ The regulatory reporting module (`regulatory_report.rs`, 620 lines) generates co
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>EU AI Act</td>
       <td style={{padding: '10px 14px'}}>Articles 6, 9, 13, 14, 52, 71</td>
       <td style={{padding: '10px 14px'}}>Risk classification, transparency, human oversight</td>
       <td style={{padding: '10px 14px'}}>Full</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>K-AI Act</td>
       <td style={{padding: '10px 14px'}}>Articles 4, 7, 10, 15</td>
       <td style={{padding: '10px 14px'}}>Safety standards, impact assessment, accountability</td>
       <td style={{padding: '10px 14px'}}>Full</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>NIST AI RMF</td>
       <td style={{padding: '10px 14px'}}>Govern, Map, Measure, Manage</td>
       <td style={{padding: '10px 14px'}}>Risk identification, assessment, mitigation, monitoring</td>
       <td style={{padding: '10px 14px'}}>Full</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>ISO/IEC 25051</td>
       <td style={{padding: '10px 14px'}}>Sections 5--9</td>
       <td style={{padding: '10px 14px'}}>Software quality, documentation, testing</td>
@@ -936,39 +936,39 @@ The regulatory reporting module (`regulatory_report.rs`, 620 lines) generates co
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Article</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Requirement</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Implementation</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 6</td>
       <td style={{padding: '10px 14px'}}>Risk-based classification</td>
       <td style={{padding: '10px 14px'}}>Threat taxonomy with CVSS-like AI severity scoring</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 9</td>
       <td style={{padding: '10px 14px'}}>Risk management system</td>
       <td style={{padding: '10px 14px'}}>SABER statistical risk framework, continuous monitoring</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 13</td>
       <td style={{padding: '10px 14px'}}>Transparency</td>
       <td style={{padding: '10px 14px'}}>VerdictExplanation schema, per-layer audit trails</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 14</td>
       <td style={{padding: '10px 14px'}}>Human oversight</td>
       <td style={{padding: '10px 14px'}}>ESCALATE verdict, manual review queues, override capability</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 52</td>
       <td style={{padding: '10px 14px'}}>Transparency obligations</td>
       <td style={{padding: '10px 14px'}}>AI-generated content marking, interaction disclosure</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 71</td>
       <td style={{padding: '10px 14px'}}>Penalties framework</td>
       <td style={{padding: '10px 14px'}}>Severity-based response (BLOCK/MODIFY/THROTTLE)</td>
@@ -980,29 +980,29 @@ The regulatory reporting module (`regulatory_report.rs`, 620 lines) generates co
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Article</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Requirement</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Implementation</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 4</td>
       <td style={{padding: '10px 14px'}}>Safety and reliability standards</td>
       <td style={{padding: '10px 14px'}}>3-Tier defense pipeline, 1,591+ tests, GS certification</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 7</td>
       <td style={{padding: '10px 14px'}}>Impact assessment</td>
       <td style={{padding: '10px 14px'}}>{"SABER risk profiling, Budget@τ analysis"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 10</td>
       <td style={{padding: '10px 14px'}}>Accountability and transparency</td>
       <td style={{padding: '10px 14px'}}>23-type audit logging, verdict explanations</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Art. 15</td>
       <td style={{padding: '10px 14px'}}>User protection</td>
       <td style={{padding: '10px 14px'}}>PII pseudonymization, rate limiting, content filtering</td>
@@ -1014,29 +1014,29 @@ The regulatory reporting module (`regulatory_report.rs`, 620 lines) generates co
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Function</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Sub-function</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>AEGIS Implementation</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Govern</td>
       <td style={{padding: '10px 14px'}}>Policies, roles, accountability</td>
       <td style={{padding: '10px 14px'}}>TAG policy engine, RBAC+ABAC, audit trails</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Map</td>
       <td style={{padding: '10px 14px'}}>Context, risk identification</td>
       <td style={{padding: '10px 14px'}}>Threat taxonomy (OWASP Top 10), attack vector catalog</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Measure</td>
       <td style={{padding: '10px 14px'}}>Assessment, metrics</td>
       <td style={{padding: '10px 14px'}}>{"SABER metrics (ASR@N, Budget@τ), EGEI scoring"}</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Manage</td>
       <td style={{padding: '10px 14px'}}>Mitigation, monitoring, response</td>
       <td style={{padding: '10px 14px'}}>3-Tier defense, Prometheus metrics, auto-escalation</td>
@@ -1070,44 +1070,44 @@ AEGIS maintains comprehensive automated testing across all components:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Component</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Test Count</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Coverage Focus</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-defense</td>
       <td style={{padding: '10px 14px'}}>944 unit + 43 integration</td>
       <td style={{padding: '10px 14px'}}>All defense algorithms, Korean/multilingual modules</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-core</td>
       <td style={{padding: '10px 14px'}}>28</td>
       <td style={{padding: '10px 14px'}}>Core data structures, verdict logic</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-ml</td>
       <td style={{padding: '10px 14px'}}>83</td>
       <td style={{padding: '10px 14px'}}>ML inference, embedding scanner, federated learning</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-redteam</td>
       <td style={{padding: '10px 14px'}}>146</td>
       <td style={{padding: '10px 14px'}}>All 8 attack algorithms, meta-attack generator</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Chrome Extension</td>
       <td style={{padding: '10px 14px'}}>28 (Vitest)</td>
       <td style={{padding: '10px 14px'}}>PII proxy engine, detection layers</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>API Integration</td>
       <td style={{padding: '10px 14px'}}>150+</td>
       <td style={{padding: '10px 14px'}}>Endpoint validation, auth flows, error handling</td>
     </tr>
-    <tr style={{borderBottom: '2px solid #2563EB', fontWeight: 600}}>
+    <tr style={{borderBottom: '2px solid #111111', fontWeight: 600}}>
       <td style={{padding: '10px 14px'}}>Total</td>
       <td style={{padding: '10px 14px'}}>1,591+</td>
       <td style={{padding: '10px 14px'}}>Full-stack coverage</td>
@@ -1123,54 +1123,54 @@ AEGIS has achieved GS (Good Software) certification under ISO/IEC 25051, validat
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Document</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Standard Reference</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Content</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Product Description</td>
       <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §5"}</td>
       <td style={{padding: '10px 14px'}}>Product scope, target users, operating environment</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Functional Specification</td>
       <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §6"}</td>
       <td style={{padding: '10px 14px'}}>All functional requirements with traceability</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Test Documentation</td>
       <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §7"}</td>
       <td style={{padding: '10px 14px'}}>Test plans, cases, results, coverage analysis</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>User Documentation</td>
       <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §8"}</td>
       <td style={{padding: '10px 14px'}}>Installation, configuration, operation guides</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Quality Requirements</td>
       <td style={{padding: '10px 14px'}}>ISO/IEC 25010</td>
       <td style={{padding: '10px 14px'}}>Functionality, reliability, usability, efficiency, maintainability, portability</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Installation Guide</td>
       <td style={{padding: '10px 14px'}}>{"ISO/IEC 25051 §8.2"}</td>
       <td style={{padding: '10px 14px'}}>Step-by-step deployment procedures</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>API Reference</td>
       <td style={{padding: '10px 14px'}}>OpenAPI 3.0</td>
       <td style={{padding: '10px 14px'}}>Complete REST API documentation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Security Assessment</td>
       <td style={{padding: '10px 14px'}}>Internal</td>
       <td style={{padding: '10px 14px'}}>Penetration test results, vulnerability remediation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Performance Report</td>
       <td style={{padding: '10px 14px'}}>Internal</td>
       <td style={{padding: '10px 14px'}}>Load testing, latency benchmarks, scalability analysis</td>
@@ -1206,7 +1206,7 @@ AEGIS implements three-tier health checking for Kubernetes-compatible orchestrat
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Endpoint</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Checks Performed</th>
@@ -1214,19 +1214,19 @@ AEGIS implements three-tier health checking for Kubernetes-compatible orchestrat
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>/health</td>
       <td style={{padding: '10px 14px'}}>General health</td>
       <td style={{padding: '10px 14px'}}>Service version, uptime</td>
       <td style={{padding: '10px 14px'}}>Human monitoring</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>/health/live</td>
       <td style={{padding: '10px 14px'}}>Liveness probe</td>
       <td style={{padding: '10px 14px'}}>Process alive, memory OK</td>
       <td style={{padding: '10px 14px'}}>K8s liveness probe</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>/health/ready</td>
       <td style={{padding: '10px 14px'}}>Readiness probe</td>
       <td style={{padding: '10px 14px'}}>DB connected, Redis connected, models loaded</td>
@@ -1243,69 +1243,69 @@ AEGIS implements three-tier health checking for Kubernetes-compatible orchestrat
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Metric</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Type</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Description</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_requests_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>Total requests by endpoint, method, status</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_request_duration_seconds</td>
       <td style={{padding: '10px 14px'}}>Histogram</td>
       <td style={{padding: '10px 14px'}}>Request latency distribution (P50, P95, P99)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_active_connections</td>
       <td style={{padding: '10px 14px'}}>Gauge</td>
       <td style={{padding: '10px 14px'}}>Current active connections</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_verdict_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>Verdicts by type (APPROVE/BLOCK/MODIFY/...)</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_tier_latency_seconds</td>
       <td style={{padding: '10px 14px'}}>Histogram</td>
       <td style={{padding: '10px 14px'}}>Per-tier processing latency</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_threat_detected_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>Threats by category and severity</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_model_inference_seconds</td>
       <td style={{padding: '10px 14px'}}>Histogram</td>
       <td style={{padding: '10px 14px'}}>ML model inference time</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_cache_hits_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>Redis cache hit/miss ratio</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_rate_limit_exceeded_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>Rate limit violations by tenant</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_pii_detected_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>PII detections by type</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_audit_events_total</td>
       <td style={{padding: '10px 14px'}}>Counter</td>
       <td style={{padding: '10px 14px'}}>Audit events by type</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis_system_memory_bytes</td>
       <td style={{padding: '10px 14px'}}>Gauge</td>
       <td style={{padding: '10px 14px'}}>Process memory usage</td>
@@ -1317,7 +1317,7 @@ AEGIS implements three-tier health checking for Kubernetes-compatible orchestrat
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Alert</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Condition</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Severity</th>
@@ -1325,34 +1325,34 @@ AEGIS implements three-tier health checking for Kubernetes-compatible orchestrat
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>High Error Rate</td>
       <td style={{padding: '10px 14px'}}>{"5xx > 1% for 5 min"}</td>
-      <td style={{padding: '10px 14px', color: '#DC2626', fontWeight: 600}}>Critical</td>
+      <td style={{padding: '10px 14px', color: '#111111', fontWeight: 600}}>Critical</td>
       <td style={{padding: '10px 14px'}}>Page on-call</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Latency Spike</td>
       <td style={{padding: '10px 14px'}}>{"P99 > 100ms for 5 min"}</td>
-      <td style={{padding: '10px 14px', color: '#D97706', fontWeight: 600}}>Warning</td>
+      <td style={{padding: '10px 14px', color: '#2D2D2D', fontWeight: 600}}>Warning</td>
       <td style={{padding: '10px 14px'}}>Investigate</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Memory Pressure</td>
       <td style={{padding: '10px 14px'}}>{"RSS > 80% limit"}</td>
-      <td style={{padding: '10px 14px', color: '#D97706', fontWeight: 600}}>Warning</td>
+      <td style={{padding: '10px 14px', color: '#2D2D2D', fontWeight: 600}}>Warning</td>
       <td style={{padding: '10px 14px'}}>Scale up</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Threat Surge</td>
       <td style={{padding: '10px 14px'}}>{"Blocked requests > 10x baseline"}</td>
-      <td style={{padding: '10px 14px', color: '#DC2626', fontWeight: 600}}>Critical</td>
+      <td style={{padding: '10px 14px', color: '#111111', fontWeight: 600}}>Critical</td>
       <td style={{padding: '10px 14px'}}>Security review</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Auth Failures</td>
       <td style={{padding: '10px 14px'}}>{"Failed auth > 100/min"}</td>
-      <td style={{padding: '10px 14px', color: '#DC2626', fontWeight: 600}}>Critical</td>
+      <td style={{padding: '10px 14px', color: '#111111', fontWeight: 600}}>Critical</td>
       <td style={{padding: '10px 14px'}}>Potential brute force</td>
     </tr>
   </tbody>
@@ -1364,34 +1364,34 @@ When components fail, AEGIS defaults to safe behavior:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Component Failure</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Default Behavior</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Rationale</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>ML Classifier unavailable</td>
       <td style={{padding: '10px 14px'}}>Escalate to LLM Judge</td>
       <td style={{padding: '10px 14px'}}>Maintain safety with higher-tier review</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>LLM Judge unavailable</td>
       <td style={{padding: '10px 14px'}}>Apply conservative rule-based blocking</td>
       <td style={{padding: '10px 14px'}}>Prefer false positives over false negatives</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Redis unavailable</td>
       <td style={{padding: '10px 14px'}}>In-memory rate limiting with conservative limits</td>
       <td style={{padding: '10px 14px'}}>Maintain protection with degraded capacity</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Database unavailable</td>
       <td style={{padding: '10px 14px'}}>Read-only mode from cache</td>
       <td style={{padding: '10px 14px'}}>Preserve existing configurations</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>All tiers unavailable</td>
       <td style={{padding: '10px 14px'}}>Block all non-whitelisted requests</td>
       <td style={{padding: '10px 14px'}}>Fail-closed for safety</td>
@@ -1429,7 +1429,7 @@ AEGIS supports multi-tenant deployment with strict data isolation:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Tier</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Rate Limit</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Features</th>
@@ -1437,25 +1437,25 @@ AEGIS supports multi-tenant deployment with strict data isolation:
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Free</td>
       <td style={{padding: '10px 14px'}}>100 req/hr</td>
       <td style={{padding: '10px 14px'}}>Basic safety check (Tier 1 only)</td>
       <td style={{padding: '10px 14px'}}>Evaluation</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Starter</td>
       <td style={{padding: '10px 14px'}}>1,000 req/hr</td>
       <td style={{padding: '10px 14px'}}>Tier 1 + 2, basic audit logs</td>
       <td style={{padding: '10px 14px'}}>Small teams</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Professional</td>
       <td style={{padding: '10px 14px'}}>10,000 req/hr</td>
       <td style={{padding: '10px 14px'}}>All 3 tiers, full audit, compliance reports</td>
       <td style={{padding: '10px 14px'}}>Enterprise</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Enterprise</td>
       <td style={{padding: '10px 14px'}}>Custom</td>
       <td style={{padding: '10px 14px'}}>Custom policies, dedicated resources, SLA</td>
@@ -1496,7 +1496,7 @@ Redis-backed sliding window rate limiting with per-tenant quotas:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Service</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Image</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Port</th>
@@ -1504,55 +1504,55 @@ Redis-backed sliding window rate limiting with per-tenant quotas:
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-api</td>
       <td style={{padding: '10px 14px'}}>Custom (Rust)</td>
       <td style={{padding: '10px 14px'}}>8000</td>
       <td style={{padding: '10px 14px'}}>API Gateway + middleware</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-ml</td>
       <td style={{padding: '10px 14px'}}>Custom (Rust + ONNX)</td>
       <td style={{padding: '10px 14px'}}>8081</td>
       <td style={{padding: '10px 14px'}}>ML inference service</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-redteam</td>
       <td style={{padding: '10px 14px'}}>Custom (Rust)</td>
       <td style={{padding: '10px 14px'}}>8082</td>
       <td style={{padding: '10px 14px'}}>Red team evaluation service</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>aegis-vla</td>
       <td style={{padding: '10px 14px'}}>Custom (Rust)</td>
       <td style={{padding: '10px 14px'}}>8083</td>
       <td style={{padding: '10px 14px'}}>VLA (Vision-Language-Action) service</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>postgres</td>
       <td style={{padding: '10px 14px'}}>PostgreSQL 16</td>
       <td style={{padding: '10px 14px'}}>5432</td>
       <td style={{padding: '10px 14px'}}>Primary database</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>redis</td>
       <td style={{padding: '10px 14px'}}>Redis 7</td>
       <td style={{padding: '10px 14px'}}>6379</td>
       <td style={{padding: '10px 14px'}}>Cache, rate limiting, sessions</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>prometheus</td>
       <td style={{padding: '10px 14px'}}>Prometheus</td>
       <td style={{padding: '10px 14px'}}>9090</td>
       <td style={{padding: '10px 14px'}}>Metrics collection</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>grafana</td>
       <td style={{padding: '10px 14px'}}>Grafana</td>
       <td style={{padding: '10px 14px'}}>3000</td>
       <td style={{padding: '10px 14px'}}>Visualization dashboards</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>alertmanager</td>
       <td style={{padding: '10px 14px'}}>Alertmanager</td>
       <td style={{padding: '10px 14px'}}>9093</td>
@@ -1567,39 +1567,39 @@ Redis-backed sliding window rate limiting with per-tenant quotas:
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Schema Area</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Tables</th>
       <th style={{padding: '12px 16px', textAlign: 'left'}}>Purpose</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Core</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>tenants, users, api_keys</td>
       <td style={{padding: '10px 14px'}}>Identity management</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Safety</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>verdicts, threat_events, escalations</td>
       <td style={{padding: '10px 14px'}}>Safety operation records</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Config</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>policies, thresholds, model_configs</td>
       <td style={{padding: '10px 14px'}}>System configuration</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Audit</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>audit_events, access_logs</td>
       <td style={{padding: '10px 14px'}}>Compliance audit trail</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>Billing</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>subscriptions, usage_records, invoices</td>
       <td style={{padding: '10px 14px'}}>SaaS billing</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>RedTeam</td>
       <td style={{padding: '10px 14px', fontFamily: 'monospace', fontSize: '0.85rem'}}>evaluations, attack_results, saber_reports</td>
       <td style={{padding: '10px 14px'}}>Red team assessment data</td>

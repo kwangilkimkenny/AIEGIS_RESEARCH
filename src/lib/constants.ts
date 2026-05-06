@@ -68,11 +68,15 @@ export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
   "executive-brief": "Executive Brief",
 };
 
+/* Editorial monochrome badge tiers. Differentiation by weight, not hue:
+   — Tier 1 (flagship academic):     solid ink, paper text
+   — Tier 2 (formal report):         outlined ink on paper
+   — Tier 3 (industry/supplementary): paper-warm fill, muted text */
 export const DOCUMENT_TYPE_COLORS: Record<DocumentType, string> = {
-  "research-paper": "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-  "technical-report": "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300",
-  "benchmark-report": "bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-300",
-  whitepaper: "bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-300",
-  "case-study": "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
-  "executive-brief": "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
+  "research-paper":   "bg-ink text-paper",
+  "technical-report": "bg-paper text-ink border border-ink",
+  "benchmark-report": "bg-paper text-ink border border-ink",
+  whitepaper:         "bg-paper-warm text-ink-light border border-ink-faint",
+  "case-study":       "bg-paper-warm text-ink-light border border-ink-faint",
+  "executive-brief":  "bg-paper-warm text-ink-light border border-ink-faint",
 };

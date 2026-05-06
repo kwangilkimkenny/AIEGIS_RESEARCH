@@ -45,14 +45,14 @@ Large-scale LLM distributed training faces two critical bottlenecks that severel
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Bottleneck</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Root Cause</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Impact</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Communication Bandwidth</td>
       <td style={{padding: '10px 14px'}}>FP32 gradient/momentum transfer during AllReduce — consumes 20–55% of training time</td>
       <td style={{padding: '10px 14px'}}>GPU idle time, InfiniBand dependency ($15M per 1,000-GPU cluster)</td>
@@ -73,7 +73,7 @@ Gradient compression for distributed training has been explored along several ax
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Method</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Compression Target</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Bit-width</th>
@@ -84,7 +84,7 @@ Gradient compression for distributed training has been explored along several ax
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>QSGD [3]</td>
       <td style={{padding: '10px 14px'}}>Gradients</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Variable</td>
@@ -93,7 +93,7 @@ Gradient compression for distributed training has been explored along several ax
       <td style={{padding: '10px 14px', textAlign: 'center'}}>No</td>
       <td style={{padding: '10px 14px'}}>SGD-only; no Adam support</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Deep Gradient Compression [7]</td>
       <td style={{padding: '10px 14px'}}>Gradients (sparse)</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Top-k</td>
@@ -102,7 +102,7 @@ Gradient compression for distributed training has been explored along several ax
       <td style={{padding: '10px 14px', textAlign: 'center'}}>No</td>
       <td style={{padding: '10px 14px'}}>Momentum correction assumes linearity</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>1-bit Adam [2]</td>
       <td style={{padding: '10px 14px'}}>Momentum</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>1-bit</td>
@@ -111,7 +111,7 @@ Gradient compression for distributed training has been explored along several ax
       <td style={{padding: '10px 14px', textAlign: 'center'}}>No</td>
       <td style={{padding: '10px 14px'}}>v_t freezing diverges at 124M+ scale</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>THC [4]</td>
       <td style={{padding: '10px 14px'}}>Gradients</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Variable</td>
@@ -120,7 +120,7 @@ Gradient compression for distributed training has been explored along several ax
       <td style={{padding: '10px 14px', textAlign: 'center'}}>No</td>
       <td style={{padding: '10px 14px'}}>Hadamard rotation without Lloyd-Max optimality</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>CompAct [8]</td>
       <td style={{padding: '10px 14px'}}>Activations</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Variable</td>
@@ -129,7 +129,7 @@ Gradient compression for distributed training has been explored along several ax
       <td style={{padding: '10px 14px', textAlign: 'center'}}>Yes</td>
       <td style={{padding: '10px 14px'}}>Activation-only; no communication compression</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>TurboQuant [1]</td>
       <td style={{padding: '10px 14px'}}>KV cache / vectors</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>4-bit</td>
@@ -138,7 +138,7 @@ Gradient compression for distributed training has been explored along several ax
       <td style={{padding: '10px 14px', textAlign: 'center'}}>N/A</td>
       <td style={{padding: '10px 14px'}}>Inference-only; Beta distribution assumption</td>
     </tr>
-    <tr style={{backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>TurboQuant-Adam v3 (Ours)</td>
       <td style={{padding: '10px 14px', fontWeight: 700}}>Momentum + Activations</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>4-bit</td>
@@ -155,8 +155,8 @@ Key differentiators. (1) Most prior compression methods target SGD; adapting to 
 ## Our Approach
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/01_research_flow.svg" alt="Research pipeline overview" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 1. Research pipeline — from Beta distribution hypothesis rejection through v_t scale-dependency discovery to the final v3 algorithm.</figcaption>
+  <img src="/assets/images/01_research_flow.svg" alt="Research pipeline overview" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 1. Research pipeline — from Beta distribution hypothesis rejection through v_t scale-dependency discovery to the final v3 algorithm.</figcaption>
 </figure>
 
 ### Theoretical Foundation
@@ -168,15 +168,15 @@ $$\tilde{g} = \frac{1}{\sqrt{d}} H_d \cdot D \cdot g \sim \mathcal{N}(0, \sigma^
 By the Central Limit Theorem, the rotated tensor converges to Gaussian regardless of the original distribution shape, provided the dimension $d$ is sufficiently large (empirically, $d \geq 256$; we verify Gaussianity via Kolmogorov-Smirnov test across all layer tensors at each model scale — see Evaluation Design). This enables deployment of the theoretically optimal Lloyd-Max 4-bit quantizer, with a pre-computed $\mathcal{N}(0,1)$ codebook scaled by $\sigma$ (tracked via EMA), achieving 82% mean MSE reduction over uniform quantization (measured across GPT-2 Small gradient tensors; range: 74–89% depending on layer type).
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/02_hadamard_lloyd_max_pipeline.svg" alt="Core algorithm pipeline" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 2. Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.</figcaption>
+  <img src="/assets/images/02_hadamard_lloyd_max_pipeline.svg" alt="Core algorithm pipeline" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 2. Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.</figcaption>
 </figure>
 
 ### AdamW–Error Feedback Incompatibility (Key Discovery)
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/06_ef_failure_mechanism.svg" alt="Error Feedback failure mechanism" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 3. SGD's linear update preserves EF guarantees; AdamW's nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies delayed noise, destroying momentum state.</figcaption>
+  <img src="/assets/images/06_ef_failure_mechanism.svg" alt="Error Feedback failure mechanism" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 3. SGD's linear update preserves EF guarantees; AdamW's nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies delayed noise, destroying momentum state.</figcaption>
 </figure>
 
 Standard Error Feedback is valid only for SGD's linear update rule. In AdamW, quantization error $e_{t-1}$ enters the squared term $v_t = \beta_2 v_{t-1} + (1-\beta_2)(g_t + e_{t-1})^2$, and the nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies this noise, leading to training divergence (empirically confirmed: loss 1.010 vs. baseline 0.395 on GPT-2 Nano; see Table 1, row 2).
@@ -184,8 +184,8 @@ Standard Error Feedback is valid only for SGD's linear update rule. In AdamW, qu
 ### v_t Freezing: Scale-Dependent Failure (Critical Finding)
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/09_vt_scale_dependency.svg" alt="v_t strategy scale dependency" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 4. Variance freezing succeeds at ~1M parameters but diverges at 124M+ scale. Live v_t with error compensation is the only scale-invariant strategy.</figcaption>
+  <img src="/assets/images/09_vt_scale_dependency.svg" alt="v_t strategy scale dependency" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 4. Variance freezing succeeds at ~1M parameters but diverges at 124M+ scale. Live v_t with error compensation is the only scale-invariant strategy.</figcaption>
 </figure>
 
 The 1-bit Adam approach of freezing $v_t$ after warmup works at small scale (~1M params) but diverges at 124M+ (loss gap +9.05 in our experiments; see Key Findings). We hypothesize that at larger scale, gradient distributions are sufficiently non-stationary that a frozen $v_t$ snapshot becomes stale within hundreds of steps, causing the denominator to systematically mis-scale updates. This necessitates live $v_t$ updates with error compensation applied exclusively at the momentum level.
@@ -193,25 +193,25 @@ The 1-bit Adam approach of freezing $v_t$ after warmup works at small scale (~1M
 ### TurboQuantAdamW v3: The Complete Algorithm
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/08_v3_algorithm.svg" alt="TurboQuantAdamW v3 algorithm structure" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 5. TurboQuantAdamW v3 — live v_t + momentum-level error compensation. Error never enters v_t path, preserving nonlinear denominator stability.</figcaption>
+  <img src="/assets/images/08_v3_algorithm.svg" alt="TurboQuantAdamW v3 algorithm structure" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 5. TurboQuantAdamW v3 — live v_t + momentum-level error compensation. Error never enters v_t path, preserving nonlinear denominator stability.</figcaption>
 </figure>
 
 Three critical design decisions differentiate v3 from prior work.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Decision</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Rationale</th>
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Compress m_t (not g_t)</td>
       <td style={{padding: '10px 14px'}}>Momentum is EMA-smoothed → higher quantization quality than raw gradients</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Keep v_t live (not frozen)</td>
       <td style={{padding: '10px 14px'}}>Frozen v_t diverges at 124M+ scale; live v_t tracks distribution shift</td>
     </tr>
@@ -226,7 +226,7 @@ Communication protocol: Each node transmits only INT4-packed $q_t$ via AllGather
 
 ### Algorithm: TurboQuantAdamW v3
 
-<div style={{fontFamily: 'monospace', fontSize: '0.82rem', lineHeight: '1.6', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '4px', padding: '1.2rem 1.5rem', margin: '1.5rem 0', overflowX: 'auto'}}>
+<div style={{fontFamily: 'monospace', fontSize: '0.82rem', lineHeight: '1.6', background: '#F5F4EE', border: '1px solid #B5B5B5', borderRadius: '4px', padding: '1.2rem 1.5rem', margin: '1.5rem 0', overflowX: 'auto'}}>
 
 Algorithm 1. TurboQuantAdamW v3 — Momentum-level 4-bit compression with live variance
 
@@ -279,15 +279,15 @@ Key invariant: Error $e_t$ enters only the $m_t$ path (line 4). The variance $v_
 ### DDP Communication Hook Integration
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/03_ddp_communication_pipeline.svg" alt="DDP communication pipeline" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 6. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed INT4 AllGather, and inverse transform.</figcaption>
+  <img src="/assets/images/03_ddp_communication_pipeline.svg" alt="DDP communication pipeline" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 6. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed INT4 AllGather, and inverse transform.</figcaption>
 </figure>
 
 ### 4-bit Activation Memory Compression
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/07_activation_compression.svg" alt="Activation compression architecture" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 7. TurboQuantLinear — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.</figcaption>
+  <img src="/assets/images/07_activation_compression.svg" alt="Activation compression architecture" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 7. TurboQuantLinear — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.</figcaption>
 </figure>
 
 `TurboQuantLinear` is a custom `autograd.Function` layer that compresses activation tensors to 4-bit during forward pass using the same Hadamard + Lloyd-Max pipeline, and decompresses during backward pass for gradient computation. Combined activation + momentum compression achieves a loss gap of only +0.0001.
@@ -310,15 +310,15 @@ Key invariant: Error $e_t$ enters only the $m_t$ path (line 4). The variance $v_
 > Statistical note: GPU-scale experiments (GPT-2 Small 124M, GPT-2 Medium 355M) were conducted with 3 independent random seeds (42, 137, 2026). Results below report the mean across seeds. Standard deviations for loss gaps are ±0.003 (124M, 500 steps), ±0.001 (124M, 1,500 steps), and ±0.002 (355M, 500 steps). Concept validation experiments (GPT-2 Nano) used single runs due to their exploratory nature. We acknowledge that 3 seeds is the minimum for statistical reporting; 5+ seeds would strengthen confidence.
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/11_comprehensive_results.svg" alt="Comprehensive experiment results from 1M to 355M parameters" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 8. Full validation spectrum — from concept validation on M4 to GPU-scale experiments on 2× RTX 5000.</figcaption>
+  <img src="/assets/images/11_comprehensive_results.svg" alt="Comprehensive experiment results from 1M to 355M parameters" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 8. Full validation spectrum — from concept validation on M4 to GPU-scale experiments on 2× RTX 5000.</figcaption>
 </figure>
 
 Table 1. Experiment results across model scales. GPU-scale results (rows 3–6) report mean over 3 seeds.
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Experiment</th>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Model / Scale</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Baseline</th>
@@ -329,59 +329,59 @@ Table 1. Experiment results across model scales. GPU-scale results (rows 3–6) 
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>4-bit Gradient (no EF)</td>
       <td style={{padding: '10px 14px'}}>GPT-2 Nano / ~1M</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>0.402</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>0.756</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>+0.354</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>150</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', color: '#D97706', fontWeight: 700}}>Degraded</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', color: '#2D2D2D', fontWeight: 700}}>Degraded</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px'}}>4-bit Gradient + EF</td>
       <td style={{padding: '10px 14px'}}>GPT-2 Nano / ~1M</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>0.395</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>1.010</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>+0.615</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>150</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', color: '#DC2626', fontWeight: 700}}>Failed</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', color: '#111111', fontWeight: 700}}>Failed</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>v_t Live + EC (v3)</td>
       <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Small / 124M</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>7.123</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>7.142</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.019 ± 0.003</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>7.142</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>+0.019 ± 0.003</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>500</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>PASS</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>Long-run Convergence</td>
       <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Small / 124M</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>6.456</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>6.457</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.002 ± 0.001</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>6.457</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>+0.002 ± 0.001</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>1,500</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>PASS</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0', backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5', backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Medium + AMP</td>
       <td style={{padding: '10px 14px', fontWeight: 700}}>GPT-2 Medium / 355M</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>7.357</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>7.360</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.002 ± 0.002</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>7.360</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>+0.002 ± 0.002</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>500</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>PASS</td>
     </tr>
-    <tr style={{backgroundColor: 'rgba(5, 150, 105, 0.05)'}}>
+    <tr style={{backgroundColor: 'transparent'}}>
       <td style={{padding: '10px 14px', fontWeight: 700}}>Combined (Act + Mom)</td>
       <td style={{padding: '10px 14px', fontWeight: 700}}>Transformer / 70M</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>5.816</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>5.817</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>+0.000</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>5.817</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>+0.000</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>800</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>PASS</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>PASS</td>
     </tr>
   </tbody>
 </table>
@@ -389,8 +389,8 @@ Table 1. Experiment results across model scales. GPU-scale results (rows 3–6) 
 ### Long-Run Convergence Stability
 
 <figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/10_long_convergence.svg" alt="1,500-step convergence stability" style={{width: '100%', border: '1px solid #e2e8f0', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem'}}>Figure 9. Loss gap remains bounded (0.0009–0.0024) across 1,500 steps — error compensation prevents accumulation.</figcaption>
+  <img src="/assets/images/10_long_convergence.svg" alt="1,500-step convergence stability" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
+  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 9. Loss gap remains bounded (0.0009–0.0024) across 1,500 steps — error compensation prevents accumulation.</figcaption>
 </figure>
 
 The loss gap between FP32 baseline and TurboQuant 4-bit does not grow with training duration, confirming that error compensation effectively prevents error accumulation. This is critical for production training runs spanning 100K+ steps.
@@ -399,7 +399,7 @@ The loss gap between FP32 baseline and TurboQuant 4-bit does not grow with train
 
 <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
   <thead>
-    <tr style={{borderBottom: '2px solid #2563EB'}}>
+    <tr style={{borderBottom: '2px solid #111111'}}>
       <th style={{padding: '10px 14px', textAlign: 'left'}}>Metric</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Python Reference</th>
       <th style={{padding: '10px 14px', textAlign: 'center'}}>Triton Kernel</th>
@@ -407,17 +407,17 @@ The loss gap between FP32 baseline and TurboQuant 4-bit does not grow with train
     </tr>
   </thead>
   <tbody>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Round-trip latency (16M elements)</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>73.47 ms</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>26.21 ms</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>2.8×</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>2.8×</td>
     </tr>
-    <tr style={{borderBottom: '1px solid #E2E8F0'}}>
+    <tr style={{borderBottom: '1px solid #B5B5B5'}}>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Communication payload</td>
       <td style={{padding: '10px 14px', textAlign: 'center'}}>64 MB (FP32)</td>
       <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700}}>8 MB (INT4)</td>
-      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#059669'}}>8.0×</td>
+      <td style={{padding: '10px 14px', textAlign: 'center', fontWeight: 700, color: '#767676'}}>8.0×</td>
     </tr>
     <tr>
       <td style={{padding: '10px 14px', fontWeight: 600}}>Numerical accuracy</td>
