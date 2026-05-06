@@ -171,6 +171,25 @@ export default async function AboutPage({ params }: Props) {
                       </p>
                     </div>
                   </div>
+                  <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-text-primary">
+                        TJ Park
+                      </h3>
+                      <p className="text-sm font-medium text-accent-blue">
+                        {t.eduResearcherRole}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                        {t.eduResearcherDesc}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 

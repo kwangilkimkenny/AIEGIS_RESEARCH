@@ -149,6 +149,8 @@ const ko: Dictionary = {
     engineerDesc: "AIEGIS 연구 플랫폼과 출판 시스템의 풀스택 엔지니어링을 담당하며, 연구 산출물이 안정적으로 배포·운영되도록 제품 인프라를 구축합니다.",
     mathResearcherRole: "연세대 · AI·수학 연구원",
     mathResearcherDesc: "AIEGIS 연구의 AI 엔지니어링과 수학적 기반 분석을 담당하며, 안전성·정렬·검증을 위한 형식적 방법과 모델링 연구를 수행합니다.",
+    eduResearcherRole: "서울대 교육공학 박사 · 연구원",
+    eduResearcherDesc: "교육 분야 AI 안전성 연구를 담당하며, 학술 연구 협력과 교육 환경에서의 신뢰할 수 있는 AI 도입을 위한 방법론을 개발합니다.",
     coreBeliefTitle: "핵심 신념",
     coreBeliefQuote: "강력한 AI는 신뢰할 수 있는 AI여야 하며, 실제 세계에 진입하는 AI는 검증 가능하고, 제어 가능하며, 책임 있어야 합니다.",
     coreBeliefAttribution: "— AEGIS Research 설립 원칙",
