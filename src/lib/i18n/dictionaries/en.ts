@@ -137,6 +137,8 @@ const en = {
     missionText2: "YATAV Research is a research institute dedicated to studying and operationalizing the critical safeguards that must be in place before AI can be trusted in real environments. We do not focus on model capability alone. We focus on the real problems that emerge when enterprises and individuals deploy LLMs into workflows, services, decision support, automation, agents, multimodal systems, VLA pipelines, robotics, and future AI environments.",
     visitMainSite: "Visit AIAEGIS Website",
     leadershipTitle: "Research Leadership",
+    principalResearcherRole: "Korea Univ. · Researcher",
+    principalResearcherDesc: "Provides leadership and strategic direction for YATAV Research, overseeing the core research agenda and external collaborations.",
     leadershipRole: "M.S. (USYD) · Research Director",
     leadershipDesc: "Leading and overseeing all YATAV research initiatives across AI safety, guardrails, hallucination mitigation, and enterprise deployment trust.",
     cisoRole: "SeoulTech · CISO",
@@ -147,6 +149,10 @@ const en = {
     mathResearcherDesc: "Drives AI engineering and the mathematical foundations of YATAV research — formal methods and modeling for safety, alignment, and verification.",
     eduResearcherRole: "SNU Ph.D. in Educational Technology · Researcher",
     eduResearcherDesc: "Researches AI safety in education, leading academic research collaboration and developing methodologies for trustworthy AI adoption in educational environments.",
+    csResearcherRole: "Fudan Univ. (China) · Computer Science · Researcher",
+    csResearcherDesc: "Researches AI system reliability and safety from a computer science perspective, contributing to scalable, distributed safety architecture design.",
+    theoryResearcherRole: "Dankook Univ. · Mathematics · Researcher",
+    theoryResearcherDesc: "Drives quantitative safety analysis and verification frameworks for AI systems through mathematical theory and statistical modeling.",
     coreBeliefTitle: "Core Belief",
     coreBeliefQuote: "Powerful AI must also be trustworthy AI, and AI that enters the real world must be verifiable, controllable, and accountable.",
     coreBeliefAttribution: "— YATAV Research Founding Principle",
@@ -254,7 +260,7 @@ export type Dictionary = {
   publicationTypes: { title: string; subtitle: string; types: { name: string; description: string }[] };
   researchPrinciples: { title: string; principles: string[] };
   cta: { title: string; text1: string; text2: string; contactResearchTeam: string; requestDemo: string; explorePublications: string };
-  about: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; missionTitle: string; missionText1: string; missionHighlight: string; missionText2: string; visitMainSite: string; leadershipTitle: string; leadershipRole: string; leadershipDesc: string; cisoRole: string; cisoDesc: string; engineerRole: string; engineerDesc: string; mathResearcherRole: string; mathResearcherDesc: string; eduResearcherRole: string; eduResearcherDesc: string; coreBeliefTitle: string; coreBeliefQuote: string; coreBeliefAttribution: string; philosophyTitle: string; philosophySubtitle: string; philosophyPrinciples: string[]; scopeTitle: string; scopeSubtitle: string; whyTitle: string; whyText1: string; whyText2: string; whyText3: string; ctaTitle: string; ctaText: string; ctaContact: string; ctaPublications: string };
+  about: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; missionTitle: string; missionText1: string; missionHighlight: string; missionText2: string; visitMainSite: string; leadershipTitle: string; principalResearcherRole: string; principalResearcherDesc: string; leadershipRole: string; leadershipDesc: string; cisoRole: string; cisoDesc: string; engineerRole: string; engineerDesc: string; mathResearcherRole: string; mathResearcherDesc: string; eduResearcherRole: string; eduResearcherDesc: string; csResearcherRole: string; csResearcherDesc: string; theoryResearcherRole: string; theoryResearcherDesc: string; coreBeliefTitle: string; coreBeliefQuote: string; coreBeliefAttribution: string; philosophyTitle: string; philosophySubtitle: string; philosophyPrinciples: string[]; scopeTitle: string; scopeSubtitle: string; whyTitle: string; whyText1: string; whyText2: string; whyText3: string; ctaTitle: string; ctaText: string; ctaContact: string; ctaPublications: string };
   publications: { metaTitle: string; metaDescription: string; heroTitle: string; heroSubtitle: string; comingSoon: string; publicationCount: string; publicationsCount: string; readSummary: string };
   publicationDetail: { authors: string; published: string; affiliation: string; summary: string; downloadPdf: string; contactUs: string; assetsAndDownloads: string; fullPaper: string; executiveSummary: string; slideDeck: string; demoVideo: string; githubRepo: string; tryItOut: string; comingSoon: string; download: string; ctaTitle: string; ctaText: string; requestDemo: string; contactResearchTeam: string };
   contact: { metaTitle: string; heroTitle: string; heroSubtitle: string; formTitle: string; formSubtitle: string; inquiryType: string; general: string; research: string; demo: string; partnership: string; media: string; name: string; email: string; organization: string; message: string; namePlaceholder: string; emailPlaceholder: string; orgPlaceholder: string; messagePlaceholder: string; send: string; thankYou: string; thankYouText: string; infoCards: { title: string; description: string }[] };

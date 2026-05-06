@@ -75,6 +75,26 @@ export default async function AboutPage({ params }: Props) {
               <div>
                 <SectionHeading title={t.leadershipTitle} />
                 <div className="space-y-3">
+                  {/* Principal Researcher — solid ink fill marks senior position */}
+                  <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-ink text-paper">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-text-primary">
+                        Seongchan Lee
+                      </h3>
+                      <p className="text-sm font-medium text-accent-blue">
+                        {t.principalResearcherRole}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                        {t.principalResearcherDesc}
+                      </p>
+                    </div>
+                  </div>
                   <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
                     <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
                       <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -166,6 +186,47 @@ export default async function AboutPage({ params }: Props) {
                       </p>
                       <p className="mt-2 text-sm text-text-secondary leading-relaxed">
                         {t.eduResearcherDesc}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" />
+                        <rect x="9" y="9" width="6" height="6" />
+                        <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-text-primary">
+                        Yongki Cho
+                      </h3>
+                      <p className="text-sm font-medium text-accent-blue">
+                        {t.csResearcherRole}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                        {t.csResearcherDesc}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-card-border bg-card-bg p-8 flex items-center gap-6">
+                    <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink">
+                      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="3.5" r="1.5" />
+                        <line x1="12" y1="5" x2="6" y2="20" />
+                        <line x1="12" y1="5" x2="18" y2="20" />
+                        <line x1="9" y1="14" x2="15" y2="14" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-text-primary">
+                        Junghoon Kim
+                      </h3>
+                      <p className="text-sm font-medium text-accent-blue">
+                        {t.theoryResearcherRole}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                        {t.theoryResearcherDesc}
                       </p>
                     </div>
                   </div>
