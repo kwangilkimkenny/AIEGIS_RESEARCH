@@ -16,14 +16,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "AEGIS Research — Safe, Secure, Trustworthy AI",
-    template: "%s — AEGIS Research",
+    default: "YATAV Research — Safe, Secure, Trustworthy AI",
+    template: "%s — YATAV Research",
   },
   description:
-    "AEGIS Research advances the safety, security, compliance, and operational reliability required for real-world deployment of LLMs, agents, multimodal systems, and next-generation intelligent systems.",
+    "YATAV Research advances the safety, security, compliance, and operational reliability required for real-world deployment of LLMs, agents, multimodal systems, and next-generation intelligent systems.",
   openGraph: {
     type: "website",
-    siteName: "AEGIS Research",
+    siteName: "YATAV Research",
   },
 };
 

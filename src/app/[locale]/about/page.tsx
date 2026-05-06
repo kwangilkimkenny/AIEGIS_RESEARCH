@@ -244,7 +244,7 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Why AEGIS Research Exists */}
+      {/* Why YATAV Research Exists */}
       <section className="py-20 bg-section-alt">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title={t.whyTitle} />

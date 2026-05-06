@@ -20,7 +20,7 @@ export default function HeroSection({ dict, locale }: Props) {
       <div className="relative z-10 border-b border-ink-faint">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between font-mono text-[10px] tracking-[0.22em] uppercase text-ink-mute">
           <span>§ 01 / Frontier AI Safety</span>
-          <span className="hidden sm:inline">Yatav Inc. · AEGIS Research</span>
+          <span className="hidden sm:inline">Yatav Inc. · YATAV Research</span>
         </div>
       </div>
 
