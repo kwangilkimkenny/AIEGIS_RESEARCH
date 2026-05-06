@@ -18,7 +18,7 @@ const variants = {
   secondary:
     "bg-ink text-paper hover:bg-ink-soft border border-ink",
   outline:
-    "bg-paper text-ink border border-ink hover:bg-ink hover:text-paper",
+    "bg-transparent text-ink border border-current hover:bg-ink hover:text-paper",
   ghost:
     "bg-transparent text-ink hover:text-cobalt underline-offset-4 hover:underline",
 };
