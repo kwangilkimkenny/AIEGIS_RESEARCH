@@ -154,10 +154,7 @@ Key differentiators. (1) Most prior compression methods target SGD; adapting to 
 
 ## Our Approach
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/01_research_flow.svg" alt="Research pipeline overview" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 1. Research pipeline — from Beta distribution hypothesis rejection through v_t scale-dependency discovery to the final v3 algorithm.</figcaption>
-</figure>
+![Research pipeline overview](/assets/images/01_research_flow.svg "Figure 1. Research pipeline — from Beta distribution hypothesis rejection through v_t scale-dependency discovery to the final v3 algorithm.")
 
 ### Theoretical Foundation
 
@@ -167,35 +164,23 @@ $$\tilde{g} = \frac{1}{\sqrt{d}} H_d \cdot D \cdot g \sim \mathcal{N}(0, \sigma^
 
 By the Central Limit Theorem, the rotated tensor converges to Gaussian regardless of the original distribution shape, provided the dimension $d$ is sufficiently large (empirically, $d \geq 256$; we verify Gaussianity via Kolmogorov-Smirnov test across all layer tensors at each model scale — see Evaluation Design). This enables deployment of the theoretically optimal Lloyd-Max 4-bit quantizer, with a pre-computed $\mathcal{N}(0,1)$ codebook scaled by $\sigma$ (tracked via EMA), achieving 82% mean MSE reduction over uniform quantization (measured across GPT-2 Small gradient tensors; range: 74–89% depending on layer type).
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/02_hadamard_lloyd_max_pipeline.svg" alt="Core algorithm pipeline" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 2. Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.</figcaption>
-</figure>
+![Core algorithm pipeline](/assets/images/02_hadamard_lloyd_max_pipeline.svg "Figure 2. Hadamard rotation eliminates outliers and normalizes any distribution to Gaussian, enabling theoretically optimal Lloyd-Max 4-bit quantization.")
 
 ### AdamW–Error Feedback Incompatibility (Key Discovery)
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/06_ef_failure_mechanism.svg" alt="Error Feedback failure mechanism" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 3. SGD's linear update preserves EF guarantees; AdamW's nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies delayed noise, destroying momentum state.</figcaption>
-</figure>
+![Error Feedback failure mechanism](/assets/images/06_ef_failure_mechanism.svg "Figure 3. SGD's linear update preserves EF guarantees; AdamW's nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies delayed noise, destroying momentum state.")
 
 Standard Error Feedback is valid only for SGD's linear update rule. In AdamW, quantization error $e_{t-1}$ enters the squared term $v_t = \beta_2 v_{t-1} + (1-\beta_2)(g_t + e_{t-1})^2$, and the nonlinear denominator $1/(\sqrt{v_t}+\epsilon)$ amplifies this noise, leading to training divergence (empirically confirmed: loss 1.010 vs. baseline 0.395 on GPT-2 Nano; see Table 1, row 2).
 
 ### v_t Freezing: Scale-Dependent Failure (Critical Finding)
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/09_vt_scale_dependency.svg" alt="v_t strategy scale dependency" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 4. Variance freezing succeeds at ~1M parameters but diverges at 124M+ scale. Live v_t with error compensation is the only scale-invariant strategy.</figcaption>
-</figure>
+![v_t strategy scale dependency](/assets/images/09_vt_scale_dependency.svg "Figure 4. Variance freezing succeeds at ~1M parameters but diverges at 124M+ scale. Live v_t with error compensation is the only scale-invariant strategy.")
 
 The 1-bit Adam approach of freezing $v_t$ after warmup works at small scale (~1M params) but diverges at 124M+ (loss gap +9.05 in our experiments; see Key Findings). We hypothesize that at larger scale, gradient distributions are sufficiently non-stationary that a frozen $v_t$ snapshot becomes stale within hundreds of steps, causing the denominator to systematically mis-scale updates. This necessitates live $v_t$ updates with error compensation applied exclusively at the momentum level.
 
 ### TurboQuantAdamW v3: The Complete Algorithm
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/08_v3_algorithm.svg" alt="TurboQuantAdamW v3 algorithm structure" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 5. TurboQuantAdamW v3 — live v_t + momentum-level error compensation. Error never enters v_t path, preserving nonlinear denominator stability.</figcaption>
-</figure>
+![TurboQuantAdamW v3 algorithm structure](/assets/images/08_v3_algorithm.svg "Figure 5. TurboQuantAdamW v3 — live v_t + momentum-level error compensation. Error never enters v_t path, preserving nonlinear denominator stability.")
 
 Three critical design decisions differentiate v3 from prior work.
 
@@ -278,17 +263,11 @@ Key invariant: Error $e_t$ enters only the $m_t$ path (line 4). The variance $v_
 
 ### DDP Communication Hook Integration
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/03_ddp_communication_pipeline.svg" alt="DDP communication pipeline" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 6. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed INT4 AllGather, and inverse transform.</figcaption>
-</figure>
+![DDP communication pipeline](/assets/images/03_ddp_communication_pipeline.svg "Figure 6. Distributed communication pipeline — Hadamard rotation, 4-bit quantization, compressed INT4 AllGather, and inverse transform.")
 
 ### 4-bit Activation Memory Compression
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/07_activation_compression.svg" alt="Activation compression architecture" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 7. TurboQuantLinear — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.</figcaption>
-</figure>
+![Activation compression architecture](/assets/images/07_activation_compression.svg "Figure 7. TurboQuantLinear — Forward pass stores activations in 4-bit (4× memory savings); backward pass decompresses for gradient computation.")
 
 `TurboQuantLinear` is a custom `autograd.Function` layer that compresses activation tensors to 4-bit during forward pass using the same Hadamard + Lloyd-Max pipeline, and decompresses during backward pass for gradient computation. Combined activation + momentum compression achieves a loss gap of only +0.0001.
 
@@ -309,10 +288,7 @@ Key invariant: Error $e_t$ enters only the $m_t$ path (line 4). The variance $v_
 
 > Statistical note: GPU-scale experiments (GPT-2 Small 124M, GPT-2 Medium 355M) were conducted with 3 independent random seeds (42, 137, 2026). Results below report the mean across seeds. Standard deviations for loss gaps are ±0.003 (124M, 500 steps), ±0.001 (124M, 1,500 steps), and ±0.002 (355M, 500 steps). Concept validation experiments (GPT-2 Nano) used single runs due to their exploratory nature. We acknowledge that 3 seeds is the minimum for statistical reporting; 5+ seeds would strengthen confidence.
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/11_comprehensive_results.svg" alt="Comprehensive experiment results from 1M to 355M parameters" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 8. Full validation spectrum — from concept validation on M4 to GPU-scale experiments on 2× RTX 5000.</figcaption>
-</figure>
+![Comprehensive experiment results from 1M to 355M parameters](/assets/images/11_comprehensive_results.svg "Figure 8. Full validation spectrum — from concept validation on M4 to GPU-scale experiments on 2× RTX 5000.")
 
 Table 1. Experiment results across model scales. GPU-scale results (rows 3–6) report mean over 3 seeds.
 
@@ -388,10 +364,7 @@ Table 1. Experiment results across model scales. GPU-scale results (rows 3–6) 
 
 ### Long-Run Convergence Stability
 
-<figure style={{margin: '2rem 0'}}>
-  <img src="/assets/images/10_long_convergence.svg" alt="1,500-step convergence stability" style={{width: '100%', border: '1px solid #B5B5B5', borderRadius: '4px'}} />
-  <figcaption style={{textAlign: 'center', fontSize: '0.85rem', color: '#4A4A4A', marginTop: '0.5rem'}}>Figure 9. Loss gap remains bounded (0.0009–0.0024) across 1,500 steps — error compensation prevents accumulation.</figcaption>
-</figure>
+![1,500-step convergence stability](/assets/images/10_long_convergence.svg "Figure 9. Loss gap remains bounded (0.0009–0.0024) across 1,500 steps — error compensation prevents accumulation.")
 
 The loss gap between FP32 baseline and TurboQuant 4-bit does not grow with training duration, confirming that error compensation effectively prevents error accumulation. This is critical for production training runs spanning 100K+ steps.
 
