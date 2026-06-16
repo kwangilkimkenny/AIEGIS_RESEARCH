@@ -1,0 +1,290 @@
+---
+documentNumber: "AEGIS-TR-2026-005"
+slug: "aegis-tr-2026-005"
+type: "technical-report"
+title: "TruthGPU: A Parity-Gated, Cloud-to-Edge Full Stack for Accelerated and Robust LLM Safety and Hallucination Verification"
+subtitle: "GPU 커널 융합·패리티 게이트·데이터 중심 폐루프·수치 환각 탐지·엣지 실리콘 증류를 통합한 LLM 검증 인프라"
+authors:
+  - "AEGIS Research Team"
+  - "Atav Research"
+affiliation: "AEGIS Research, Atav Research"
+publishedDate: "2026-06-16"
+version: "1.0"
+categories:
+  - "ai-guardrails"
+  - "hallucination-and-grounding"
+  - "safety-and-security"
+  - "enterprise-ai-evaluation"
+tags:
+  - "TruthGPU"
+  - "CUDA"
+  - "Triton"
+  - "GPU acceleration"
+  - "parity gate"
+  - "hallucination detection"
+  - "NLI"
+  - "adversarial training"
+  - "edge inference"
+  - "knowledge distillation"
+  - "LLM safety"
+  - "AEGIS"
+  - "HalluGuard"
+oneLinerKo: "단일 GPU 서비스에서 보안 가드레일과 환각 검증을 통합하여 11.4× 가속과 제로 판정 변경을 동시에 달성한 클라우드-엣지 LLM 안전성 인프라"
+oneLinerEn: "A unified cloud-to-edge LLM verification infrastructure achieving up to 11.4× NLI acceleration with zero verdict change, combining parity-gated GPU kernels, data-centric robustness loops, and on-device silicon distillation"
+abstract: "Deploying large language models (LLMs) at scale requires two verification layers — an input-side security guardrail (against prompt injection, jailbreaks, harmful content) and an output-side hallucination verifier — each of which is itself a neural-network inference and therefore a latency and cost bottleneck. TruthGPU, a full-stack verification infrastructure that (i) serves both engines from a single GPU service with shared models and acceleration; (ii) guarantees that acceleration does not alter the safety verdict via an automated parity gate; (iii) resolves the robustness–precision tradeoff of safety classifiers through a data-centric closed loop rather than post-hoc calibration; (iv) augments NLI hallucination detection with a context-category-gated numeric cross-verification layer; and (v) distills the same policy and taxonomy onto a family of on-device security semiconductors for offline, data-sovereign operation. On an NVIDIA H200 we measure up to 11.4× NLI and 4.57× end-to-end acceleration with zero verdict change; we raise out-of-distribution adversarial robustness from 0.759 to 0.956 macro-F1 while simultaneously reducing the benign false-positive rate from 0.05 to 0.025; and we improve numeric-hallucination recall from 0.667 to 0.889 at a zero false-hallucination rate."
+pdfUrl: "/assets/pdf/aegis-tr-2026-005.pdf"
+status: "published"
+featured: true
+---
+
+## Executive Summary
+
+TruthGPU is a full-stack verification infrastructure that unifies LLM security and hallucination detection in a single, accelerated GPU service. The system achieves up to **11.4× NLI acceleration** and **4.57× end-to-end speedup** while maintaining **zero verdict change** through an automated parity gate.
+
+### Key Results
+
+| Metric | Achievement |
+|--------|-------------|
+| NLI Acceleration (small batch) | 11.4× |
+| End-to-end Speedup | 4.57× |
+| Numerical Error / Top-1 Mismatch | 1.8×10⁻⁷ / 0 |
+| OOD Robustness Improvement | 0.759 → 0.956 macro-F1 |
+| False Positive Rate Reduction | 0.05 → 0.025 |
+| Hallucination Recall (temperature) | 0.667 → 0.889 |
+| False Hallucination Rate | 0 |
+
+---
+
+## 1. Problem Statement
+
+LLM deployments face two critical failure modes:
+
+1. **Security**: Adversarial inputs (prompt injection, jailbreaks, obfuscation) can subvert model behavior
+2. **Hallucination**: Fluent but factually incorrect outputs, particularly numeric/relational errors
+
+Both require verification layers—yet each verification layer is itself a neural-network inference, creating a latency and cost bottleneck. Additionally, **evaluation optimism** is pervasive: safety classifiers trained on synthetic data reach ~0.99 self-graded accuracy that collapses to ~0.76 on genuinely out-of-distribution (OOD) obfuscated attacks.
+
+A third requirement is **sovereignty**: many deployments (automotive, medical, defense, industrial) must verify offline, on-device.
+
+---
+
+## 2. System Architecture
+
+TruthGPU exposes a single GPU service offering four shared RPCs (`Embed`, `Nli`, `Classify`, `Similarity`), so models load once:
+
+- **AEGIS**: Performs 8-class multilabel guarding (input-side security)
+- **HalluGuard**: Performs NLI + numeric verification (output-side fact checking)
+
+Each input flows through a **layered pipeline**:
+1. **Deterministic rules & PII/DLP scanning** on CPU (resolves clear cases immediately)
+2. **Ambiguous cases** invoke the accelerated classifier
+3. **Decision policy** emits {allow, escalate, block}
+
+The same taxonomy and policy are distilled onto a 4-SKU edge silicon family (NXP MCX N947, ST STM32N6, Renesas RA8M1, i.MX 93), which escalates only gray-zone inputs to the cloud.
+
+---
+
+## 3. Six Integrated Contributions
+
+### A: Parity-Gated Acceleration
+
+**Innovation**: Fused GPU kernels + automated verdict-label equivalence gate before deployment.
+
+With logits $z(x)$ and post-processing (class-order permutation $\pi$, normalization $\sigma$), the verdict is:
+
+$$v(x)=\arg\max_k[\sigma(\pi z(x))]_k$$
+
+The **parity predicate** certifies acceleration safety:
+
+$$G_{\text{par}}=\Big[\sum_{x\in V}\mathbf{1}[v_{\text{acc}}(x)\neq v_{\text{ref}}(x)]=0\Big]\wedge\Big[\max_{x\in V}|c_{\text{acc}}(x)-c_{\text{ref}}(x)|\le\varepsilon\Big]$$
+
+Deploy only if $G_{\text{par}}$ **and** every quality-regression metric $m\in\mathcal{M}$ meets threshold $\tau_m$. The novelty: coupling single-kernel transfer elimination with *verdict-level* equivalence enforced as an automated gate.
+
+**Result**: 1.8×10⁻⁷ numerical error with **zero** top-1 mismatch and zero confidence delta.
+
+---
+
+### B: Numeric ⊕ NLI Hallucination Detection
+
+**Innovation**: Category-gated, unit-normalized numeric layer *before* NLI for cross-verification.
+
+Extract numeric facts $f=(\nu,u,\gamma)$ (value, unit, context) from both claim and evidence. Block cross-domain mismatches (e.g., interest rate 3.5% vs. birth rate 3.5%) via category map $\kappa(\gamma)$ and unit compatibility:
+
+$$\mathrm{Comparable}(f_c,f_e)=[\kappa(\gamma_c)=\kappa(\gamma_e)]\wedge\mathrm{cmp}(u_c,u_e)$$
+
+After unit normalization $\eta$, flag contradiction if gap exceeds per-unit tolerance $\theta(u)$:
+
+$$\mathrm{Contra}(f_c,f_e)=\mathrm{Comparable}(f_c,f_e)\wedge[|\eta(\nu_c)-\eta(\nu_e)|>\theta(u_c)]$$
+
+The numeric layer runs **before** NLI: verdict = `contradicted` if any contradiction found, else proceed to NLI.
+
+**Result**: Recall improves 0.667 → 0.889 (temperature domain) with **zero** false-hallucination rate.
+
+---
+
+### C: Adversarial + Targeted Hard-Negative Training
+
+**Innovation**: Leakage-verified closed loop that raises robustness *and* restores precision simultaneously.
+
+Let $H$ = structure-independent held-out OOD probe (zero overlap with training data), $B$ = benign set. Define robustness $R(\theta)=\text{macroF1}_H(\theta)$ and precision $P(\theta)=\mathrm{FPR}_B(\theta)$.
+
+The dual-gate loop:
+1. **Baseline**: Reveal $R(\theta_1)\ll$ in-sample F1 on OOD data
+2. **Adversarial augmentation**: Add LLM-generated attacks (whitespace, zero-width, Jamo, code-mixing) → $R\uparrow$, but $P\uparrow$ (worse)
+3. **Targeted hard-negatives**: Identify regressed benign distribution $B^* = \{x\in B:\hat y(x)=\text{unsafe}\}$ and generate targeted negatives $N$ → $P$ restored while $R$ held steady
+4. **Deploy iff**: $R(\theta) \ge R_{\min}$ **and** $P(\theta) \le P_{\max}$
+
+Post-hoc calibration (threshold/temperature tuning) cannot raise robustness $R$ (constant in calibration knobs), evidencing the **data-lever thesis**: this is a data problem, not a threshold problem.
+
+**Result**: OOD robustness 0.759 → 0.956 macro-F1; benign FPR 0.05 → 0.025.
+
+---
+
+### D: Multi-Signal Fusion
+
+**Innovation**: Classifier ∪ benign-disjoint deterministic rules with non-harm gate.
+
+With ML score $s(x)$, threshold $\theta$, and rules $\mathcal{R}$ **designed so that** $\Pr_{x\sim B}[\exists r\in\mathcal{R}:r(x)=1]\approx 0$, fuse via union:
+
+$$\mathrm{unsafe}(x)=\mathbf{1}[s(x)\ge\theta]\vee\bigvee_{r\in\mathcal{R}}r(x)$$
+
+A **non-harm gate** admits $\mathcal{R}$ only if $\Delta\mathrm{FP}_B(\mathcal{R})=0$ (zero new false positives on benign data) and $\mathrm{TPR}_{\text{fused}}\ge\mathrm{TPR}_{\text{ML}}$ (no recall loss).
+
+**Result**: Adversarial macro-F1 0.956 → 0.978 with **zero** added false positives on in-distribution, OOD, and sensitive-but-legitimate benign splits.
+
+---
+
+### E: Safety-Constrained Selective Prediction
+
+**Innovation**: Operating point under a no-attack-leak constraint to maximize coverage without leaking attacks.
+
+Route inputs to auto-allow ($s<t_\ell$), auto-block ($s\ge t_h$), or review. Optimize:
+
+$$(t_\ell^\star,t_h^\star)=\arg\max_{t_\ell\le t_h}C(t_\ell,t_h)\;\;\text{s.t.}\;\;A\ge A^\star\wedge\forall x\in\mathcal{A}:s(x)\ge t_\ell$$
+
+where $\mathcal{A}$ is the attack set; the constraint forbids **any** auto-allowed attack.
+
+**Result**: At band [0.1, 0.9], achieve 100% auto-accuracy at 99.3% coverage (0.7% sent to review) with **zero** auto-allowed attacks.
+
+---
+
+### F: Cloud-to-Edge Unification
+
+**Innovation**: One taxonomy/policy/contract shared across heterogeneous compute (cloud GPU & on-device NPUs) with gated OTA.
+
+- **Server-side**: mDeBERTa-v3 accelerated verifier (teacher)
+- **Device-side**: Distilled INT8 char-CNN student (0.113 MB, FNR = 0 on test set)
+- **Shared**: Verdict label space, interface contract, decision policy
+- **Propagation**: Retrained models via **gated OTA** (regression gate before hot-swap)
+- **Silicon backends**: NXP MCX N947, ST STM32N6, Renesas RA8M1, i.MX 93 gateway
+
+The portable core (rules, DLP, preprocessing, decision) is silicon-independent; per-chip HAL backends implement NPU inference, I/O, and secure boot (EdgeLock/RSIP).
+
+---
+
+## 4. Experimental Setup
+
+- **Hardware**: NVIDIA H200 (143 GB), CUDA 13
+- **Models**: mDeBERTa-v3-base (guard encoder), mDeBERTa-v3 XNLI (multilingual NLI for hallucination)
+- **Data**:
+  - Synthetic red-team (in-distribution attacks)
+  - Zero-overlap held-out OOD probe (obfuscated/multilingual, structure-independent)
+  - Benign sets: in-distribution, OOD, sensitive-but-legitimate (security queries)
+- **Edge**: char-CNN/MLP distilled students, INT8 quantization
+- **Honesty**: Measured† (latency, parity, footprint, metrics on held-out data) vs. Design/Estimate‡ (on-silicon edge latency)
+
+---
+
+## 5. Results Summary
+
+### 5.1 Acceleration & Verdict Preservation
+
+| Metric | Value |
+|--------|-------|
+| NLI inference (small batch) | **11.4×** |
+| NLI inference (mid batch) | 3.1× |
+| End-to-end HalluGuard | **4.57×** |
+| Throughput (dynamic batching) | 6.55× |
+| Numerical error | 1.8×10⁻⁷ |
+| Top-1 verdict mismatch | **0** |
+| Confidence delta (acc. vs. ref.) | **0** |
+
+The fused kernel is faster with an **identical verdict**.
+
+### 5.2 Robustness–Precision Data Closed-Loop
+
+| Stage | OOD Macro-F1 | FPR | Approach |
+|-------|--------------|-----|----------|
+| Baseline (synthetic) | 0.759 | 0.05 | — |
+| + Adversarial augmentation | 0.978 | 0.15 | Robustness ↑, Precision ↓ |
+| + Threshold calibration | — | fails | Post-hoc cannot move robustness axis |
+| + Targeted hard-negatives | **0.956** | **0.025** | Both metrics improved ✓ |
+
+Post-hoc calibration cannot raise OOD robustness (constant in calibration knobs). Only data augmentation via targeted hard-negatives restores precision while holding robustness.
+
+### 5.3 Hallucination Detection
+
+Numeric⊕NLI layering raises contradiction recall by domain:
+
+| Domain | Recall | False-Hallucination Rate |
+|--------|--------|--------------------------|
+| NLI only | 0.667 | 0 |
+| + Numeric (financial) | 0.778 | 0 |
+| + Numeric (temperature) | **0.889** | **0** |
+
+No cross-domain mismatches; zero false hallucinations.
+
+### 5.4 Fusion, Selective Prediction, Edge
+
+- **Multi-signal fusion**: Adversarial macro-F1 0.956 → **0.978** with **zero** added false positives on all benign splits (in-dist, OOD, sensitive)
+- **Safety-constrained selective prediction**:
+  - Band [0.1, 0.9]: 100% auto-accuracy, 99.3% coverage, **zero** auto-allowed attacks
+  - Band [0.5, 0.5]: excluded (leaks 2 attacks)
+- **Edge student**: INT8 char-CNN (0.113 MB)
+  - F1: 0.998 (on binary in-distribution test)
+  - FNR: 0
+  - Per-technique recall: 1.0 on social-engineering, prompt-injection, encoding/script families
+
+---
+
+## 6. Limitations and Open Items
+
+We are explicit about what is **not** yet established:
+
+1. **External generalization**: Detection-quality metrics use our own synthetic and zero-overlap held-out data. Real-customer traffic is unvalidated. The self-graded 0.99 → 0.76 OOD collapse is itself a warning that internal numbers are upper bounds.
+
+2. **Edge silicon latency**: On-device latency/power are design estimates; real measurement awaits board bring-up and NPU compilation (Vela/eIQ/Hailo operator coverage).
+
+3. **Mid-size edge encoders** (5–80 MB): Design option, not yet trained/measured.
+
+4. **Selective-prediction 100% accuracy**: Achieved on a small, well-separated set; not a universal guarantee.
+
+We report these as open items rather than smoothing them over; the system's gates exist precisely to prevent such optimism from shipping.
+
+---
+
+## 7. Key Takeaways
+
+1. **Acceleration need not trade off safety**: Parity gates guarantee verdict preservation in hardware kernels.
+2. **Robustness and precision are not antithetical**: A data-centric loop, not post-hoc calibration, resolves the tradeoff.
+3. **Numeric fact checking is complementary to NLI**: Category-gated unit cross-verification catches contradictions NLI misses.
+4. **Edge deployment is feasible**: Distilled, INT8 models fit the <0.8 MB ceiling with zero false negatives on test.
+5. **Measurement transparency matters**: Speed, cost, and verdict-preservation are measured; external generalization and on-silicon latency are the next milestones.
+
+---
+
+## 8. Conclusion
+
+TruthGPU unifies LLM security and hallucination verification in one accelerated GPU service that provably preserves the safety verdict, attains robustness and precision *together* through a data-centric loop rather than post-hoc tuning, and extends the same policy to data-sovereign edge silicon. Speed, cost, and verdict-preservation are measured; external detection-quality generalization and on-silicon latency are the next milestones.
+
+---
+
+## References
+
+[1] H. Inan et al. *Llama Guard: LLM-based Input-Output Safeguard for Human-AI Conversations.* arXiv:2312.06674, 2023.
+[2] J. Thorne et al. *FEVER: a Large-scale Dataset for Fact Extraction and VERification.* NAACL-HLT, 2018.
+[3] NVIDIA. *TensorRT: Programmable Inference Accelerator.* 2024.
+[4] A. Madry et al. *Towards Deep Learning Models Resistant to Adversarial Attacks.* ICLR, 2018.
+[5] Y. Geifman, R. El-Yaniv. *Selective Classification for Deep Neural Networks.* NeurIPS, 2017.
+[6] G. Hinton, O. Vinyals, J. Dean. *Distilling the Knowledge in a Neural Network.* arXiv:1503.02531, 2015.
+[7] P. He, J. Gao, W. Chen. *DeBERTaV3.* ICLR, 2023.
