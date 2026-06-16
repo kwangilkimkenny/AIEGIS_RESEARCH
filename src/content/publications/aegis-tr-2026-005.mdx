@@ -67,10 +67,14 @@ TruthGPU exposes a single GPU service with four shared RPCs (Embed, Nli, Classif
 - **AEGIS**: 8-class multilabel input-side security guardrail
 - **HalluGuard**: NLI plus numeric output-side fact verification
 
+![TruthGPU full-stack architecture: one cloud GPU service hosting AEGIS and HalluGuard, distilled onto a 4-SKU edge silicon family](/assets/images/truthgpu/fig1_architecture.png "Figure 1. TruthGPU full stack. One GPU service hosts both engines and shared acceleration; the same taxonomy and policy are distilled onto a 4-SKU edge silicon family, which escalates only gray-zone inputs to the cloud.")
+
 Each input flows through a **layered pipeline**:
 1. Deterministic rules and PII/DLP scanning on CPU (resolves clear cases immediately)
 2. Ambiguous cases invoke the accelerated classifier
 3. Decision policy emits (allow, escalate, block)
+
+![Layered verification pipeline where cheap deterministic stages short-circuit clear cases and the parity gate guarantees verdict invariance](/assets/images/truthgpu/fig2_pipeline.png "Figure 2. Layered verification pipeline. Cheap deterministic stages short-circuit clear cases; the parity gate guarantees verdict invariance under acceleration.")
 
 The same taxonomy and policy are distilled onto four edge silicon families (NXP, ST, Renesas, i.MX), escalating only gray-zone inputs to the cloud.
 
@@ -181,6 +185,8 @@ Portable core (rules, DLP, preprocessing, decision) is silicon-independent; per-
 | Top-one verdict mismatch | 0 |
 | Confidence delta | 0 |
 
+![Bar chart of GPU speed-ups vs CPU/FP32 baseline: 11.4x NLI small batch, 3.1x NLI mid batch, 4.57x end-to-end HalluGuard, 6.55x throughput](/assets/images/truthgpu/fig3_acceleration.png "Figure 3. Speed-ups vs. baseline; the parity gate certifies confidence delta = 0 and mismatch = 0.")
+
 ### Robustness-Precision via Data Loop
 
 | Stage | OOD Macro-F1 | False-Positive Rate | Approach |
@@ -190,6 +196,8 @@ Portable core (rules, DLP, preprocessing, decision) is silicon-independent; per-
 | Plus threshold calibration | — | fails | Post-hoc cannot move axis |
 | Plus targeted hard-negatives | 0.956 | 2.5% | Both improved |
 
+![Robustness and precision improved simultaneously by the data closed-loop; post-hoc calibration cannot move along the robustness axis](/assets/images/truthgpu/fig4_tradeoff.png "Figure 4. Robustness and precision improved simultaneously by the data closed-loop; post-hoc calibration cannot move along the robustness axis.")
+
 ### Hallucination Detection
 
 | Domain | Recall | False-Hallucination Rate |
@@ -198,11 +206,15 @@ Portable core (rules, DLP, preprocessing, decision) is silicon-independent; per-
 | Plus numeric financial | 0.778 | 0% |
 | Plus numeric temperature | 0.889 | 0% |
 
+![Numeric cross-verification recovers contradictions NLI misses; false-hallucination rate equals zero](/assets/images/truthgpu/fig5_hallucination.png "Figure 5. Numeric cross-verification recovers contradictions NLI misses; false-hallucination rate = 0.")
+
 ### Fusion, Selective Prediction, Edge
 
 - **Multi-signal fusion**: Macro-F1 0.956 to 0.978 with zero added false positives
 - **Safety-constrained selective prediction**: Band [0.1, 0.9] yields 100 percent auto-accuracy, 99.3 percent coverage, zero auto-allowed attacks
 - **Edge student**: INT8 char-CNN (0.113 MB) with F1 0.998, false negative rate zero
+
+![Multi-signal fusion adds recall at zero added false positives, and distilled edge models fit the under-0.8-MB on-device ceiling](/assets/images/truthgpu/fig6_fusion_edge.png "Figure 6. (a) Fusion adds recall at zero added false positives. (b) Distilled edge models fit the under-0.8-MB on-device ceiling.")
 
 ---
 

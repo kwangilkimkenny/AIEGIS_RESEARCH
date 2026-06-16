@@ -10,6 +10,41 @@ import { getDictionary } from "@/lib/i18n/getDictionary";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import type { ImgHTMLAttributes } from "react";
+
+// On GitHub Pages the site is served under a basePath, but raw <img> tags in
+// MDX are not rewritten by Next.js. Prefix root-absolute asset paths so figures
+// resolve on both the static export (gh-pages) and the standalone deployment.
+const ASSET_PREFIX = process.env.BUILD_TARGET === "gh-pages" ? "/AIEGIS_RESEARCH" : "";
+
+const mdxComponents = {
+  // Markdown images (![alt](src "caption")) render as a captioned figure.
+  // The caption comes from the image title. Uses display:block spans so the
+  // markup is valid inside the <p> wrapper MDX emits around lone images.
+  img: ({ src, alt, title }: ImgHTMLAttributes<HTMLImageElement>) => {
+    const raw = typeof src === "string" ? src : "";
+    const needsPrefix =
+      ASSET_PREFIX !== "" && raw.startsWith("/") && !raw.startsWith(ASSET_PREFIX);
+    const resolved = needsPrefix ? `${ASSET_PREFIX}${raw}` : raw;
+    return (
+      <span style={{ display: "block", margin: "2rem 0" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={resolved}
+          alt={alt ?? ""}
+          style={{ display: "block", width: "100%", border: "1px solid #B5B5B5", borderRadius: "4px" }}
+        />
+        {title ? (
+          <span
+            style={{ display: "block", textAlign: "center", fontSize: "0.85rem", color: "#4A4A4A", marginTop: "0.5rem" }}
+          >
+            {title}
+          </span>
+        ) : null}
+      </span>
+    );
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -169,7 +204,7 @@ export default async function PublicationPage({ params }: PageProps) {
       <section className="py-16 sm:py-20 bg-background">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <article className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-card-border prose-a:text-accent-blue prose-table:text-sm">
-            <MDXRemote source={pub.content} options={{ mdxOptions: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } }} />
+            <MDXRemote source={pub.content} components={mdxComponents} options={{ mdxOptions: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } }} />
           </article>
         </div>
       </section>
